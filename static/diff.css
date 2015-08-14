@@ -1,0 +1,12 @@
+.files-wrapper {
+    overflow-x: scroll;
+}
+.navigation-tree ul {
+    list-style: none;
+    padding: 0;
+}
+
+.tree .file i {
+    margin-right: 5px;
+}
+

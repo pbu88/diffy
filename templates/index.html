@@ -5,8 +5,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="description" content="Diffy is a tool where you can upload a unified 
+        diff and share a link to it with your colloagues to discuss ideas more clearly">
+        <meta name="author" content="Paulo Bu">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <title>Cover Template for Bootstrap</title>
@@ -16,20 +17,18 @@
     <body>
         <div class="container">
             <div style="text-align:center;">
-                <h1>Diffy</h1>
+                <h1>Diffy - A tool for sharing diffs</h1>
                 <h2 style="font-weight:300;">Share your diffs and explain your ideas without committing</h2>
                 <form action="/new" method="post">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-lg">Diff me</button>
+                        <button type="submit" class="btn btn-success btn-lg" style="padding: 15px 60px;font-size:20px;margin:20px 0;">Diff me</button>
                     </div>
                     <div class="form-group">
-                        <textarea name="udiff" class="form-control" rows="10"></textarea>
+                        <textarea name="udiff" class="form-control" rows="20" style="resize: none;"></textarea>
                     </div>
                 </form>
             </div>
         </div>
-
-
         <!-- Bootstrap core JavaScript
             ================================================== -->
             <!-- Placed at the end of the document so the pages load faster -->
@@ -37,7 +36,5 @@
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
             <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
             <!--<script src="./Cover Template for Bootstrap_files/ie10-viewport-bug-workaround.js"></script>-->
-
-
     </body>
 </html>
