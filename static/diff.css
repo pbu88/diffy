@@ -1,9 +1,22 @@
 .files-wrapper {
-    overflow-x: scroll;
+    width:29%;
+    float:left;
 }
 .navigation-tree ul {
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 15px;
     list-style: none;
     padding: 0;
+    overflow-x: scroll;
+}
+
+.tree-wrapper {
+    padding: 15px 5px;
+}
+
+.tree .file {
+    white-space: nowrap;
+    margin-left: 5px;
 }
 
 .tree .file i {

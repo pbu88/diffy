@@ -1,38 +1,58 @@
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
+{% extends "base.html" %}
+{% block title %}
+<title>Diffy</title>
+{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/diff2html/diff.css">
+<link rel="stylesheet" href="/static/diff.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+{% endblock %}
 
-        <title>Diffy</title>
-        <link rel="stylesheet" href="/static/diff2html/diff.css">
-        <link rel="stylesheet" href="/static/diff.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
-    </head>
+{% block content %}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Diffy</a>
+        </div>
+        <div class="pull-right">
+            <button type="button" class="btn btn-danger navbar-btn">Delete</button>
+        </div>
+    </div>
+</nav>
 
-    <body>
-        <div>
-            <div class="files-wrapper" style="width:28%;float:left;">
-                <div class="navigation-tree">
-                    <ul id="frx-overview" class="activeFrx">
-                        <li>
-                            <span class="number-of-files">
-                                Number of files included: <span class="file-count">{{files.length}}</span>
-                            </span>
-                        </li>
-                    </ul>
-                    <ul class="tree">
-                        {% for f in files %}
-                        <li class="frx-list-item" id="folder-list-item1">
-                            <span class="file"><i class="fa fa-file-code-o"></i>{{utils.getFileName(f)}}</span>
-                        </li>
-                        {% endfor %}
-                    </ul>
+<div>
+    <div class="files-wrapper d2h-file-wrapper">
+        <div class="navigation-tree">
+            <div class="number-of-files d2h-file-header">
+                <div class="d2h-file-name">
+                    Number of files included: <span class="file-count">{{files.length}}</span>
                 </div>
+            </div>
+            <div class="tree-wrapper">
+                <ul class="tree">
+                    {% for f in files %}
+                    <li class="frx-list-item" id="folder-list-item1">
+                        <a href="javascript:void(0);" class="file" data-position="{{loop.index0}}"><i class="fa fa-file-code-o"></i>{{utils.getFileName(f)}}</a>
+                    </li>
+                    {% endfor %}
                 </ul>
             </div>
-            <div id="diff-wrapper" style="width:70%;margin-left:30%">
-                {{diff | safe}}
-            </div>
         </div>
+        </ul>
+    </div>
+    <div id="diff-wrapper" style="width:70%;margin-left:30%">
+        {{diff | safe}}
+    </div>
+</div>
+{% endblock %}
 
-    </body>
-</html>
+{% block custom_js %}
+<script src="/static/diff.js"></script>
+{% endblock %}
