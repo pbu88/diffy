@@ -9,7 +9,8 @@
 
     Utils.prototype.getFileName = function (file) {
         return _getFileName(file);
-    }
+    };
+
     Utils.prototype.sortByFilenameCriteria = function (file1, file2) {
         var fileName1 = _getFileName(file1);
         var fileName2 = _getFileName(file2);
@@ -20,7 +21,7 @@
 
     Utils.prototype.genRandomString = function (files) {
         return (Math.random() + 1).toString(36).substring(2);
-    }
+    };
 
     // expose this module
     ((typeof module !== 'undefined' && module.exports) ||

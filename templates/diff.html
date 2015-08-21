@@ -35,15 +35,20 @@
                     Number of files included: <span class="file-count">{{files.length}}</span>
                 </div>
             </div>
-            <div class="tree-wrapper">
+            <!--<div class="tree-wrapper">
                 <ul class="tree">
                     {% for f in files %}
                     <li class="frx-list-item" id="folder-list-item1">
-                        <a href="javascript:void(0);" class="file" data-position="{{loop.index0}}"><i class="fa fa-file-code-o"></i>{{utils.getFileName(f)}}</a>
+                        <a href="javascript:void(0);" title="{{utils.getFileName(f)}}" class="file" data-position="{{loop.index0}}">
+                            <i class="fa fa-file-code-o"></i>{{utils.getFileName(f)}}
+                        </a>
                     </li>
                     {% endfor %}
                 </ul>
-            </div>
+                </div> -->
+                <div class="tree-root">
+                    {{fileTreeHtml|safe}}
+                </div>
         </div>
         </ul>
     </div>

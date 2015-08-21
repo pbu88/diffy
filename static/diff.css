@@ -2,12 +2,19 @@
     width:29%;
     float:left;
 }
-.navigation-tree ul {
+.navigation-tree {
     font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     font-size: 15px;
+}
+
+.navigation-tree ul {
     list-style: none;
     padding: 0;
-    overflow-x: scroll;
+}
+
+.tree-root {
+    padding: 5px;
+    overflow-x:scroll;
 }
 
 .tree-wrapper {
@@ -23,3 +30,10 @@
     margin-right: 5px;
 }
 
+.tree .tree {
+    padding-left:10px;
+}
+
+.tree .files {
+    padding-left:10px;
+}

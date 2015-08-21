@@ -1,9 +1,10 @@
 var express = require('express');
 var nunjucks = require('nunjucks');
-var bodyParser = require('body-parser')
-var diff2html = require('diff2html')
-var fs = require('fs')
-var utils = require('./utils.js').Utils
+var bodyParser = require('body-parser');
+var diff2html = require('diff2html');
+var fs = require('fs');
+var utils = require('./utils.js').Utils;
+var fileTree = require('./treeFunctions.js');
 var app = express();
 
 app.use('/static', express.static('static'));
@@ -29,10 +30,16 @@ app.post('/new', function (req, res) {
     // remove \r
     var diff = diff.replace(/\r/g, '');
     var jsonDiff = diff2html.Diff2Html.getJsonFromDiff(diff);
-    var jsonDiff = jsonDiff.sort(utils.sortByFilenameCriteria);
-    console.log(jsonDiff);
+    jsonDiff = jsonDiff.sort(utils.sortByFilenameCriteria);
+    tree = fileTree.createTree();
+    jsonDiff.forEach(function(e) {
+        fileTree.insert(tree, utils.getFileName(e));
+    });
+    html = fileTree.printTree(tree, 0);
+    
     res.render('diff.html', {
         diff: diff2html.Diff2Html.getPrettyHtmlFromJson(jsonDiff),
+        fileTreeHtml: html,
         files: jsonDiff
     });
 });
