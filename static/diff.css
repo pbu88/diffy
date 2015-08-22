@@ -1,5 +1,5 @@
 .files-wrapper {
-    width:29%;
+    width:29.5%;
     float:left;
 }
 .navigation-tree {
@@ -14,7 +14,7 @@
 
 .tree-root {
     padding: 5px;
-    overflow-x:scroll;
+    overflow-x:auto;
 }
 
 .tree-wrapper {
