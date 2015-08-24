@@ -32,7 +32,6 @@ function _insertAsSubtree(tree, dirs, file) {
 }
 
 function _insert(tree, dirs, file) {
-    debugger;
     if (dirs.length == 0) {
         tree.files.push(file);
         return;
@@ -56,7 +55,7 @@ function _insert(tree, dirs, file) {
         convertedSubTree.files = tree_files;
 
         tree.path = commonPrefix.join('/');
-        tree.dirs = [nSubTree, convertedSubTree];
+        tree.dirs = [convertedSubTree, nSubTree];
         tree.files = [];
     }
     else {
