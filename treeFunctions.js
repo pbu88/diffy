@@ -1,7 +1,11 @@
 /* rough stuff, but for now I think will do */
 
 function createTree() {
-    return { path: '/', files: [], dirs: [] };
+    return { parent: null, path: '/', files: [], dirs: [] };
+}
+
+function createLeaf(parent, filename) {
+    return { parent: parent, path: filename };
 }
 
 function _getCommonPrefixIndex(pathSplit, dirs) {
@@ -27,13 +31,14 @@ function _insertAsSubtree(tree, dirs, file) {
     // no common prefix, just insert
     var nTree = createTree();
     nTree.path = dirs.join('/');
-    nTree.files.push(file);
+    nTree.files.push(createLeaf(tree, file));
     tree.dirs.push(nTree);
+    nTree.parent = tree;
 }
 
 function _insert(tree, dirs, file) {
     if (dirs.length == 0) {
-        tree.files.push(file);
+        tree.files.push(createLeaf(tree, file));
         return;
     }
     var pathSplit = tree.path.split('/');
@@ -47,22 +52,33 @@ function _insert(tree, dirs, file) {
 
         var nSubTree = createTree(); 
         nSubTree.path = dirsSuffix;
-        nSubTree.files.push(file);
+        nSubTree.files.push(createLeaf(nSubTree, file));
 
         var convertedSubTree = createTree();
         convertedSubTree.path = pathSplit.slice(i).join('/');  // current tree suffix
         convertedSubTree.dirs = tree_dirs;
         convertedSubTree.files = tree_files;
+        convertedSubTree.dirs.forEach(function(tree) {
+            tree.parent = convertedSubTree;
+        });
+        convertedSubTree.files.forEach(function(leaf) {
+            leaf.parent = convertedSubTree;
+        });
 
         tree.path = commonPrefix.join('/');
         tree.dirs = [convertedSubTree, nSubTree];
         tree.files = [];
+        
+        // update parents
+        convertedSubTree.parent = tree;
+        nSubTree.parent = tree;
     }
     else {
         var slice = dirs.slice(i);
         if (slice.length == 0) {
             // same path, only insert file
-            tree.files.push(file);
+            leaf = createLeaf(tree, file);
+            tree.files.push(leaf);
         }
         else {
             // find the proper subdirectory to continue
@@ -79,6 +95,15 @@ function insert(tree, file) {
     var dirs = file.split('/');
     var file = dirs.pop();
     _insert(tree, dirs, file);
+}
+
+function getFileName(node) {
+    res = '';
+    while (node.parent !== null) {
+        res += node.path + '/' + res;
+        node = node.parent;
+    }
+    return '/' + res;
 }
 
 function printTree(tree, level) {
