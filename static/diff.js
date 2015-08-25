@@ -1,9 +1,11 @@
 $(function() {
-    var $diffFileWrappers = $('.d2h-wrapper .d2h-file-wrapper');
+    var $bigWrapper = $('.d2h-wrapper');
     $('.file').click(function() {
-        var pos = $(this).data('position');
-        console.log(pos);
-        $diffFileWrapper = $($diffFileWrappers[pos]);
+        var filename = $(this).data('filename').slice(1);
+        $diffFileWrapper = $bigWrapper.find(
+                '.d2h-file-wrapper:has(.d2h-file-name:contains(' + filename + '))').first();
+        console.log(filename);
+        console.log($diffFileWrapper);
         $('body').animate({scrollTop: $diffFileWrapper.offset().top});
     });
 });

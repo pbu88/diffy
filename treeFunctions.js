@@ -123,9 +123,10 @@ function printTree(tree, level) {
     if (tree.files.length > 0) {
         result += space + '<ul class="files">\n';
         tree.files.forEach(function(file) {
+            var filename = getFileName(file);
             result += space + spaceStr;
             result += '<li>' +
-                    '<a href="javascript:void(0);" title="' + getFileName(file) + '" class="file">\n' +
+                    '<a href="javascript:void(0);" title="' + filename + '" class="file" data-filename="' + filename + '">\n' +
                         '<span class="file-name"><i class="fa fa-file-code-o"></i>&nbsp;' + file.path + '</span>\n' +
                     '</a>\n' + 
                 '</li>';
