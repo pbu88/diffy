@@ -61,3 +61,10 @@ exports.testInsertMultiple = function(test) {
     test.equal('file1.php', subsubtree1.files[1].path);
     test.done();
 };
+
+exports.testGetFileName = function(test) {
+    var tree = treeFunction.createTree();
+    treeFunction.insert(tree, '/sub/file.txt');
+    test.equal('/sub/file.txt', treeFunction.getFileName(tree.dirs[0].files[0])); 
+    test.done();
+}

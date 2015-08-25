@@ -31,7 +31,7 @@ function _insertAsSubtree(tree, dirs, file) {
     // no common prefix, just insert
     var nTree = createTree();
     nTree.path = dirs.join('/');
-    nTree.files.push(createLeaf(tree, file));
+    nTree.files.push(createLeaf(nTree, file));
     tree.dirs.push(nTree);
     nTree.parent = tree;
 }
@@ -98,10 +98,10 @@ function insert(tree, file) {
 }
 
 function getFileName(node) {
-    res = '';
-    while (node.parent !== null) {
-        res += node.path + '/' + res;
+    res = node.path;
+    while (node.parent !== null && node.parent.path != '/') {
         node = node.parent;
+        res = node.path + '/' + res;
     }
     return '/' + res;
 }
@@ -123,7 +123,12 @@ function printTree(tree, level) {
     if (tree.files.length > 0) {
         result += space + '<ul class="files">\n';
         tree.files.forEach(function(file) {
-            result += space + spaceStr + '<li><span class="file-name"><i class="fa fa-file-code-o"></i>&nbsp;' + file + '</span></li>\n';
+            result += space + spaceStr;
+            result += '<li>' +
+                    '<a href="javascript:void(0);" title="' + getFileName(file) + '" class="file">\n' +
+                        '<span class="file-name"><i class="fa fa-file-code-o"></i>&nbsp;' + file.path + '</span>\n' +
+                    '</a>\n' + 
+                '</li>';
         }); 
         result += space + '</ul>\n';
     }
@@ -135,5 +140,6 @@ function printTree(tree, level) {
 }
 
 exports.createTree = createTree;
+exports.getFileName = getFileName;
 exports.insert = insert;
 exports.printTree = printTree;
