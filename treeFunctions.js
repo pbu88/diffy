@@ -114,7 +114,7 @@ function printTree(tree, level) {
     result += space + '<ul class="tree">\n';
     space = space + spaceStr;
     result += space + '<li>\n';
-    result += space + '<span class="dir-name"><i class="fa fa-folder-open-o"></i>&nbsp;' + tree.path + '</span>\n';
+    result += space + '<a href="javascript:void(0);"><i class="fa fa-folder-open-o"></i><span class="dir-name">' + tree.path + '</span></a>\n';
     if (tree.dirs.length > 0) {
         tree.dirs.forEach(function(subtree) {
             result += printTree(subtree, level + 1);
@@ -126,9 +126,9 @@ function printTree(tree, level) {
             var filename = getFileName(file);
             result += space + spaceStr;
             result += '<li>' +
-                    '<a href="javascript:void(0);" title="' + filename + '" class="file" data-filename="' + filename + '">\n' +
-                        '<span class="file-name"><i class="fa fa-file-code-o"></i>&nbsp;' + file.path + '</span>\n' +
-                    '</a>\n' + 
+                '    <a href="javascript:void(0);" title="' + filename + '" class="file" data-filename="' + filename + '">\n' +
+                '        <i class="fa fa-file-code-o"></i><span class="file-name">' + file.path + '</span>\n' +
+                '    </a>\n' + 
                 '</li>';
         }); 
         result += space + '</ul>\n';

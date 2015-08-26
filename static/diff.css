@@ -37,3 +37,12 @@
 .tree .files {
     padding-left:10px;
 }
+
+.tree .dir-name {
+    font-weight: bold;
+    padding-left: 5px;
+}
+
+.tree a {
+    text-decoration: none;
+}

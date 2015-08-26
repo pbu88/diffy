@@ -4,8 +4,22 @@
 {% endblock %}
 {% block head %}
 <link rel="stylesheet" href="/static/diff2html/diff.css">
-<link rel="stylesheet" href="/static/diff.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/static/diff.css">
+<style>
+
+.diff-content * {
+    -webkit-box-sizing: initial;
+    -moz-box-sizing: initial;
+    box-sizing: initial;
+}
+.diff-content *:before,
+.deff-content *:after {
+    -webkit-box-sizing: initial;
+    -moz-box-sizing: initial;
+    box-sizing: initial;
+}
+</style>
 {% endblock %}
 
 
@@ -27,7 +41,7 @@
     </div>
 </nav>
 
-<div>
+<div class="diff-content">
     <div class="files-wrapper d2h-file-wrapper">
         <div class="navigation-tree">
             <div class="number-of-files d2h-file-header">
