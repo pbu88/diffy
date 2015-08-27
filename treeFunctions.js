@@ -114,7 +114,7 @@ function printTree(tree, level) {
     result += space + '<ul class="tree">\n';
     space = space + spaceStr;
     result += space + '<li>\n';
-    result += space + '<a href="javascript:void(0);"><i class="fa fa-folder-open-o"></i><span class="dir-name">' + tree.path + '</span></a>\n';
+    result += space + '<a href="javascript:void(0);" class="directory directory-visible"><i class="fa fa-folder-open-o"></i><span class="dir-name">' + tree.path + '</span></a>\n';
     if (tree.dirs.length > 0) {
         tree.dirs.forEach(function(subtree) {
             result += printTree(subtree, level + 1);

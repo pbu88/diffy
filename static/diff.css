@@ -46,3 +46,9 @@
 .tree a {
     text-decoration: none;
 }
+
+.directory-hidden .tree,
+.directory-hidden .files {
+    display: none;
+
+}
