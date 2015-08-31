@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var diff2html = require('diff2html');
 var fs = require('fs');
 var utils = require('./utils.js').Utils;
+var mongoUtils = require('./mongoUtils.js');
 var fileTree = require('./treeFunctions.js');
 var app = express();
 
@@ -21,8 +22,23 @@ app.get('/', function (req, res) {
     res.render('index.html');
 });
 
-app.get('/:id', function (req, res) {
-    res.send(req.params.id);
+app.get('/diff/:id', function (req, res) {
+    var id = req.params.id;
+    mongoUtils.getDiffById(id, function(row) {
+        var jsonDiff = row.diff;
+        jsonDiff = jsonDiff.sort(utils.sortByFilenameCriteria);
+        tree = fileTree.createTree();
+        jsonDiff.forEach(function(e) {
+            fileTree.insert(tree, utils.getFileName(e));
+        });
+        html = fileTree.printTree(tree, 0);
+
+        res.render('diff.html', {
+            diff: diff2html.Diff2Html.getPrettyHtmlFromJson(jsonDiff),
+            fileTreeHtml: html,
+            files: jsonDiff
+        });
+    });
 });
 
 app.post('/new', function (req, res) {
@@ -30,17 +46,9 @@ app.post('/new', function (req, res) {
     // remove \r
     var diff = diff.replace(/\r/g, '');
     var jsonDiff = diff2html.Diff2Html.getJsonFromDiff(diff);
-    jsonDiff = jsonDiff.sort(utils.sortByFilenameCriteria);
-    tree = fileTree.createTree();
-    jsonDiff.forEach(function(e) {
-        fileTree.insert(tree, utils.getFileName(e));
-    });
-    html = fileTree.printTree(tree, 0);
-    
-    res.render('diff.html', {
-        diff: diff2html.Diff2Html.getPrettyHtmlFromJson(jsonDiff),
-        fileTreeHtml: html,
-        files: jsonDiff
+    var id = utils.genRandomString();
+    mongoUtils.insertDiff({_id: id, diff:jsonDiff}, function() {
+        res.redirect('/diff/' + id);
     });
 });
 
