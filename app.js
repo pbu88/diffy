@@ -25,6 +25,11 @@ app.get('/', function (req, res) {
 app.get('/diff/:id', function (req, res) {
     var id = req.params.id;
     mongoUtils.getDiffById(id, function(row) {
+        if (row === null) {
+            res.status(404);
+            res.send('404 Sorry, the requested page was not found');
+            return;
+        }
         var jsonDiff = row.diff;
         jsonDiff = jsonDiff.sort(utils.sortByFilenameCriteria);
         tree = fileTree.createTree();
@@ -34,6 +39,7 @@ app.get('/diff/:id', function (req, res) {
         html = fileTree.printTree(tree, 0);
 
         res.render('diff.html', {
+            id: id,
             diff: diff2html.Diff2Html.getPrettyHtmlFromJson(jsonDiff),
             fileTreeHtml: html,
             files: jsonDiff
@@ -49,6 +55,13 @@ app.post('/new', function (req, res) {
     var id = utils.genRandomString();
     mongoUtils.insertDiff({_id: id, diff:jsonDiff}, function() {
         res.redirect('/diff/' + id);
+    });
+});
+
+app.get('/delete/:id', function (req, res) {
+    var id = req.params.id;
+    mongoUtils.deleteDiffById(id, function () {
+        res.redirect('/');
     });
 });
 

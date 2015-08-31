@@ -24,6 +24,12 @@ function _getOneById(id, callback) {
     });
 }
 
+function _removeById(id, callback) {
+    diffy.deleteOne({"_id": id}, function(err, doc) {
+        callback(doc);
+    });
+}
+
 exports.insertDiff = function (diff, callback) {
     _insertDocument(diff, callback);
 };
@@ -33,3 +39,7 @@ exports.getDiffById = function (id, callback) {
     _getOneById(id, callback);
     return jsonDiff;
 };
+
+exports.deleteDiffById = function (id, callback) {
+    _removeById(id, callback);
+}
