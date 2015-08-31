@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
+{% block head %}
+    <link rel="stylesheet" href="/static/index.css">
+{% endblock %}
 <div class="container">
     <div style="text-align:center;">
         <h1>Diffy - A tool for sharing diffs</h1>
         <h2 style="font-weight:300;">Share your diffs and explain your ideas without committing</h2>
-        <form action="/new" method="post">
+        <form id="diff-form" action="/new" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <button type="submit" class="btn btn-success btn-lg" style="padding: 15px 60px;font-size:20px;margin:20px 0;">Diff me</button>
+                <span class="btn btn-success btn-lg btn-default btn-file" style="padding: 15px 60px;font-size:20px;margin:20px 0;">
+                    Upload Diff<input id="submit-file" name="diffFile" type="file">
+                </span>
             </div>
             <div class="form-group">
                 <textarea name="udiff" class="form-control" rows="20" style="resize: none;"></textarea>
@@ -14,4 +20,9 @@
         </form>
     </div>
 </div>
+
+{% endblock %}
+
+{% block custom_js %}
+<script src="/static/index.js"></script>
 {% endblock %}

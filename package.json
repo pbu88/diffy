@@ -12,6 +12,7 @@
     "body-parser": "^1.13.3",
     "express": "^4.13.3",
     "mongodb": "^2.0.42",
+    "multer": "^1.0.3",
     "nodeunit": "^0.9.1",
     "nunjucks": "^1.3.4"
   }

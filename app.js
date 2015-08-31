@@ -6,6 +6,9 @@ var fs = require('fs');
 var utils = require('./utils.js').Utils;
 var mongoUtils = require('./mongoUtils.js');
 var fileTree = require('./treeFunctions.js');
+var multer  = require('multer')
+
+var upload = multer({ storage: multer.memoryStorage() })
 var app = express();
 
 app.use('/static', express.static('static'));
@@ -47,8 +50,11 @@ app.get('/diff/:id', function (req, res) {
     });
 });
 
-app.post('/new', function (req, res) {
+app.post('/new', upload.single('diffFile'), function (req, res) {
     var diff = req.body.udiff;
+    if (req.file) {
+        diff = req.file.buffer.toString()
+    }
     // remove \r
     var diff = diff.replace(/\r/g, '');
     var jsonDiff = diff2html.Diff2Html.getJsonFromDiff(diff);
