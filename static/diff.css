@@ -1,6 +1,9 @@
 .files-wrapper {
     width:29.5%;
     float:left;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin-bottom: 1em;
 }
 .navigation-tree {
     font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
@@ -53,3 +56,6 @@
 
 }
 
+.diff-content {
+    padding: 5px;
+}

@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 {% block head %}
-    <link rel="stylesheet" href="/static/index.css">
+<link rel="stylesheet" href="/static/index.css">
 {% endblock %}
+
 <div class="container">
+
     <div style="text-align:center;">
-        <h1>Diffy - A tool for sharing diffs</h1>
+        <h1><img src="/static/img/diffy-logo.gif" height="25"> Diffy - A tool for sharing diffs</h1>
         <h2 style="font-weight:300;">Share your diffs and explain your ideas without committing</h2>
         <form id="diff-form" action="/new" method="post" enctype="multipart/form-data">
             <div class="form-group">
@@ -15,11 +17,36 @@
                 </span>
             </div>
             <div class="form-group">
-                <textarea name="udiff" class="form-control" rows="20" style="resize: none;"></textarea>
+                <textarea name="udiff" class="form-control" rows="10" style="resize: none;"
+                    placeholder="Paste here a git diff output or upload a file with the diff contents"></textarea>
             </div>
         </form>
     </div>
-</div>
+
+    <!-- Example row of columns -->
+    <div class="row" style="text-align:center;">
+        <div class="col-lg-4">
+            <h1 style="font-size: 4em;"><i class="fa fa-share-alt fa-6"></i></h1>
+            <h3>Share your ideas more clearly</h3>
+            <p>
+            Show your awesome improvement idea to your colleagues before committing
+            </p>
+        </div>
+        <div class="col-lg-4">
+            <h1 style="font-size: 4em;"><i class="fa fa-thumbs-up fa-6"></i></i></h1>
+            <h3>Get feedback from your peers</h3>
+            <p>Hear the feedback and react on it before having to fix buggy commits</p>
+        </div>
+        <div class="col-lg-4">
+            <h1 style="font-size: 4em;"><i class="fa fa-bug fa-6"></i></i></h1>
+            <h3>Discover bugs sooner</h3>
+            <p>Show to your friends how would you fix the bug they have in production</p>
+        </div>
+    </div>
+
+</div> <!-- /container -->
+
+
 
 {% endblock %}
 

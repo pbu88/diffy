@@ -1,10 +1,13 @@
 $(function() {
+
+    var $wrappers = $('.d2h-file-wrapper');
+
     var $bigWrapper = $('.d2h-wrapper');
     $('.file').click(function() {
+        $wrappers.hide();
         var filename = $(this).data('filename').slice(1);
         $diffFileWrapper = $bigWrapper.find(
-                '.d2h-file-wrapper:has(.d2h-file-name:contains(' + filename + '))').first();
-        $('body').animate({scrollTop: $diffFileWrapper.offset().top});
+                '.d2h-file-wrapper:has(.d2h-file-name:contains(' + filename + '))').first().show();
     });
     
     $('a.directory').click(function() {
@@ -20,5 +23,7 @@ $(function() {
             $i.addClass('fa-folder-open-o');
         }
     });
-    
+
+    $wrappers.hide();
+    $wrappers.first().show();
 });
