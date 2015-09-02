@@ -7,6 +7,9 @@ var utils = require('./utils.js').Utils;
 var mongoUtils = require('./mongoUtils.js');
 var fileTree = require('./treeFunctions.js');
 var multer  = require('multer')
+var flash = require('connect-flash')
+var cookieParser = require('cookie-parser')
+var session = require('express-session')
 
 var upload = multer({ storage: multer.memoryStorage() })
 var app = express();
@@ -14,7 +17,11 @@ var app = express();
 app.use('/static', express.static('static'));
 app.use(bodyParser.urlencoded({
       extended: true
-})); 
+}));
+
+app.use(cookieParser('secret'));
+app.use(session({cookie: { maxAge: 60000 }}));
+app.use(flash());
 
 nunjucks.configure('templates', {
     autoescape: true,
@@ -22,7 +29,8 @@ nunjucks.configure('templates', {
 }).addGlobal('utils', utils);
 
 app.get('/', function (req, res) {
-    res.render('index.html');
+    res.render('index.html',
+            {'flash': req.flash()});
 });
 
 app.get('/diff/:id', function (req, res) {
@@ -58,6 +66,11 @@ app.post('/new', upload.single('diffFile'), function (req, res) {
     // remove \r
     var diff = diff.replace(/\r/g, '');
     var jsonDiff = diff2html.Diff2Html.getJsonFromDiff(diff);
+    if (utils.isObjectEmpty(jsonDiff)) {
+        req.flash('alert', 'Not a valid diff');
+        res.redirect('/');
+        return;
+    }
     var id = utils.genRandomString();
     mongoUtils.insertDiff({_id: id, diff:jsonDiff}, function() {
         res.redirect('/diff/' + id);

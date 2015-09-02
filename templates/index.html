@@ -5,6 +5,13 @@
 {% endblock %}
 
 <div class="container">
+        {% for alert in flash.alert %}
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            {{ alert }}
+        </div>
+        {% endfor %}
 
     <div style="text-align:center;">
         <h1><img src="/static/img/diffy-logo.gif" height="25"> Diffy - A tool for sharing diffs</h1>

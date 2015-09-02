@@ -22,6 +22,14 @@
     Utils.prototype.genRandomString = function (files) {
         return (Math.random() + 1).toString(36).substring(2);
     };
+    
+    Utils.prototype.isObjectEmpty = function (obj) {
+        var name;
+        for (name in obj ) {
+            return false;
+        }
+        return true;
+    };
 
     // expose this module
     ((typeof module !== 'undefined' && module.exports) ||
