@@ -1,3 +1,7 @@
+td, th {
+    padding: 1px;
+}
+
 .files-wrapper {
     width:29.5%;
     float:left;
