@@ -12,6 +12,11 @@
             {{ alert }}
         </div>
         {% endfor %}
+        {% for alert in flash.success %}
+        <div class="alert alert-success" role="alert">
+            {{ alert }}
+        </div>
+        {% endfor %}
 
     <div style="text-align:center;">
         <h1><img src="/static/img/diffy-logo.gif" height="25"> Diffy - A tool for sharing diffs</h1>

@@ -80,6 +80,7 @@ app.post('/new', upload.single('diffFile'), function (req, res) {
 app.get('/delete/:id', function (req, res) {
     var id = req.params.id;
     mongoUtils.deleteDiffById(id, function () {
+        req.flash('success', 'Deleted successfully');
         res.redirect('/');
     });
 });
