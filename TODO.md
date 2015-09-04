@@ -1,5 +1,6 @@
 # Things to do
 
+* On 404, redirect to homepage with a flash
 * Add a basic "howto" use the tool
 * Most important: Clean the code
 * Refactor and properly redesign stuff
