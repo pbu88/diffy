@@ -19,8 +19,12 @@ app.use(bodyParser.urlencoded({
       extended: true
 }));
 
-app.use(cookieParser('secret'));
-app.use(session({cookie: { maxAge: 60000 }}));
+app.use(cookieParser('not-that-secret'));
+app.use(session({
+    cookie: { maxAge: 60000 },
+    resave: false,
+    saveUninitialized: false,
+    secret: 'not-that-secret'}));
 app.use(flash());
 
 nunjucks.configure('templates', {
@@ -38,7 +42,7 @@ app.get('/diff/:id', function (req, res) {
     mongoUtils.getDiffById(id, function(row) {
         if (row === null) {
             res.status(404);
-            res.send('404 Sorry, the requested page was not found');
+            res.send('404 Sorry, the requested page was not found, create one at <a href="http://diffy.org">http://diffy.org</a>');
             return;
         }
         var jsonDiff = row.diff;
