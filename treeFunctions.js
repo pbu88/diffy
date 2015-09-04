@@ -1,4 +1,10 @@
-/* rough stuff, but for now I think will do */
+/* rough stuff, but for now I think will do
+ *
+ * Is basically a compressed TRIE datastructure where
+ * the nodes represents members of the file system either
+ * directories (subtrees) or files (leaves)
+ *
+ * */
 
 function createTree() {
     return { parent: null, path: '/', files: [], dirs: [] };

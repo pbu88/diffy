@@ -28,9 +28,14 @@
                     Upload Diff<input id="submit-file" name="diffFile" type="file">
                 </span>
             </div>
+            <div style="text-align: left;">
+                <h4>Help</h4>
+                <p>On Mac: <code>git diff | pbcopy</code> and paste it on the textarea.<br>
+                On Linux and Windows: <code>git diff > output.diff</code> and then upload the <code>output.diff</code> file.</p>
+            </div>
             <div class="form-group">
-                <textarea name="udiff" class="form-control" rows="10" style="resize: none;"
-                    placeholder="Paste here a git diff output or upload a file with the diff contents"></textarea>
+                <textarea name="udiff" class="form-control" rows="5"
+                    placeholder="Paste here any git diff output or upload a file with the diff contents"></textarea>
             </div>
         </form>
     </div>
