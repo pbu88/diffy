@@ -65,7 +65,12 @@ app.get('/diff/:id', function (req, res) {
 app.post('/new', upload.single('diffFile'), function (req, res) {
     var diff = req.body.udiff;
     if (req.file) {
-        diff = req.file.buffer.toString()
+        if (utils.exceedsFileSizeLimit(req.file)) {
+            req.flash('alert', 'File too big, sorry!');
+            res.redirect('/');
+            return;
+        }
+        diff = req.file.buffer.toString();
     }
     // remove \r
     var diff = diff.replace(/\r/g, '');
@@ -94,4 +99,9 @@ var server = app.listen(3000, function () {
     var port = server.address().port;
 
     console.log('Example app listening at http://%s:%s', host, port);
+});
+
+app.use(function(err, req, res, next) {
+      console.error(err.stack);
+        res.status(500).send('Something broke!');
 });

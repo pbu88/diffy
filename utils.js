@@ -31,6 +31,11 @@
         return true;
     };
 
+    Utils.prototype.exceedsFileSizeLimit = function (multerFile) {
+        // must be less than a megabyte
+        return multerFile.size > 1000000;
+    };
+
     // expose this module
     ((typeof module !== 'undefined' && module.exports) ||
      (typeof exports !== 'undefined' && exports) ||
