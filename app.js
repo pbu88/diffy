@@ -37,6 +37,21 @@ app.get('/', function (req, res) {
             {'flash': req.flash()});
 });
 
+app.get('/diff/:id/download', function (req, res) {
+    var id = req.params.id;
+    mongoUtils.getDiffById(id, function(row) {
+        if (row === null) {
+            res.status(404);
+            res.send('404 Sorry, the requested page was not found, create one at <a href="http://diffy.org">http://diffy.org</a>');
+            return;
+        }
+        var rawDiff = row.rawDiff;
+        res.setHeader('Content-disposition', 'attachment; filename=' + id + '.diff');
+        res.setHeader('Content-type', 'text/plain');
+        res.send(rawDiff);
+    });
+});
+
 app.get('/diff/:id', function (req, res) {
     var id = req.params.id;
     mongoUtils.getDiffById(id, function(row) {
@@ -57,7 +72,8 @@ app.get('/diff/:id', function (req, res) {
             id: id,
             diff: diff2html.Diff2Html.getPrettyHtmlFromJson(jsonDiff),
             fileTreeHtml: html,
-            files: jsonDiff
+            files: jsonDiff,
+            dbObj: row
         });
     });
 });
@@ -81,7 +97,14 @@ app.post('/new', upload.single('diffFile'), function (req, res) {
         return;
     }
     var id = utils.genRandomString();
-    mongoUtils.insertDiff({_id: id, diff:jsonDiff}, function() {
+    // create object
+    var obj = {
+        _id: id,
+        diff:jsonDiff,
+        rawDiff: diff,
+        created: new Date
+    };
+    mongoUtils.insertDiff(obj, function() {
         res.redirect('/diff/' + id);
     });
 });
