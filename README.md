@@ -1,5 +1,7 @@
 # Diffy - A tool for sharing diffs
 
+http://diffy.org
+
 ## How to contribute
 
 Diffy is a Node.js application. Appart from Node.js, the only other
