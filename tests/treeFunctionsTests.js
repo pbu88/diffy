@@ -62,6 +62,31 @@ exports.testInsertMultiple = function(test) {
     test.done();
 };
 
+exports.testInsertMultipleLevels = function(test){
+    test.expect(3);
+    tree = treeFunction.createTree();
+    treeFunction.insert(tree, 'dir/subdir/file.py');
+    treeFunction.insert(tree, 'dir/subdir/subsubdir/file2.py');
+    treeFunction.insert(tree, 'dir/subdir/subsubdir/file3.py');
+    treeFunction.insert(tree, 'dir/subdir/file4.py');
+    treeFunction.insert(tree, 'dir/file5.py');
+    treeFunction.insert(tree, 'dir/file6.py');
+    treeFunction.insert(tree, 'dir/subdir/file7.py');
+    treeFunction.insert(tree, 'dir/file8.py');
+    treeFunction.insert(tree, 'dir/subdir/subsubdir/file9.py');
+
+    tree = tree.dirs[0];
+    test.equal(3, tree.files.length, 'must be 3 files on base tree');
+
+    var subtree = tree.dirs[0];
+    test.equal(3, subtree.files.length, 'must be 3 files on subtree');
+
+    var subsubtree = subtree.dirs[0];
+    test.equal(3, subsubtree.files.length, 'must be 3 files on subsubtree');
+
+    test.done();
+}
+
 exports.testGetFileName = function(test) {
     var tree = treeFunction.createTree();
     treeFunction.insert(tree, '/sub/file.txt');
