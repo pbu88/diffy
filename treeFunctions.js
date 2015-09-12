@@ -53,12 +53,10 @@ function _insert(tree, dirs, file) {
         // split at i
         tree_dirs = tree.dirs;
         tree_files = tree.files;
+        
         var dirsSuffix = dirs.slice(i).join('/');  // new tree suffix
         var commonPrefix = dirs.slice(0, i);  // common prefix (array)
 
-        var nSubTree = createTree(); 
-        nSubTree.path = dirsSuffix;
-        nSubTree.files.push(createLeaf(nSubTree, file));
 
         var convertedSubTree = createTree();
         convertedSubTree.path = pathSplit.slice(i).join('/');  // current tree suffix
@@ -72,8 +70,24 @@ function _insert(tree, dirs, file) {
         });
 
         tree.path = commonPrefix.join('/');
-        tree.dirs = [convertedSubTree, nSubTree];
+        tree.dirs = [convertedSubTree];
         tree.files = [];
+
+        // If the new subtree is a file
+        if (dirsSuffix == ''){
+            // Appending the new leaf
+            leaf = createLeaf(tree, file);
+            tree.files.push(leaf);
+            return;            
+        }
+
+        
+        var nSubTree = createTree(); 
+        nSubTree.path = dirsSuffix;
+        nSubTree.files.push(createLeaf(nSubTree, file));        
+
+        // Adding the new dir
+        tree.dirs.push(nSubTree);
         
         // update parents
         convertedSubTree.parent = tree;
