@@ -96,16 +96,9 @@ app.post('/new', upload.single('diffFile'), function (req, res) {
         res.redirect('/');
         return;
     }
-    var id = utils.genRandomString();
-    // create object
-    var obj = {
-        _id: id,
-        diff:jsonDiff,
-        rawDiff: diff,
-        created: new Date
-    };
+    var obj = utils.createDiffObject(diff, jsonDiff);
     mongoUtils.insertDiff(obj, function() {
-        res.redirect('/diff/' + id);
+        res.redirect('/diff/' + obj._id);
     });
 });
 

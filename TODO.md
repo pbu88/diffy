@@ -1,6 +1,7 @@
 # Things to do
 
 * Most important: Clean the code
+* Investigate Angular or another js library to ease frontend work
 * Refactor and properly redesign stuff
 * Add tests
 * Delete diffs after a period of time

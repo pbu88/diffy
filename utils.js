@@ -36,6 +36,22 @@
         return multerFile.size > 1000000;
     };
 
+    Utils.prototype.createDiffObject = function (diff, jsonDiff) {
+        var id = Utils.prototype.genRandomString();
+        // create object
+        var created = new Date;
+        var expiresAt = new Date;
+        expiresAt.setDate(created.getDate() + 1);
+        var obj = {
+            _id: id,
+            diff:jsonDiff,
+            rawDiff: diff,
+            created: created,
+            expiresAt: expiresAt,
+        };
+        return obj;
+    };
+
     // expose this module
     ((typeof module !== 'undefined' && module.exports) ||
      (typeof exports !== 'undefined' && exports) ||

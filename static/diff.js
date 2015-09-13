@@ -1,4 +1,5 @@
 $(function() {
+    // ui stuff
 
     var $wrappers = $('.d2h-file-wrapper');
 
@@ -26,4 +27,34 @@ $(function() {
 
     $wrappers.hide();
     $wrappers.first().show();
+});
+
+$(function() {
+    // time to live (ttl) stuff
+
+    var $ttl = $('#ttl');
+    var $hours = $ttl.find('.hours');
+    var $minutes = $ttl.find('.minutes');
+    var $seconds = $ttl.find('.seconds');
+    var ttlDate = new Date($ttl.data('enddate'));
+
+    var updateTtl = function() {
+        // not much scientific stuff here, just get the job done for now
+        var now = new Date;
+        var dateDiffInSecs = (ttlDate - now) / 1000;
+        if (dateDiffInSecs < 0) {
+            $hours.html(0);
+            $minutes.html(0);
+            $seconds.html(0);
+            return;
+        }
+        var hoursDiff = Math.floor(dateDiffInSecs / 60 / 60);
+        var minutesDiff = Math.floor((dateDiffInSecs / 60) - (hoursDiff * 60));
+        var secondsDiff = Math.floor((dateDiffInSecs) - (hoursDiff * 60 * 60) - (minutesDiff * 60));
+        $hours.html(hoursDiff);
+        $minutes.html(minutesDiff);
+        $seconds.html(secondsDiff);
+    };
+
+    setInterval(function() { updateTtl(); }, 1000);
 });
