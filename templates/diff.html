@@ -36,8 +36,16 @@
             <a class="navbar-brand" href="/"><img src="/static/img/diffy-logo.gif" height="25"></a>
         </div>
         <div class="pull-right">
-            <a href="/diff/{{id}}/download" class="btn btn-success navbar-btn" title="You can apply it to your sources by doing: git apply <patch>">Download Patch</a>
-            <a href="/delete/{{id}}" class="btn btn-danger navbar-btn" title="Make it disappear for good :)">Delete Forever!</a>
+            <div class="input-group clipboard-group navbar-btn">
+                 <input id="clip-txt" type="text" class="form-control" readonly="readonly" aria-label="Diff URL">
+                 <span class="input-group-btn">
+                    <button aria-label="Copy to clipboard" data-toggle="tooltip" data-placement="bottom" title="Copy to clipboard" class="btn btn-default" type="button">
+                         <i class="fa fa-clipboard"></i>
+                     </button>
+                 </span>
+            </div>         
+            <a href="/diff/{{id}}/download" data-toggle="tooltip" class="btn btn-success navbar-btn" title="You can apply it to your sources by doing: git apply <patch>">Download Patch</a>
+            <a href="/delete/{{id}}" data-toggle="tooltip" class="btn btn-danger navbar-btn" title="Make it disappear for good :)">Delete Forever!</a>
         </div>
     </div>
 </nav>

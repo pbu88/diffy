@@ -63,3 +63,13 @@ td, th {
 .diff-content {
     padding: 5px;
 }
+
+.clipboard-group{
+    width: 300px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#clip-txt{
+    width: 261px;
+}
