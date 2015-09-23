@@ -3,12 +3,20 @@ td, th {
 }
 
 .files-wrapper {
-    width:29.5%;
+    max-width:29.5%;
     float:left;
     border: 1px solid #ddd;
     border-radius: 3px;
     margin-bottom: 1em;
+    margin-right:5px;
 }
+
+#diff-wrapper {
+    min-width: 70%;
+    position: relative;
+    overflow: hidden;
+}
+
 .navigation-tree {
     font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     font-size: 15px;
