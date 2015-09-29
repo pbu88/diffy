@@ -27,10 +27,14 @@ app.use(session({
     secret: 'not-that-secret'}));
 app.use(flash());
 
-nunjucks.configure('templates', {
+nunjucksEnv = nunjucks.configure('templates', {
     autoescape: true,
     express: app
-}).addGlobal('utils', utils);
+});
+nunjucksEnv.addGlobal('utils', utils);
+nunjucksEnv.addGlobal('isProduction', function() {
+    return app.get('env') == 'production';
+});
 
 app.get('/', function (req, res) {
     res.render('index.html',
