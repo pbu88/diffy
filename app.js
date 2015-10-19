@@ -106,6 +106,21 @@ app.post('/new', upload.single('diffFile'), function (req, res) {
     });
 });
 
+app.post('/api/new', upload.single('diffFile'), function (req, res) {
+    var diff = req.body.udiff;
+    // remove \r
+    var diff = diff.replace(/\r/g, '');
+    var jsonDiff = diff2html.Diff2Html.getJsonFromDiff(diff);
+    if (utils.isObjectEmpty(jsonDiff)) {
+        res.json({'status': 'error', 'message': 'Not a valid diff'});
+        return;
+    }
+    var obj = utils.createDiffObject(diff, jsonDiff);
+    mongoUtils.insertDiff(obj, function() {
+        res.json({'status': 'success', 'url': 'http://diffy.org/diff/' + obj._id});
+    });
+});
+
 app.get('/delete/:id', function (req, res) {
     var id = req.params.id;
     mongoUtils.deleteDiffById(id, function () {
