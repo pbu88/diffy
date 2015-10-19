@@ -109,6 +109,10 @@ app.post('/new', upload.single('diffFile'), function (req, res) {
 app.post('/api/new', upload.single('diffFile'), function (req, res) {
     var diff = req.body.udiff;
     // remove \r
+    if (!diff) {
+        res.json({'status': 'error', 'message': 'udiff argument missing'});
+        return;
+    }
     var diff = diff.replace(/\r/g, '');
     var jsonDiff = diff2html.Diff2Html.getJsonFromDiff(diff);
     if (utils.isObjectEmpty(jsonDiff)) {
