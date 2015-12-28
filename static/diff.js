@@ -19,7 +19,6 @@ $(function() {
             $i.removeClass('fa-folder-open-o');
             $i.addClass('fa-folder-o');
         } else {
-            console.log('open');
             $i.removeClass('fa-folder-o');
             $i.addClass('fa-folder-open-o');
         }
@@ -40,7 +39,7 @@ $(function() {
 
     var updateTtl = function() {
         // not much scientific stuff here, just get the job done for now
-        var now = new Date;
+        var now = new Date();
         var dateDiffInSecs = (ttlDate - now) / 1000;
         if (dateDiffInSecs < 0) {
             $hours.html(0);

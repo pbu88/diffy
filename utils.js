@@ -1,19 +1,18 @@
-(function (ctx, undefined) {
+(function () {
 
     function Utils() {
     }
 
-    function _getFileName(file) {
+    Utils.prototype.getFileName = function (file) {
         return file.newName == 'dev/null' ? file.oldName : file.newName;
     };
 
-    Utils.prototype.getFileName = function (file) {
-        return _getFileName(file);
-    };
-
     Utils.prototype.sortByFilenameCriteria = function (file1, file2) {
-        var fileName1 = _getFileName(file1);
-        var fileName2 = _getFileName(file2);
+        // instantiating here because this can be used as 
+        // a callback and the meaning of this would be lost
+        utils = new Utils();
+        var fileName1 = utils.getFileName(file1);
+        var fileName2 = utils.getFileName(file2);
         if (fileName1 > fileName2) return 1;
         if (fileName1 < fileName2) return -1;
         return 0;
@@ -39,8 +38,8 @@
     Utils.prototype.createDiffObject = function (diff, jsonDiff) {
         var id = Utils.prototype.genRandomString();
         // create object
-        var created = new Date;
-        var expiresAt = new Date;
+        var created = new Date();
+        var expiresAt = new Date();
         expiresAt.setDate(created.getDate() + 1);
         var obj = {
             _id: id,
@@ -53,12 +52,7 @@
     };
 
     // expose this module
-    ((typeof module !== 'undefined' && module.exports) ||
-     (typeof exports !== 'undefined' && exports) ||
-     (typeof window !== 'undefined' && window) ||
-     (typeof self !== 'undefined' && self) ||
-     (typeof $this !== 'undefined' && $this) ||
-     Function('return this')())["Utils"] = new Utils();
+    module.exports.Utils = new Utils();
 
-})(this);
+})();
 
