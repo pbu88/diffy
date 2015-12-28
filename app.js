@@ -5,13 +5,13 @@ var diff2html = require('diff2html');
 var fs = require('fs');
 var utils = require('./utils.js').Utils;
 var mongoUtils = require('./mongoUtils.js');
-var fileTree = require('./treeFunctions.js');
-var multer  = require('multer')
-var flash = require('connect-flash')
-var cookieParser = require('cookie-parser')
-var session = require('express-session')
+var FileTree = require('./treeFunctions.js').FileTree;
+var multer  = require('multer');
+var flash = require('connect-flash');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
-var upload = multer({ storage: multer.memoryStorage() })
+var upload = multer({ storage: multer.memoryStorage() });
 var app = express();
 
 app.use('/static', express.static('static'));
@@ -66,11 +66,11 @@ app.get('/diff/:id', function (req, res) {
         }
         var jsonDiff = row.diff;
         jsonDiff = jsonDiff.sort(utils.sortByFilenameCriteria);
-        tree = fileTree.createTree();
+        tree = new FileTree();
         jsonDiff.forEach(function(e) {
-            fileTree.insert(tree, utils.getFileName(e));
+            tree.insert(utils.getFileName(e));
         });
-        html = fileTree.printTree(tree, 0);
+        html = tree.printTree(tree, 0);
 
         res.render('diff.html', {
             id: id,
@@ -93,7 +93,7 @@ app.post('/new', upload.single('diffFile'), function (req, res) {
         diff = req.file.buffer.toString();
     }
     // remove \r
-    var diff = diff.replace(/\r/g, '');
+    diff = diff.replace(/\r/g, '');
     var jsonDiff = diff2html.Diff2Html.getJsonFromDiff(diff);
     if (utils.isObjectEmpty(jsonDiff)) {
         req.flash('alert', 'Not a valid diff');
@@ -113,7 +113,7 @@ app.post('/api/new', upload.single('diffFile'), function (req, res) {
         res.json({'status': 'error', 'message': 'udiff argument missing'});
         return;
     }
-    var diff = diff.replace(/\r/g, '');
+    diff = diff.replace(/\r/g, '');
     var jsonDiff = diff2html.Diff2Html.getJsonFromDiff(diff);
     if (utils.isObjectEmpty(jsonDiff)) {
         res.json({'status': 'error', 'message': 'Not a valid diff'});
