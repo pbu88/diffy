@@ -1,6 +1,6 @@
-# Diffy - A tool for sharing diffs
+# Diffy - A tool for sharing diff output online
 
-http://diffy.org
+https://diffy.org
 
 ## How to contribute
 
