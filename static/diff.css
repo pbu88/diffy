@@ -81,3 +81,7 @@ td, th {
 #clip-txt{
     width: 261px;
 }
+
+.directory, .file, .dir-name, .file-name {
+    white-space: nowrap;
+}
