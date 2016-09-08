@@ -11,8 +11,8 @@ thing you'll need is mongodb. To get you started these are the steps:
 2. Install MongoDB and make it listen on localhost with default port
 3. Clone the repo: `git clone https://github.com/pbu88/diffy.git`
 4. Install dependencies: `npm install`
-5. Run the tests: `nodeunit tests`
-6. Run it: `node app.js`
+5. Run the tests: `npm test`
+6. Run it: `npm start`
 
 That should get you with a basic working dev environment. Now, go ahead
 and fill your pull request :)

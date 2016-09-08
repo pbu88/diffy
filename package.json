@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodeunit tests/",
+    "start": "node src/app.js"
   },
   "author": "",
   "license": "ISC",
