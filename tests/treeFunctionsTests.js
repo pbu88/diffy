@@ -1,5 +1,5 @@
 (function () {
-    FileTree = require('../treeFunctions.js').FileTree;
+    FileTree = require('../src/treeFunctions.js').FileTree;
 
     exports.testCreateTree = function(test) {
         test.expect(3);
