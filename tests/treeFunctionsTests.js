@@ -1,70 +1,118 @@
-(function () {
+var assert = require('assert');
+describe('FileTree', function() {
     FileTree = require('../src/treeFunctions.js').FileTree;
-
-    exports.testCreateTree = function(test) {
-        test.expect(3);
+    describe('#new FileTree()', function() {
         var tree = new FileTree();
-        test.equal('/', tree.path);
-        test.equal(0, tree.dirs.length);
-        test.equal(0, tree.files.length);
-        test.done();
-    };
+        it('path should be the root (/)', function() {
+            assert.equal('/', tree.path);
+        });
+        it('should not have dirs', function() {
+            assert.equal(0, tree.dirs.length);
+        });
+        it('should not have files', function() {
+            assert.equal(0, tree.files.length);
+        });
+    });
 
-    exports.testInsertFile = function(test) {
-        test.expect(4);
+    describe('#insert(\'test.txt\')', function() {
         var tree = new FileTree();
         tree.insert('test.txt');
-        test.equal('/', tree.path);
-        test.equal(0, tree.dirs.length, 'dirs must be empty');
-        test.equal(1, tree.files.length, 'must be one file');
-        test.equals('test.txt', tree.files[0].path, 'file names must be equals to test.txt');
-        test.done();
-    };
+        it('path should be the root (/)', function() {
+            assert.equal('/', tree.path);
+        });
+        it('should not have any dirs', function() {
+            assert.equal(0, tree.dirs.length);
+        });
+        it('should have one file', function() {
+            assert.equal(1, tree.files.length);
+        });
+        it('should be named test.txt', function() {
+            assert.equal('test.txt', tree.files[0].path);
+        });
+    });
 
-    exports.testInsertDir = function(test) {
-        test.expect(5);
+    describe("#insert('test/test.txt')", function() {
         var tree = new FileTree();
         tree.insert('/test/test.txt');
-        test.equal('/', tree.path);
-        test.equal(1, tree.dirs.length, 'dirs must be empty');
-        test.equal(0, tree.files.length, 'must be no files');
-        test.equal(1, tree.dirs[0].files.length, 'must one file in subdir files');
-        test.equal('test.txt', tree.dirs[0].files[0].path, 'file names must be equals to test.txt');
-        test.done();
-    };
-
-    exports.testInsertMultiple = function(test) {
+        it('path should be the root (/)', function() {
+            assert.equal('/', tree.path);
+        });
+        it('should have one dir', function() {
+            assert.equal(1, tree.dirs.length);
+        });
+        it('should not have files', function() {
+            assert.equal(0, tree.files.length);
+        });
+        it('should have one file in the subdir', function() {
+            assert.equal(1, tree.dirs[0].files.length);
+        });
+        it('file should be named test.txt', function() {
+            assert.equal('test.txt', tree.dirs[0].files[0].path);
+        });
+    });
+    
+    describe("#insert() multiple times", function() {
         var tree = new FileTree();
         tree.insert('dir/subdir/subsubdir/file.php');
         tree.insert('dir/subdir/subsubdir/file1.php');
-        tree.insert('dir/subdir/subsubdir1/file.php');
-        tree.insert('dir/subdir/subsubdir1/file1.php');
+        tree.insert('dir/subdir/subsubdir1/file.js');
+        tree.insert('dir/subdir/subsubdir1/file1.js');
+        it('root should have one dir', function() {
+            assert.equal(1, tree.dirs.length);
+        });
+        it('root should have 0 files', function() {
+            assert.equal(0, tree.files.length);
+        });
 
         var subtree = tree.dirs[0];
-        test.equal(1, tree.dirs.length);
-        test.equal(0, tree.files.length);
-        test.equal(2, subtree.dirs.length);
-        test.equal(0, subtree.files.length);
-        test.equal('dir/subdir', subtree.path);
-
+        describe('subtree', function() {
+            it('subtree should have two dirs', function() {
+                assert.equal(2, subtree.dirs.length);
+            });
+            it('subtree should have 0 files', function() {
+                assert.equal(0, subtree.files.length);
+            });
+            it('subtree path should be dir/subdir', function() {
+                assert.equal('dir/subdir', subtree.path);
+            });
+        });
+        
         var subsubtree = subtree.dirs[0];
-        test.equal(0, subsubtree.dirs.length);
-        test.equal(2, subsubtree.files.length);
-        test.equal('subsubdir', subsubtree.path);
-        test.equal('file.php', subsubtree.files[0].path);
-        test.equal('file1.php', subsubtree.files[1].path);
+        describe('subsubtree', function() {
+            it('should have 0 dirs', function() {
+                assert.equal(0, subsubtree.dirs.length);
+            });
+            it('should have 2 files', function() {
+                assert.equal(2, subsubtree.files.length);
+            });
+            it('should have path equals to subsubdir', function() {
+                assert.equal('subsubdir', subsubtree.path);
+            });
+            it('should have 2 files named file.php and file1.php', function() {
+                assert.equal('file.php', subsubtree.files[0].path);
+                assert.equal('file1.php', subsubtree.files[1].path);
+            });
+        });
 
         var subsubtree1 = subtree.dirs[1];
-        test.equal(0, subsubtree1.dirs.length);
-        test.equal(2, subsubtree1.files.length);
-        test.equal('subsubdir1', subsubtree1.path);
-        test.equal('file.php', subsubtree1.files[0].path);
-        test.equal('file1.php', subsubtree1.files[1].path);
-        test.done();
-    };
-
-    exports.testInsertMultipleLevels = function(test){
-        test.expect(3);
+        describe('subsubtree1', function() {
+            it('should have 0 dirs', function() {
+                assert.equal(0, subsubtree1.dirs.length);
+            });
+            it('should have 2 files', function() {
+                assert.equal(2, subsubtree1.files.length);
+            });
+            it('should have path equals to subsubdir1', function() {
+                assert.equal('subsubdir1', subsubtree1.path);
+            });
+            it('should have 2 files named file.js and file1.js', function() {
+                assert.equal('file.js', subsubtree1.files[0].path);
+                assert.equal('file1.js', subsubtree1.files[1].path);
+            });
+        });
+    });
+    
+    describe("#insert() multiple levels", function() {
         var tree = new FileTree();
         tree.insert('dir/subdir/file.py');
         tree.insert('dir/subdir/subsubdir/file2.py');
@@ -75,23 +123,30 @@
         tree.insert('dir/subdir/file7.py');
         tree.insert('dir/file8.py');
         tree.insert('dir/subdir/subsubdir/file9.py');
+        
+        subtree0 = tree.dirs[0];
+        it('subtree must have 3 files on level 0 dir', function() {
+            assert.equal(3, subtree0.files.length);
+        });
+        
+        var subtree1 = subtree0.dirs[0];
+        it('subtree1 must have 3 files on level 1 dir', function() {
+            assert.equal(3, subtree1.files.length);
+        });
 
-        tree = tree.dirs[0];
-        test.equal(3, tree.files.length, 'must be 3 files on base tree');
 
-        var subtree = tree.dirs[0];
-        test.equal(3, subtree.files.length, 'must be 3 files on subtree');
+        var subtree2 = subtree1.dirs[0];
+        it('subtree2 must have 3 files on level 2 dir', function() {
+            assert.equal(3, subtree2.files.length);
+        });
 
-        var subsubtree = subtree.dirs[0];
-        test.equal(3, subsubtree.files.length, 'must be 3 files on subsubtree');
+    });
 
-        test.done();
-    };
-
-    exports.testGetFileName = function(test) {
+    describe('#getFileName()', function() {
         var tree = new FileTree();
         tree.insert('/sub/file.txt');
-        test.equal('/sub/file.txt', tree.getFileName(tree.dirs[0].files[0]));
-        test.done();
-    };
-})();
+        it('should return the full name for a file', function() {
+            assert.equal('/sub/file.txt', tree.getFileName(tree.dirs[0].files[0]));
+        });
+    });
+});
