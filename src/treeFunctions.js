@@ -56,8 +56,8 @@
         var i = this._getCommonPrefixIndex(pathSplit, dirs);
         if (i < pathSplit.length && this.path != '/') {
             // split at i
-            tree_dirs = this.dirs;
-            tree_files = this.files;
+            var tree_dirs = this.dirs;
+            var tree_files = this.files;
 
             var dirsSuffix = dirs.slice(i).join('/');  // new tree suffix
             var commonPrefix = dirs.slice(0, i);  // common prefix (array)
@@ -101,7 +101,7 @@
             var slice = dirs.slice(i);
             if (slice.length == 0) {
                 // same path, only insert file
-                leaf = this.createLeaf(this, file);
+                var leaf = this.createLeaf(this, file);
                 this.files.push(leaf);
             }
             else {
@@ -122,7 +122,7 @@
     };
 
     FileTree.prototype.getFileName = function(node) {
-        res = node.path;
+        var res = node.path;
         while (node.parent !== null && node.parent.path != '/') {
             node = node.parent;
             res = node.path + '/' + res;

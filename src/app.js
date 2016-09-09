@@ -27,7 +27,7 @@ app.use(session({
     secret: 'not-that-secret'}));
 app.use(flash());
 
-nunjucksEnv = nunjucks.configure('templates', {
+var nunjucksEnv = nunjucks.configure('templates', {
     autoescape: true,
     express: app
 });
