@@ -10,7 +10,7 @@
     Utils.prototype.sortByFilenameCriteria = function (file1, file2) {
         // instantiating here because this can be used as 
         // a callback and the meaning of this would be lost
-        utils = new Utils();
+        var utils = new Utils();
         var fileName1 = utils.getFileName(file1);
         var fileName2 = utils.getFileName(file2);
         if (fileName1 > fileName2) return 1;
@@ -18,7 +18,7 @@
         return 0;
     };
 
-    Utils.prototype.genRandomString = function (files) {
+    Utils.prototype.genRandomString = function () {
         return (Math.random() + 1).toString(36).substring(2);
     };
     
