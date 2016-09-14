@@ -1,0 +1,34 @@
+diff --git a/package.json b/package.json
+index a9f9716..c0bdcfe 100644
+--- a/package.json
++++ b/package.json
+@@ -25,6 +25,7 @@
+     "babel-cli": "^6.14.0",
+     "babel-preset-es2015": "^6.14.0",
+     "babel-preset-stage-0": "^6.5.0",
++    "chai": "^3.5.0",
+     "mocha": "^3.0.2"
+   }
+ }
+diff --git a/src/utils.js b/src/utils.js
+index 70e6875..3a4b4dc 100644
+--- a/src/utils.js
++++ b/src/utils.js
+@@ -10,7 +10,7 @@
+     Utils.prototype.sortByFilenameCriteria = function (file1, file2) {
+         // instantiating here because this can be used as 
+         // a callback and the meaning of this would be lost
+-        utils = new Utils();
++        var utils = new Utils();
+         var fileName1 = utils.getFileName(file1);
+         var fileName2 = utils.getFileName(file2);
+         if (fileName1 > fileName2) return 1;
+@@ -18,7 +18,7 @@
+         return 0;
+     };
+ 
+-    Utils.prototype.genRandomString = function (files) {
++    Utils.prototype.genRandomString = function () {
+         return (Math.random() + 1).toString(36).substring(2);
+     };
+     
