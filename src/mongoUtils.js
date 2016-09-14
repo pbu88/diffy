@@ -1,10 +1,12 @@
+var Promise = require('promise');
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert')
-var url = 'mongodb://localhost:27017/diffy';
+var URL = 'mongodb://localhost:27017/diffy';
+var COLLECTION = 'shared_diff';
 
 var diffy;
 
-MongoClient.connect(url, function(err, db) {
+MongoClient.connect(URL, function(err, db) {
     diffy = db.collection('diffy');
 });
 
@@ -39,4 +41,46 @@ exports.getDiffById = function (id, callback) {
 
 exports.deleteDiffById = function (id, callback) {
     _removeById(id, callback);
+};
+
+/*
+ * @param string url - the url to connect to
+ * @return Promise
+ */
+function _connect(url) {
+    return new Promise(function (fulfill, reject) {
+        MongoClient.connect(url, function(err, db) {
+            if (err) {
+                return reject(err);
+            }
+            return fulfill(db.collection(COLLECTION));
+        });
+    });
+}
+
+/*
+ * @param object elem - the element to insert
+ * @return Promise
+ */
+function _insertDocumentPromise(elem) {
+    return _connect(URL).
+        then(diffyCollection => {
+            return new Promise(function(fulfill, reject) {
+                diffyCollection.insertOne(elem, function (err, result) {
+                    if (err) {
+                        return reject(err);
+                    }
+                    return fulfill(result);
+                });
+            });
+            
+        });
+}
+
+/*
+ * @param SharedDiff diff
+ * @return Promise
+ */
+export function writeSharedDiff(diff) {
+    return _insertDocumentPromise(diff);
 }
