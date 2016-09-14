@@ -8,8 +8,6 @@ MongoClient.connect(url, function(err, db) {
     diffy = db.collection('diffy');
 });
 
-
-
 function _insertDocument(elem, callback) {
     diffy.insertOne(elem, function (err, result) {
         assert.equal(err, null);
