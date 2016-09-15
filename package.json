@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-register tests/",
+    "test": "mocha --recursive --compilers js:babel-register tests/",
     "start": "node src/app.js",
     "build": "babel src/ -d build/src; babel tests/ -d build/tests"
   },
