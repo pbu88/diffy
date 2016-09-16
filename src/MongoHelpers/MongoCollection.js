@@ -28,42 +28,19 @@ export function MongoCollection(url, collection) {
         insertOne: function(elem) {
             return this.connect()
                 .then(db => db.collection(collection))
-                .then(collection => {
-                    return new Promise(function(fulfill, reject) {
-                        collection.insertOne(elem, function (err, result) {
-                            if (err) {
-                                return reject(err);
-                            }
-                            return fulfill(result);
-                        });
-                    });
-                });
+                .then(collection => collection.insertOne(elem));
         },
         
         getOneById: function(id, callback) {
             return this.connect()
                 .then(db => db.collection(collection))
-                .then(collection => {
-                    return new Promise(function(fulfill, reject) {
-                        collection.findOne({"_id": id}, function(err, doc) {
-                            if(err) return reject(err);
-                            return fulfill(doc);
-                        });
-                    });
-                });
+                .then(collection => collection.findOne({"_id": id}));
         },
 
         removeById: function(id, callback) {
             return this.connect()
                 .then(db => db.collection(collection))
-                .then(collection => {
-                    return new Promise(function(fulfill, reject) {
-                        collection.deleteOne({"_id": id}, function(err, doc) {
-                            if(err) return reject(err);
-                            return fulfill(doc);
-                        });
-                    });
-                });
+                .then(collection => collection.deleteOne({"_id": id}));
         },
 
         deleteCollection: function() {
