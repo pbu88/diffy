@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --recursive --compilers js:babel-register tests/",
+    "coverage": "nyc -r html --require babel-core/register npm test",
     "start": "node src/app.js",
     "build": "babel src/ -d build/src; babel tests/ -d build/tests"
   },
@@ -28,6 +29,8 @@
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-stage-0": "^6.5.0",
     "chai": "^3.5.0",
-    "mocha": "^3.0.2"
+    "istanbul": "^0.4.5",
+    "mocha": "^3.0.2",
+    "nyc": "^8.3.0"
   }
 }

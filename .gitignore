@@ -1,3 +1,5 @@
 node_modules
 *.bak
 build/
+.nyc_output/
+coverage/
