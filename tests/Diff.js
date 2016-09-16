@@ -44,6 +44,7 @@ describe('Diff', () => {
             return readDiffFilePromise.then(diffText => {
                 var diff = new Diff(diffText);
                 expect(diff.jsonDiff).to.exists;
+                expect(diff.getJsonDiff()).to.be.equal(diff.jsonDiff);
             });
         });
     });
