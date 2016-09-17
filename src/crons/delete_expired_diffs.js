@@ -5,8 +5,8 @@ function main() {
     var now = new Date;
     MongoClient.connect(url, function(err, db) {
         var diffy = db.collection('diffy');
-        diffy.remove({expiresAt: {'$lte' : new Date}});
-        db.close();
+        diffy.remove({expiresAt: {'$lte' : new Date}})
+            .then(() => db.close());
     });
 }
 
