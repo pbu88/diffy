@@ -3,23 +3,23 @@
 <title>Diffy</title>
 {% endblock %}
 {% block head %}
-<link rel="stylesheet" href="/static/diff2html/diff.css">
+<link rel="stylesheet" href="/static/vendor/diff2html/diff2html.css">
 <link rel="stylesheet" href="/static/diff.css">
+<link rel="stylesheet" href="/static/fileTree.css">
+
+<!-- Stylesheet -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css">
+
 <style>
-
-.diff-content * {
-    -webkit-box-sizing: initial;
-    -moz-box-sizing: initial;
-    box-sizing: initial;
+span.hljs {
+    display: inherit;
+    overflow-x: inherit;
+    padding: inherit;
+    color: #333;
+    background: inherit;
 }
-.diff-content *:before,
-.diff-content *:after {
-    -webkit-box-sizing: initial;
-    -moz-box-sizing: initial;
-    box-sizing: initial;
-}
-
 </style>
+
 {% endblock %}
 
 
@@ -89,4 +89,21 @@
 {% block custom_js %}
 <script src="/static/diff.js"></script>
 <script src="/static/clipboard.js"></script>
+<!-- Javascripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/scala.min.js"></script>
+<script type="text/javascript" src="/static/vendor/diff2html/diff2html-ui.js"></script>
+<script>
+$(document).ready(function() {
+    $('.d2h-file-wrapper').each(function(i, wrapper) {
+        var $wrapper = $(wrapper);
+        var lang = $wrapper.data('lang');
+        $wrapper.find('.d2h-code-line-ctn').each(function(i, line) {
+            var $line = $(line);
+            $line.addClass(lang);
+            hljs.highlightBlock(line);
+    });
+  });
+});
+</script>
 {% endblock %}

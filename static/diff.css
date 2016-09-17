@@ -2,70 +2,10 @@ td, th {
     padding: 1px;
 }
 
-.files-wrapper {
-    max-width:29%;
-    float:left;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    margin-bottom: 1em;
-    margin-right:5px;
-}
-
 #diff-wrapper {
     min-width: 70%;
     position: relative;
     overflow: hidden;
-}
-
-.navigation-tree {
-    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    font-size: 15px;
-}
-
-.navigation-tree ul {
-    list-style: none;
-    padding: 0;
-}
-
-.tree-root {
-    padding: 5px;
-    overflow-x:auto;
-}
-
-.tree-wrapper {
-    padding: 15px 5px;
-}
-
-.tree .file {
-    white-space: nowrap;
-    margin-left: 5px;
-}
-
-.tree .file i {
-    margin-right: 5px;
-}
-
-.tree .tree {
-    padding-left:10px;
-}
-
-.tree .files {
-    padding-left:10px;
-}
-
-.tree .dir-name {
-    font-weight: bold;
-    padding-left: 5px;
-}
-
-.tree a {
-    text-decoration: none;
-}
-
-.directory-hidden .tree,
-.directory-hidden .files {
-    display: none;
-
 }
 
 .diff-content {
