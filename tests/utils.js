@@ -13,7 +13,7 @@ describe('Utils module', () => {
         });
         it('should return old name if file is deleted', () => {
             var file = {
-                newName: 'dev/null',
+                newName: '/dev/null',
                 oldName: 'oldName'
             };
             expect(Utils.getFileName(file)).to.be.equals('oldName');

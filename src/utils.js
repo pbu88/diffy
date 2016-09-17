@@ -4,7 +4,7 @@
     }
 
     Utils.prototype.getFileName = function (file) {
-        return file.newName == 'dev/null' ? file.oldName : file.newName;
+        return file.newName == '/dev/null' ? file.oldName : file.newName;
     };
 
     Utils.prototype.sortByFilenameCriteria = function (file1, file2) {
