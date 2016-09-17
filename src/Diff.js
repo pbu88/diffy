@@ -14,7 +14,6 @@ var _ = require('lodash');
         });
         
         this.diffFiles = diffFiles;
-        this.jsonDiff = jsonDiff;
         this.rawDiff = rawDiffString;
 
         /* Methods */
@@ -39,13 +38,6 @@ var _ = require('lodash');
          */
         Diff.prototype.getRawDiff = function() {
             return this.rawDiff;
-        };
-        
-        /*
-         * @return object - the raw json diff
-         */
-        Diff.prototype.getJsonDiff = function() {
-            return this.jsonDiff;
         };
     }
 

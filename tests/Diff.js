@@ -38,16 +38,6 @@ describe('Diff', () => {
         });
     });
     
-    describe('#getJsonDiff()', () => {
-
-        it('should return the raw json diff', () => {
-            return readDiffFilePromise.then(diffText => {
-                var diff = new Diff(diffText);
-                expect(diff.jsonDiff).to.exists;
-                expect(diff.getJsonDiff()).to.be.equal(diff.jsonDiff);
-            });
-        });
-    });
 });
 
 describe('DiffFile', () => {
