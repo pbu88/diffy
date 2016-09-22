@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive --compilers js:babel-register tests/",
+    "test": "npm build;mocha --recursive build/tests/",
     "coverage": "nyc -r html --require babel-core/register npm test",
-    "start": "node src/app.js",
+    "start": "npm build;node build/src/app.js",
     "build": "babel src/ -d build/src; babel tests/ -d build/tests"
   },
   "author": "",
