@@ -10,6 +10,7 @@ var multer  = require('multer');
 var flash = require('connect-flash');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var config = require('./config');
 
 var upload = multer({ storage: multer.memoryStorage() });
 var app = express();
@@ -133,7 +134,7 @@ app.get('/delete/:id', function (req, res) {
     });
 });
 
-var server = app.listen(3000, '127.0.0.1', function () {
+var server = app.listen(config.port, config.host, function () {
     var host = server.address().address;
     var port = server.address().port;
 
@@ -143,4 +144,9 @@ var server = app.listen(3000, '127.0.0.1', function () {
 app.use(function(err, req, res, next) {
       console.error(err.stack);
         res.status(500).send('Something broke!');
+});
+
+// Make sure we exit gracefully when we receive a SIGINT signal (eg. from Docker)
+process.on('SIGINT', function() {
+    process.exit();
 });

@@ -1,5 +1,8 @@
-node_modules
 *.bak
-build/
+*.swp
 .nyc_output/
+.idea/
+build/
+node_modules/
 coverage/
+data/

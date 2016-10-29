@@ -2,9 +2,10 @@ var expect = require('chai').expect;
 var testUtilities = require('../testUtilities/testUtilities.js');
 var MongoCollection = require('../../src/MongoHelpers/MongoCollection').MongoCollection;
 var SharedDiff = require('../../src/SharedDiff');
+var config = require('../../src/config');
 
 describe('MongoCollection', () => {
-    var url = 'mongodb://localhost:27017/diffy';
+    var url = config.db_url;
     var collection = 'mongo_client_helper_test';
     var mongoCollection = MongoCollection(url, collection);
 
