@@ -1,3 +1,5 @@
+var ObjectID = require('mongodb').ObjectID;
+
 (function () {
 
     function Utils() {
@@ -19,9 +21,9 @@
     };
 
     Utils.prototype.genRandomString = function () {
-        return (Math.random() + 1).toString(36).substring(2);
+        return new ObjectID().toHexString();
     };
-    
+
     Utils.prototype.isObjectEmpty = function (obj) {
         var name;
         for (name in obj ) {

@@ -56,13 +56,20 @@ describe('Utils module', () => {
             expect(Utils.sortByFilenameCriteria(file1, file2)).to.be.equals(0);
         });
     });
-    
+
     describe('#genRandomString()', () => {
-        it('should return a string of length greater or equal to 20', () => {
-            expect(Utils.genRandomString()).to.have.length.gte(20);
+        it('should return a string of length equal to 24', () => {
+            expect(Utils.genRandomString()).to.have.length(24);
+        });
+
+        it('should generate random strings', () => {
+            // Generate two random strings and make sure they aren't the same
+            var s1 = Utils.genRandomString();
+            var s2 = Utils.genRandomString();
+            expect(s1).not.to.be.equals(s2);
         });
     });
-    
+
     describe('#isObjectEmpty()', () => {
         it('should return true for {}', () => {
             expect(Utils.isObjectEmpty({})).to.be.true;
