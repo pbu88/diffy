@@ -1,7 +1,8 @@
 var Promise = require('promise');
 var MongoClient = require('mongodb').MongoClient;
-var assert = require('assert')
-var URL = 'mongodb://localhost:27017/diffy';
+var assert = require('assert');
+var config = require('./config');
+var URL = config.db_url;
 var COLLECTION = 'shared_diff';
 
 var diffy;

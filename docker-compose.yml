@@ -1,0 +1,20 @@
+version: "2"
+services:
+  web:
+    build: ./
+    image: diffy
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/diffy
+      - /diffy/node_modules
+    links:
+      - db
+    environment:
+      - DIFFY_DB_HOST=db
+      - DIFFY_WEB_HOST=0.0.0.0
+    stop_signal: SIGINT
+  db:
+    image: mongo:latest
+    volumes:
+      - ./data:/data/db

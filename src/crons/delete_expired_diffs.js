@@ -1,5 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://localhost:27017/diffy';
+var config = require('../config');
+var url = config.db_url;
 
 function main() {
     var now = new Date;
