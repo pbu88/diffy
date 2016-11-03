@@ -1,4 +1,4 @@
-# Diffy - A tool for sharing diff output online
+# Diffy - A tool for sharing diff output online [![Build Status](https://travis-ci.org/pbu88/diffy.svg)](https://travis-ci.org/pbu88/diffy)
 
 https://diffy.org
 
