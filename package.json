@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm run build; mocha --recursive build/tests/",
+    "test": "sh run-tests.sh",
     "coverage": "nyc -r html --require babel-core/register npm test",
     "start": "npm run build; node build/src/app.js",
     "build": "babel src/ -d build/src; babel tests/ -d build/tests"

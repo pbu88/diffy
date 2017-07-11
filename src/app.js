@@ -28,11 +28,13 @@ app.use(session({
     secret: 'not-that-secret'}));
 app.use(flash());
 
+// Nunjuck setup
 var nunjucksEnv = nunjucks.configure('templates', {
     autoescape: true,
     express: app
 });
 nunjucksEnv.addGlobal('utils', utils);
+nunjucksEnv.addGlobal('config', config);
 nunjucksEnv.addGlobal('isProduction', function() {
     return app.get('env') == 'production';
 });
