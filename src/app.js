@@ -15,6 +15,10 @@ var config = require('./config');
 var upload = multer({ storage: multer.memoryStorage() });
 var app = express();
 
+if (! config.GA_ANALITYCS_KEY) {
+    throw new Error("GA_ANALYTICS_KEY has to be present");
+}
+
 app.use('/static', express.static('static'));
 app.use(bodyParser.urlencoded({
       extended: true
