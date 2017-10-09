@@ -6,3 +6,4 @@ build/
 node_modules/
 coverage/
 data/
+npm-debug.log
