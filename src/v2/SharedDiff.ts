@@ -1,5 +1,11 @@
 import {Diff2Html} from 'diff2html';
 
+export interface SharedDiffRepository {
+    insert: (diff: SharedDiff) => SharedDiff;
+    fetchById: (id: string) => SharedDiff;
+    deleteById: (id: string) => boolean;
+}
+
 export interface SharedDiff {
     id?: string,
     created_date: Date,
@@ -16,12 +22,6 @@ export function makeSharedDiff(raw_diff: string, date: Date = new Date()): Share
         diff: Diff2Html.getJsonFromDiff(raw_diff),
     };
 }
-
-//export interface SharedDiffRespository {
-//    insert: (diff: SharedDiff) => SharedDiff;
-//    fetchById: (id: string) => SharedDiff;
-//    deleteById: (id: string) => boolean;
-//}
 
 //export class SharedDiffRespository {
 //    function(diff: SharedDiff): SharedDiff {
