@@ -17,9 +17,9 @@ index 1456e89..e1da2da 100644
         fetchById: (id: string) => null,
         deleteById: (id: string) => false,
     }
-    const action = new CreateSharedDiffAction(raw_diff, repo);
+    const action = new CreateSharedDiffAction(repo);
     expect(action).toBeDefined();
-    const shared_diff = action.createSharedDiff();
+    const shared_diff = action.createSharedDiff(raw_diff);
     expect(shared_diff.diff).toBeDefined();
     action.storeSharedDiff(shared_diff);
     expect(repo.insert).toHaveBeenCalled();
