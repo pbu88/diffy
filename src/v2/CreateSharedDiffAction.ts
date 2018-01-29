@@ -1,4 +1,5 @@
-import { makeSharedDiff, SharedDiff, SharedDiffRepository } from './SharedDiff';
+import { makeSharedDiff, SharedDiff } from './SharedDiff';
+import { SharedDiffRepository } from './SharedDiffRepository';
 
 export class CreateSharedDiffAction {
     repository: SharedDiffRepository;
@@ -11,7 +12,7 @@ export class CreateSharedDiffAction {
         return makeSharedDiff(raw_diff);
     }
 
-    storeSharedDiff(shared_diff: SharedDiff): SharedDiff {
+    storeSharedDiff(shared_diff: SharedDiff): Promise<SharedDiff> {
         return this.repository.insert(shared_diff);
     }
 

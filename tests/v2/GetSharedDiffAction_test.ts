@@ -1,4 +1,5 @@
-import { SharedDiff, SharedDiffRepository, makeSharedDiff } from '../../src/v2/SharedDiff';
+import { SharedDiff, makeSharedDiff } from '../../src/v2/SharedDiff';
+import { SharedDiffRepository } from '../../src/v2/SharedDiffRepository';
 import { GetSharedDiffAction } from '../../src/v2/GetSharedDiffAction';
 
 test('should create a GetSharedDiffAction and fetch the SharedDiff', () => {
@@ -13,12 +14,14 @@ index 1456e89..e1da2da 100644
 `
     const repo: SharedDiffRepository = {
         insert: jest.fn(),
-        fetchById: (id: string) => ({id, ...makeSharedDiff(raw_diff)}),
-        deleteById: (id: string) => false,
+        fetchById: (id: string) => Promise.resolve({id, ...makeSharedDiff(raw_diff)}),
+        deleteById: (id: string) => Promise.resolve(0),
     }
     const action = new GetSharedDiffAction(repo);
     expect(action).toBeDefined();
-    const shared_diff = action.getSharedDiff('<diff_id>');
-    expect(shared_diff.id).toEqual('<diff_id>');
-    expect(shared_diff.diff).toBeDefined();
+    return action.getSharedDiff('<diff_id>')
+        .then(shared_diff => {
+            expect(shared_diff.id).toEqual('<diff_id>');
+            expect(shared_diff.diff).toBeDefined();
+        });
 });

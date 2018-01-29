@@ -1,4 +1,5 @@
-import {  SharedDiff, SharedDiffRepository } from './SharedDiff';
+import { SharedDiff } from './SharedDiff';
+import { SharedDiffRepository } from './SharedDiffRepository';
 
 export class GetSharedDiffAction {
     diff_id: string;
@@ -8,7 +9,7 @@ export class GetSharedDiffAction {
         this.repository = repository;
     }
 
-    getSharedDiff(diff_id: string): SharedDiff {
+    getSharedDiff(diff_id: string): Promise<SharedDiff> {
         return this.repository.fetchById(diff_id);
     }
 

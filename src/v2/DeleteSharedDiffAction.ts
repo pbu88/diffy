@@ -1,4 +1,4 @@
-import { SharedDiffRepository } from './SharedDiff';
+import { SharedDiffRepository } from './SharedDiffRepository';
 
 export class DeleteSharedDiffAction {
     repository: SharedDiffRepository;
@@ -7,7 +7,7 @@ export class DeleteSharedDiffAction {
         this.repository = repository;
     }
 
-    deleteSharedDiff(diff_id: string): boolean {
+    deleteSharedDiff(diff_id: string): Promise<number> {
         return this.repository.deleteById(diff_id);
     }
 
