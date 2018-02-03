@@ -7,12 +7,16 @@ export interface SharedDiffRepository {
     deleteById: (id: string) => Promise<number>;
 }
 
+const COLLECTION_NAME = 'diffy'; // maybe should be SharedDiff
+
 export class MongoSharedDiffRepository implements SharedDiffRepository {
     url: string;
+    db_name: string;
     client: Promise<mongodb.MongoClient>;
 
-    constructor(url: string) {
-        this.url = url;
+    constructor(url: string, db_name: string) {
+        this.url     = url;
+        this.db_name = db_name;
     }
 
     connect(): void {
@@ -25,8 +29,8 @@ export class MongoSharedDiffRepository implements SharedDiffRepository {
 
     insert(diff: SharedDiff): Promise<SharedDiff> {
         return this.client
-            .then(client => client.db('test'))
-            .then(db => db.collection('diffy'))
+            .then(client => client.db(this.db_name))
+            .then(db => db.collection(COLLECTION_NAME))
             .then(collection => collection.insertOne(diff))
             .then(result => result.insertedId)
             .then(id => ({...diff, id: id.toHexString()}));
@@ -34,8 +38,8 @@ export class MongoSharedDiffRepository implements SharedDiffRepository {
 
     fetchById(id: string): Promise<SharedDiff> {
         return this.client
-            .then(client => client.db('test'))
-            .then(db => db.collection('diffy'))
+            .then(client => client.db(this.db_name))
+            .then(db => db.collection(COLLECTION_NAME))
             .then(collection => collection.findOne({"_id": new mongodb.ObjectID(id)}))
             .then(doc => ({id: doc._id, ...doc}));
     }
@@ -43,8 +47,8 @@ export class MongoSharedDiffRepository implements SharedDiffRepository {
     // returns a promise of how many items where deleted
     deleteById(id: string): Promise<number> {
         return this.client
-            .then(client => client.db('test'))
-            .then(db => db.collection('diffy'))
+            .then(client => client.db(this.db_name))
+            .then(db => db.collection(COLLECTION_NAME))
             .then(collection => collection.deleteOne({"_id": new mongodb.ObjectID(id)}))
             .then(result => result.deletedCount);
     }

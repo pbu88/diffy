@@ -5,7 +5,8 @@ describe('MongoSharedDiff tests', () => {
     let repo: MongoSharedDiffRepository = null;
     beforeEach(() => {
         const url = 'mongodb://localhost:27017';
-        repo = new MongoSharedDiffRepository(url);
+        const db_name = 'test';
+        repo = new MongoSharedDiffRepository(url, db_name);
         repo.connect();
     });
 
