@@ -17,6 +17,22 @@ export function makeSharedDiff(raw_diff: string, date: Date = new Date()): Share
     };
 }
 
+export function isValidRawDiff(raw_diff: string): boolean {
+    const jsonDiff = Diff2Html.getJsonFromDiff(raw_diff);
+    if (_isObjectEmpty(jsonDiff)) {
+        return false;
+    }
+    return true;
+}
+
+function _isObjectEmpty(obj: Diff2Html.Result[]): boolean {
+    var name;
+    for (name in obj ) {
+        return false;
+    }
+    return true;
+};
+
 //export class SharedDiffRespository {
 //    function(diff: SharedDiff): SharedDiff {
 //    }

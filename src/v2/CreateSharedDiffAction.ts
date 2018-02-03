@@ -1,4 +1,4 @@
-import { makeSharedDiff, SharedDiff } from './SharedDiff';
+import { isValidRawDiff, makeSharedDiff, SharedDiff } from './SharedDiff';
 import { SharedDiffRepository } from './SharedDiffRepository';
 
 export class CreateSharedDiffAction {
@@ -6,6 +6,10 @@ export class CreateSharedDiffAction {
 
     constructor(repository: SharedDiffRepository) {
         this.repository = repository;
+    }
+
+    isValidRawDiff(raw_diff: string): boolean {
+        return isValidRawDiff(raw_diff);
     }
 
     createSharedDiff(raw_diff: string): SharedDiff {

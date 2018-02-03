@@ -1,4 +1,4 @@
-import { makeSharedDiff } from '../../src/v2/SharedDiff';
+import { isValidRawDiff, makeSharedDiff } from '../../src/v2/SharedDiff';
 
 test('should create shared diff', () => {
     const raw_diff = `
@@ -32,4 +32,25 @@ index 1456e89..e1da2da 100644
 +b
 `
     const shared_diff = makeSharedDiff(raw_diff);
+});
+
+test('isValidRawDiff(): should validate a (valid) raw diff', () => {
+    const raw_diff = `
+diff --git a/file.json b/file.json
+index 1456e89..e1da2da 100644
+--- a/file.json
++++ b/file.json
+@@ -1,1 +1,1 @@
+-a
++b
+`
+    expect(isValidRawDiff(raw_diff)).toBe(true);
+});
+
+test('isValidRawDiff(): should fail validation when (invalid) raw diff', () => {
+    const raw_diff = `
+-a
++b
+`
+    expect(isValidRawDiff(raw_diff)).toBe(false);
 });
