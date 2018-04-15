@@ -121,7 +121,7 @@ app.post('/new', upload.single('diffFile'), function (req, res) {
     const shared_diff = action.createSharedDiff(diff);
     return action.storeSharedDiff(shared_diff)
         .then(obj => {
-            res.redirect('/diff_v2/' + obj._id)
+            res.redirect('/diff/' + obj._id)
         });
 
 });
