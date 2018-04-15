@@ -134,15 +134,17 @@ app.post('/api/new', upload.single('diffFile'), function (req, res) {
         return;
     }
     diff = diff.replace(/\r/g, '');
-    var jsonDiff = diff2html.Diff2Html.getJsonFromDiff(diff);
-    if (utils.isObjectEmpty(jsonDiff)) {
+
+    const action = new CreateSharedDiffAction(repo);
+    if(! action.isValidRawDiff(diff)) {
         res.json({'status': 'error', 'message': 'Not a valid diff'});
         return;
     }
-    var obj = utils.createDiffObject(diff, jsonDiff);
-    mongoUtils.insertDiff(obj, function() {
-        res.json({'status': 'success', 'url': 'http://diffy.org/diff/' + obj._id});
-    });
+    const shared_diff = action.createSharedDiff(diff);
+    return action.storeSharedDiff(shared_diff)
+        .then(obj => {
+            res.json({'status': 'success', 'url': 'http://diffy.org/diff/' + obj._id});
+        });
 });
 
 app.get('/delete/:id', function (req, res) {
