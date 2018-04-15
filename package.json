@@ -9,8 +9,8 @@
     "start": "npm run build; node build/src/app.js",
     "build": "babel src/ -d build/src; babel tests/ -d build/tests",
     "v2_build": "rm -r dist;tsc",
-    "v2_test": "jest dist/tests/**/*.js",
-    "v2_start": "node dist/src/index.js"
+    "v2_test": "jest dist/tests/v2/*.js",
+    "v2_start": "npm run v2_build && node dist/src/app.js"
   },
   "author": "",
   "license": "ISC",
@@ -20,7 +20,7 @@
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.3.5",
     "diff2html": "^2.0.0",
-    "express": "^4.15.3",
+    "express": "^4.16.2",
     "express-session": "^1.11.3",
     "lodash": "^4.15.0",
     "mongodb": "^2.0.42",
@@ -29,7 +29,8 @@
     "promise": "^8.0.0"
   },
   "devDependencies": {
-    "@types/diff2html": "0.0.3",
+    "@types/diff2html": "0.0.4",
+    "@types/express": "^4.11.1",
     "@types/jest": "^22.0.1",
     "@types/mongodb": "^3.0.5",
     "babel-cli": "^6.14.0",

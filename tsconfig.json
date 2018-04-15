@@ -7,15 +7,15 @@
         "sourceMap": true,
         "outDir": "dist",
         "baseUrl": ".",
+        "allowJs": true,
         "paths": {
             "*": [
-                "node_modules/*",
                 "src/types/*"
             ]
         }
     },
     "include": [
-        "src/v2/**/*",
-        "tests/v2/**/*"
+        "src/**/*",
+        "tests/**/*"
     ]
 }
