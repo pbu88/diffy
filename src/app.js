@@ -12,8 +12,15 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var config = require('./config');
 
+var MongoSharedDiffRepository = require('./v2/SharedDiffRepository').MongoSharedDiffRepository;
+var GetSharedDiffAction = require('./v2/GetSharedDiffAction').GetSharedDiffAction;
+var CreateSharedDiffAction = require('./v2/CreateSharedDiffAction').CreateSharedDiffAction;
+var DeleteSharedDiffAction = require('./v2/DeleteSharedDiffAction').DeleteSharedDiffAction;
+
 var upload = multer({ storage: multer.memoryStorage() });
 var app = express();
+var repo = new MongoSharedDiffRepository(config.db_url, config.db_name);
+repo.connect();
 
 if (! config.GA_ANALITYCS_KEY) {
     throw new Error("GA_ANALYTICS_KEY has to be present");
@@ -65,28 +72,30 @@ app.get('/diff/:id/download', function (req, res) {
 
 app.get('/diff/:id', function (req, res) {
     var id = req.params.id;
-    mongoUtils.getDiffById(id, function(row) {
-        if (row === null) {
+    var action = new GetSharedDiffAction(repo);
+    action.getSharedDiff(id)
+        .then((shared_diff) => {
+            var jsonDiff = shared_diff.diff;
+            jsonDiff = jsonDiff.sort(utils.sortByFilenameCriteria);
+            var tree = new FileTree();
+            jsonDiff.forEach(function(e) {
+                tree.insert(utils.getFileName(e));
+            });
+            var html = tree.printTree(tree, 0);
+
+            res.render('diff.html', {
+                id: id,
+                diff: diff2html.Diff2Html.getPrettyHtmlFromJson(jsonDiff),
+                fileTreeHtml: html,
+                files: jsonDiff,
+                dbObj: shared_diff
+            });
+        },
+        (err) => {
             res.status(404);
             res.send('404 Sorry, the requested page was not found, create one at <a href="http://diffy.org">http://diffy.org</a>');
-            return;
         }
-        var jsonDiff = row.diff;
-        jsonDiff = jsonDiff.sort(utils.sortByFilenameCriteria);
-        var tree = new FileTree();
-        jsonDiff.forEach(function(e) {
-            tree.insert(utils.getFileName(e));
-        });
-        var html = tree.printTree(tree, 0);
-
-        res.render('diff.html', {
-            id: id,
-            diff: diff2html.Diff2Html.getPrettyHtmlFromJson(jsonDiff),
-            fileTreeHtml: html,
-            files: jsonDiff,
-            dbObj: row
-        });
-    });
+    );
 });
 
 app.post('/new', upload.single('diffFile'), function (req, res) {
@@ -101,16 +110,20 @@ app.post('/new', upload.single('diffFile'), function (req, res) {
     }
     // remove \r
     diff = diff.replace(/\r/g, '');
-    var jsonDiff = diff2html.Diff2Html.getJsonFromDiff(diff);
-    if (utils.isObjectEmpty(jsonDiff)) {
+    // end of param cleaning
+
+    const action = new CreateSharedDiffAction(repo);
+    if(! action.isValidRawDiff(diff)) {
         req.flash('alert', 'Not a valid diff');
         res.redirect('/');
         return;
     }
-    var obj = utils.createDiffObject(diff, jsonDiff);
-    mongoUtils.insertDiff(obj, function() {
-        res.redirect('/diff/' + obj._id);
-    });
+    const shared_diff = action.createSharedDiff(diff);
+    return action.storeSharedDiff(shared_diff)
+        .then(obj => {
+            res.redirect('/diff_v2/' + obj._id)
+        });
+
 });
 
 app.post('/api/new', upload.single('diffFile'), function (req, res) {
@@ -134,11 +147,19 @@ app.post('/api/new', upload.single('diffFile'), function (req, res) {
 
 app.get('/delete/:id', function (req, res) {
     var id = req.params.id;
-    mongoUtils.deleteDiffById(id, function () {
-        req.flash('success', 'Deleted successfully');
-        res.redirect('/');
-    });
+    var action = new DeleteSharedDiffAction(repo);
+    return action.deleteSharedDiff(id)
+        .then(() => {
+            req.flash('success', 'Deleted successfully');
+            res.redirect('/');
+        },
+        (err) => {
+            console.error(err);
+            req.flash('alert', 'File not found');
+            res.redirect('/');
+        });
 });
+
 
 var server = app.listen(config.port, config.host, function () {
     var host = server.address().address;
@@ -154,5 +175,6 @@ app.use(function(err, req, res, next) {
 
 // Make sure we exit gracefully when we receive a SIGINT signal (eg. from Docker)
 process.on('SIGINT', function() {
+    repo.disconnect();
     process.exit();
 });
