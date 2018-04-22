@@ -121,7 +121,10 @@ app.post('/new', upload.single('diffFile'), function (req, res) {
     const shared_diff = action.createSharedDiff(diff);
     return action.storeSharedDiff(shared_diff)
         .then(obj => {
-            res.redirect('/diff/' + obj._id)
+            if (!obj.id) {
+                console.warn("new: undefined obj id");
+            }
+            res.redirect('/diff/' + obj.id)
         });
 
 });
@@ -143,7 +146,10 @@ app.post('/api/new', upload.single('diffFile'), function (req, res) {
     const shared_diff = action.createSharedDiff(diff);
     return action.storeSharedDiff(shared_diff)
         .then(obj => {
-            res.json({'status': 'success', 'url': 'http://diffy.org/diff/' + obj._id});
+            if (!obj.id) {
+                console.warn("api.new: undefined obj id");
+            }
+            res.json({'status': 'success', 'url': 'http://diffy.org/diff/' + obj.id});
         });
 });
 
