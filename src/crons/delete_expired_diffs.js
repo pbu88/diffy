@@ -6,8 +6,12 @@ function main() {
     var now = new Date;
     MongoClient.connect(url, function(err, db) {
         var diffy = db.collection('diffy');
-        diffy.remove({expiresAt: {'$lte' : new Date}})
-            .then(() => db.close());
+        diffy.deleteMany({expiresAt: {'$lte' : new Date}})
+            .then(
+                (result) => { console.log(result.deletedCount + " garbage collected docs from mongo") },
+                (err) => { console.error(err) })
+            .then(
+                () => { db.close() });
     });
 }
 
