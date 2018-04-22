@@ -2,8 +2,8 @@ import {Diff2Html} from 'diff2html';
 
 export interface SharedDiff {
     id?: string,
-    created_date: Date,
-    expire_date: Date,
+    created: Date,
+    expiresAt: Date,
     diff: Diff2Html.Result[],
 };
 
@@ -11,8 +11,8 @@ export function makeSharedDiff(raw_diff: string, date: Date = new Date()): Share
     let expire_date = new Date();
     expire_date.setDate(date.getDate() + 1);
     return {
-        created_date: date,
-        expire_date: expire_date,
+        created: date,
+        expiresAt: expire_date,
         diff: Diff2Html.getJsonFromDiff(raw_diff),
     };
 }

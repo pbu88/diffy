@@ -15,8 +15,8 @@ index 1456e89..e1da2da 100644
     expire_date.setDate(date.getDate() + 1);
 
     const shared_diff = makeSharedDiff(raw_diff, date);
-    expect(shared_diff.created_date).toEqual(date);
-    expect(shared_diff.expire_date).toEqual(expire_date);
+    expect(shared_diff.created).toEqual(date);
+    expect(shared_diff.expiresAt).toEqual(expire_date);
     expect(shared_diff.diff[0].newName).toEqual('file.json');
     expect(shared_diff.diff[0].oldName).toEqual('file.json');
 });
