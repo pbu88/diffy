@@ -1,14 +1,20 @@
 import { SharedDiffRepository } from './SharedDiffRepository';
+import { Metrics } from './Metrics';
 
 export class DeleteSharedDiffAction {
     repository: SharedDiffRepository;
+    metrics: Metrics;
 
-    constructor(repository: SharedDiffRepository) {
+    constructor(repository: SharedDiffRepository, metrics: Metrics) {
         this.repository = repository;
+        this.metrics = metrics;
     }
 
     deleteSharedDiff(diff_id: string): Promise<number> {
-        return this.repository.deleteById(diff_id);
+        return this.repository.deleteById(diff_id)
+            .then(
+                deletedRows => { this.metrics.diffDeletedSuccessfully();  return deletedRows },
+                error       => { this.metrics.diffFailedToDelete(); return error })
     }
 
 }

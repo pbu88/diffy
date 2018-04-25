@@ -1,11 +1,14 @@
 import { isValidRawDiff, makeSharedDiff, SharedDiff } from './SharedDiff';
 import { SharedDiffRepository } from './SharedDiffRepository';
+import { Metrics } from './Metrics';
 
 export class CreateSharedDiffAction {
     repository: SharedDiffRepository;
+    metrics: Metrics;
 
-    constructor(repository: SharedDiffRepository) {
+    constructor(repository: SharedDiffRepository, metrics: Metrics) {
         this.repository = repository;
+        this.metrics = metrics;
     }
 
     isValidRawDiff(raw_diff: string): boolean {
@@ -17,7 +20,10 @@ export class CreateSharedDiffAction {
     }
 
     storeSharedDiff(shared_diff: SharedDiff): Promise<SharedDiff> {
-        return this.repository.insert(shared_diff);
+        return this.repository.insert(shared_diff)
+            .then(
+                shared_diff => { this.metrics.diffStoredSuccessfully();  return shared_diff },
+                error       => { this.metrics.diffFailedToStore(); return error })
     }
 
 }

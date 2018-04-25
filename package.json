@@ -10,7 +10,7 @@
     "build": "babel src/ -d build/src; babel tests/ -d build/tests",
     "v2_build": "rm -r dist;tsc",
     "v2_test": "jest dist/tests/v2/*.js",
-    "v2_start": "npm run v2_build && node dist/src/app.js"
+    "v2_start": "npm run v2_build && node dist/src/App.js"
   },
   "author": "",
   "license": "ISC",
