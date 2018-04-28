@@ -17,6 +17,12 @@ export class LogBasedMetrics implements Metrics {
     diffFailedToStore() {
         this.logStr('error', "Diff failed to store");
     }
+    diffStoredSuccessfullyFromAPI() {
+        this.logStr('info', "API: Diff stored successfully");
+    }
+    diffFailedToStoreFromAPI() {
+        this.logStr('error', "API: Diff failed to store");
+    }
     diffDeletedSuccessfully() {
         this.logStr('info', "Diff deleted successfully");
     }

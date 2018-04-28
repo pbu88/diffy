@@ -15,6 +15,7 @@ var config = require('./config');
 import { MongoSharedDiffRepository } from './v2/SharedDiffRepository';
 import { GetSharedDiffAction } from './v2/GetSharedDiffAction';
 import { CreateSharedDiffAction } from './v2/CreateSharedDiffAction';
+import { CreateSharedDiffAPIAction } from './v2/CreateSharedDiffAPIAction';
 import { DeleteSharedDiffAction } from './v2/DeleteSharedDiffAction';
 import { SharedDiff } from './v2/SharedDiff';
 import { LogBasedMetrics } from './v2/Metrics/LogBasedMetrics';
@@ -141,7 +142,7 @@ app.post('/api/new', upload.single('diffFile'), function (req: any, res: any) {
     }
     diff = diff.replace(/\r/g, '');
 
-    const action = new CreateSharedDiffAction(repo, metrics);
+    const action = new CreateSharedDiffAPIAction(repo, metrics);
     if(! action.isValidRawDiff(diff)) {
         res.json({'status': 'error', 'message': 'Not a valid diff'});
         return;

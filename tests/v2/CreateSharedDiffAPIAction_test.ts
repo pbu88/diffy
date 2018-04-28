@@ -1,6 +1,6 @@
 import { SharedDiff } from '../../src/v2/SharedDiff';
 import { SharedDiffRepository } from '../../src/v2/SharedDiffRepository';
-import { CreateSharedDiffAction } from '../../src/v2/CreateSharedDiffAction';
+import { CreateSharedDiffAPIAction } from '../../src/v2/CreateSharedDiffAPIAction';
 import { Metrics } from '../../src/v2/Metrics';
 
 const metrics: Metrics = {
@@ -27,14 +27,14 @@ index 1456e89..e1da2da 100644
         fetchById: (id: string) => null,
         deleteById: (id: string) => Promise.resolve(0),
     };
-    const action = new CreateSharedDiffAction(repo, metrics);
+    const action = new CreateSharedDiffAPIAction(repo, metrics);
     expect(action).toBeDefined();
     const shared_diff = action.createSharedDiff(raw_diff);
     expect(shared_diff.diff).toBeDefined();
     return action.storeSharedDiff(shared_diff)
         .then(() => {
             expect(repo.insert).toHaveBeenCalled();
-            expect(metrics.diffStoredSuccessfully).toHaveBeenCalled();
+            expect(metrics.diffStoredSuccessfullyFromAPI).toHaveBeenCalled();
         });
 });
 
@@ -54,34 +54,13 @@ index 1456e89..e1da2da 100644
         fetchById: (id: string) => null,
         deleteById: (id: string) => Promise.resolve(0),
     };
-    const action = new CreateSharedDiffAction(repo, metrics);
+    const action = new CreateSharedDiffAPIAction(repo, metrics);
     expect(action).toBeDefined();
     const shared_diff = action.createSharedDiff(raw_diff);
     expect(shared_diff.diff).toBeDefined();
     return action.storeSharedDiff(shared_diff)
         .then(() => {
             expect(repo.insert).toHaveBeenCalled();
-            expect(metrics.diffFailedToStore).toHaveBeenCalled();
+            expect(metrics.diffFailedToStoreFromAPI).toHaveBeenCalled();
         });
-});
-
-test('isValidRawDiff() should validate a raw diff', () => {
-    const raw_diff = `
-diff --git a/file.json b/file.json
-index 1456e89..e1da2da 100644
---- a/file.json
-+++ b/file.json
-@@ -1,1 +1,1 @@
--a
-+b
-`
-    const repo: SharedDiffRepository = {
-        //insert: (diff: SharedDiff) => ({ id: '1', ...diff }),
-        insert: jest.fn().mockReturnValueOnce(new Promise(() => {})),
-        fetchById: (id: string) => null,
-        deleteById: (id: string) => Promise.resolve(0),
-    };
-    const action = new CreateSharedDiffAction(repo, metrics);
-    const is_valid = action.isValidRawDiff(raw_diff);
-    expect(is_valid).toBe(true);
 });

@@ -22,8 +22,15 @@ export class CreateSharedDiffAction {
     storeSharedDiff(shared_diff: SharedDiff): Promise<SharedDiff> {
         return this.repository.insert(shared_diff)
             .then(
-                shared_diff => { this.metrics.diffStoredSuccessfully();  return shared_diff },
-                error       => { this.metrics.diffFailedToStore(); return error })
+                shared_diff => { this.registerSuccessfulCreation();  return shared_diff },
+                error       => { this.registerFailedCreation(); return error })
+    }
+
+    protected registerSuccessfulCreation() {
+        this.metrics.diffStoredSuccessfully();
+    }
+    protected registerFailedCreation() {
+        this.metrics.diffFailedToStore();
     }
 
 }
