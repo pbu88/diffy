@@ -12,7 +12,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var config = require('./config');
 
-import { MongoSharedDiffRepository } from './v2/SharedDiffRepository';
+import { MongoSharedDiffRepository } from './v2/SharedDiffRepository/MongoSharedDiffRepository';
 import { GetSharedDiffAction } from './v2/GetSharedDiffAction';
 import { CreateSharedDiffAction } from './v2/CreateSharedDiffAction';
 import { CreateSharedDiffAPIAction } from './v2/CreateSharedDiffAPIAction';

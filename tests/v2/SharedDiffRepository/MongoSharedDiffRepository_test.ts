@@ -1,5 +1,5 @@
-import { makeSharedDiff } from '../../src/v2/SharedDiff';
-import { MongoSharedDiffRepository } from '../../src/v2/SharedDiffRepository';
+import { makeSharedDiff } from '../../../src/v2/SharedDiff';
+import { MongoSharedDiffRepository } from '../../../src/v2/SharedDiffRepository/MongoSharedDiffRepository';
 
 describe('MongoSharedDiff tests', () => {
     let repo: MongoSharedDiffRepository = null;
@@ -43,7 +43,10 @@ describe('MongoSharedDiff tests', () => {
         const shared_diff = makeSharedDiff(raw_diff);
         return repo.insert(shared_diff)
             .then(stored_diff => repo.fetchById(stored_diff.id))
-            .then(shared_diff => expect(shared_diff.id).toBeDefined());
+            .then(shared_diff => {
+                expect(shared_diff.id).toBeDefined()
+                expect(shared_diff.rawDiff).toEqual(raw_diff);
+            });
     });
 
     test('Mongo test: delete a SharedDiff', () => {
