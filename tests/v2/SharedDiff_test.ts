@@ -19,6 +19,7 @@ index 1456e89..e1da2da 100644
     expect(shared_diff.expiresAt).toEqual(expire_date);
     expect(shared_diff.diff[0].newName).toEqual('file.json');
     expect(shared_diff.diff[0].oldName).toEqual('file.json');
+    expect(shared_diff.rawDiff).toEqual(raw_diff);
 });
 
 test('should create shared diff with defaults', () => {

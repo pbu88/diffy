@@ -5,6 +5,7 @@ export interface SharedDiff {
     created: Date,
     expiresAt: Date,
     diff: Diff2Html.Result[],
+    rawDiff: string,
 };
 
 export function makeSharedDiff(raw_diff: string, date: Date = new Date()): SharedDiff {
@@ -14,6 +15,7 @@ export function makeSharedDiff(raw_diff: string, date: Date = new Date()): Share
         created: date,
         expiresAt: expire_date,
         diff: Diff2Html.getJsonFromDiff(raw_diff),
+        rawDiff: raw_diff,
     };
 }
 
