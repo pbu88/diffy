@@ -31,6 +31,10 @@
     margin-left: 5px;
 }
 
+.tree .file.selected {
+    text-decoration: underline;
+}
+
 .tree .file i {
     margin-right: 5px;
 }
