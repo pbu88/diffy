@@ -28,6 +28,10 @@ $(function() {
 
     $wrappers.hide();
     $wrappers.first().show();
+    var selectedName = $wrappers.first().find('.d2h-file-name').first().html();
+    if(selectedName) {
+        $('.file[title="/'+selectedName+'"]').addClass('selected');
+    }
 });
 
 $(function() {
