@@ -31,6 +31,25 @@ describe('FileTree', () => {
         });
     });
 
+    describe('#insert(\'test.txt\', {<arbitrary object>})', () => {
+        var tree = new FileTree();
+        var value = {a: 1};
+        tree.insert('test.txt', value);
+        it('path should be the root (/)', () => {
+            assert.equal('/', tree.path);
+        });
+        it('should not have any dirs', () => {
+            assert.equal(0, tree.dirs.length);
+        });
+        it('should have one file', () => {
+            assert.equal(1, tree.files.length);
+        });
+        it('should be named test.txt', () => {
+            assert.equal('test.txt', tree.files[0].path);
+            assert.equal(value, tree.files[0].value);
+        });
+    });
+
     describe("#insert('test/test.txt')", () => {
         var tree = new FileTree();
         tree.insert('/test/test.txt');
@@ -50,13 +69,13 @@ describe('FileTree', () => {
             assert.equal('test.txt', tree.dirs[0].files[0].path);
         });
     });
-    
+
     describe("#insert() multiple times", () => {
         var tree = new FileTree();
-        tree.insert('dir/subdir/subsubdir/file.php');
-        tree.insert('dir/subdir/subsubdir/file1.php');
-        tree.insert('dir/subdir/subsubdir1/file.js');
-        tree.insert('dir/subdir/subsubdir1/file1.js');
+        tree.insert('dir/subdir/subsubdir/file.php', {name: "s/file.php"});
+        tree.insert('dir/subdir/subsubdir/file1.php', {name: "s/file1.php"});
+        tree.insert('dir/subdir/subsubdir1/file.js', {name: "s1/file.php"});
+        tree.insert('dir/subdir/subsubdir1/file1.js', {name: "s1/file1.php"});
         it('root should have one dir', () => {
             assert.equal(1, tree.dirs.length);
         });
@@ -76,7 +95,7 @@ describe('FileTree', () => {
                 assert.equal('dir/subdir', subtree.path);
             });
         });
-        
+
         var subsubtree = subtree.dirs[0];
         describe('subsubtree', () => {
             it('should have 0 dirs', () => {
@@ -90,6 +109,7 @@ describe('FileTree', () => {
             });
             it('should have 2 files named file.php and file1.php', () => {
                 assert.equal('file.php', subsubtree.files[0].path);
+                assert.equal('s/file.php', subsubtree.files[0].value.name);  // assert value
                 assert.equal('file1.php', subsubtree.files[1].path);
             });
         });

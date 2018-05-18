@@ -8,15 +8,18 @@
 
 (function () {
 
-    function FileTree(parent, filename){
+    var printerUtils = require('./printerUtils.js').PrinterUtils;
+
+    function FileTree(parent, filename, value){
         this.parent = parent || null;
         this.path = filename || '/';
         this.files = [];
         this.dirs = [];
+        this.value = value;
     }
 
-    FileTree.prototype.createLeaf = function(parent, filename) {
-        return new FileTree(parent, filename);
+    FileTree.prototype.createLeaf = function(parent, filename, value) {
+        return new FileTree(parent, filename, value);
     };
 
     FileTree.prototype._getCommonPrefixIndex = function(pathSplit, dirs) {
@@ -30,26 +33,26 @@
         return i;
     };
 
-    FileTree.prototype._insertAsSubtree = function(dirs, file) {
+    FileTree.prototype._insertAsSubtree = function(dirs, file, value) {
         for (var i = 0; i < this.dirs.length; i++) {
             var subtree = this.dirs[i];
             var split = subtree.path.split('/');
             if (split[0] == dirs[0]) {
-                subtree._insert(dirs, file);
+                subtree._insert(dirs, file, value);
                 return;
             }
         }
         // no common prefix, just insert
         var nTree = new FileTree();
         nTree.path = dirs.join('/');
-        nTree.files.push(this.createLeaf(nTree, file));
+        nTree.files.push(this.createLeaf(nTree, file, value));
         this.dirs.push(nTree);
         nTree.parent = this;
     };
 
-    FileTree.prototype._insert = function(dirs, file) {
+    FileTree.prototype._insert = function(dirs, file, value) {
         if (dirs.length === 0) {
-            this.files.push(this.createLeaf(this, file));
+            this.files.push(this.createLeaf(this, file, value));
             return;
         }
         var pathSplit = this.path.split('/');
@@ -81,14 +84,14 @@
             // If the new subtree is a file
             if (dirsSuffix == ''){
                 // Appending the new leaf
-                leaf = this.createLeaf(this, file);
+                leaf = this.createLeaf(this, file, value);
                 this.files.push(leaf);
                 return;
             }
 
             var nSubTree = new FileTree();
             nSubTree.path = dirsSuffix;
-            nSubTree.files.push(this.createLeaf(nSubTree, file));
+            nSubTree.files.push(this.createLeaf(nSubTree, file, value));
 
             // Adding the new dir
             this.dirs.push(nSubTree);
@@ -101,24 +104,24 @@
             var slice = dirs.slice(i);
             if (slice.length == 0) {
                 // same path, only insert file
-                var leaf = this.createLeaf(this, file);
+                var leaf = this.createLeaf(this, file, value);
                 this.files.push(leaf);
             }
             else {
                 // find the proper subdirectory to continue
-                this._insertAsSubtree(slice, file);
+                this._insertAsSubtree(slice, file, value);
             }
         }
 
     };
 
-    FileTree.prototype.insert = function(file) {
+    FileTree.prototype.insert = function(file, value) {
         if (file[0] != '/') {
             file = '/' + file;
         }
         var dirs = file.split('/');
         file = dirs.pop();
-        this._insert(dirs, file);
+        this._insert(dirs, file, value);
     };
 
     FileTree.prototype.getFileName = function(node) {
@@ -149,9 +152,10 @@
             result += space + '<ul class="files">\n';
             tree.files.forEach(function(file) {
                 var filename = that.getFileName(file);
+                var id = printerUtils.getHtmlId(file.value);
                 result += space + spaceStr;
                 result += '<li>' +
-                    '    <a href="javascript:void(0);" title="' + filename + '" class="file" data-filename="' + filename + '">\n' +
+                    '    <a href="javascript:void(0);" title="' + filename + '" class="file" data-filename="' + filename + '" data-wrapperid="' + id + '">\n' +
                     '        <i class="fa fa-file-code-o"></i><span class="file-name">' + file.path + '</span>\n' +
                     '    </a>\n' +
                     '</li>';

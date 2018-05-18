@@ -83,7 +83,7 @@ app.get('/diff/:id', function (req: any, res: any) {
             jsonDiff = jsonDiff.sort(utils.sortByFilenameCriteria);
             var tree = new FileTree();
             jsonDiff.forEach(function(e) {
-                tree.insert(utils.getFileName(e));
+                tree.insert(utils.getFileName(e), e);
             });
             var html = tree.printTree(tree, 0);
 
