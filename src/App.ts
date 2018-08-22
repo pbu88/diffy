@@ -18,12 +18,12 @@ import { CreateSharedDiffAction } from './v2/CreateSharedDiffAction';
 import { CreateSharedDiffAPIAction } from './v2/CreateSharedDiffAPIAction';
 import { DeleteSharedDiffAction } from './v2/DeleteSharedDiffAction';
 import { SharedDiff } from './v2/SharedDiff';
-import { LogBasedMetrics } from './v2/Metrics/LogBasedMetrics';
+//import { LogBasedMetrics } from './v2/Metrics/LogBasedMetrics';
+import { GAMetrics } from './v2/Metrics/GAMetrics';
 
 var upload = multer({ storage: multer.memoryStorage() });
 var app = express();
 const repo = new MongoSharedDiffRepository(config.db_url, config.db_name);
-const metrics = new LogBasedMetrics();
 repo.connect();
 
 if (! config.GA_ANALITYCS_KEY) {
@@ -116,6 +116,7 @@ app.post('/new', upload.single('diffFile'), function (req: any, res: any) {
     diff = diff.replace(/\r/g, '');
     // end of param cleaning
 
+    const metrics = new GAMetrics(config.GA_ANALITYCS_KEY, req.cookies._ga || config.GA_API_DEFAULT_KEY);
     const action = new CreateSharedDiffAction(repo, metrics);
     if(! action.isValidRawDiff(diff)) {
         req.flash('alert', 'Not a valid diff');
@@ -142,6 +143,7 @@ app.post('/api/new', upload.single('diffFile'), function (req: any, res: any) {
     }
     diff = diff.replace(/\r/g, '');
 
+    const metrics = new GAMetrics(config.GA_ANALITYCS_KEY, config.GA_API_KEY);
     const action = new CreateSharedDiffAPIAction(repo, metrics);
     if(! action.isValidRawDiff(diff)) {
         res.json({'status': 'error', 'message': 'Not a valid diff'});
@@ -159,6 +161,7 @@ app.post('/api/new', upload.single('diffFile'), function (req: any, res: any) {
 
 app.get('/delete/:id', function (req: any, res: any) {
     var id = req.params.id;
+    const metrics = new GAMetrics(config.GA_ANALITYCS_KEY, req.cookies._ga || config.GA_API_DEFAULT_KEY);
     var action = new DeleteSharedDiffAction(repo, metrics);
     return action.deleteSharedDiff(id)
         .then(() => {
