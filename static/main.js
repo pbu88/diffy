@@ -1,3 +1,8 @@
 $(function() {
-    $('[data-toggle="tooltip"]').tooltip(); 
+    $('[data-toggle="tooltip"]').tooltip();
 });
+
+$(function() {
+    var app = new Application({}, $);
+});
+
