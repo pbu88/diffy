@@ -11,9 +11,9 @@ thing you'll need is mongodb. To get you started these are the steps:
 2. Install MongoDB and make it listen on localhost with default port
 3. Clone the repo: `git clone https://github.com/pbu88/diffy.git`
 4. Install dependencies: `npm install`
-5. Build it: `npm run build`
+5. Build it: `npm run v2_build`
 6. Run the tests: `npm test`
-7. Run it: `npm start`
+7. Run it: `DIFFY_GA_ANALYTICS_KEY=none npm run v2_start`
 
 ### Docker
 
