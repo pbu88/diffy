@@ -13,4 +13,4 @@ RUN npm install
 
 # By default expose port 3000 and run `node /diffy/src/app.js` when executing the image
 EXPOSE 3000
-CMD ["node", "/diffy/src/app.js"]
+CMD ["npm", "run", "v2_start"]

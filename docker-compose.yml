@@ -13,6 +13,7 @@ services:
     environment:
       - DIFFY_DB_HOST=db
       - DIFFY_WEB_HOST=0.0.0.0
+      - DIFFY_GA_ANALYTICS_KEY=none
     stop_signal: SIGINT
   db:
     image: mongo:latest
