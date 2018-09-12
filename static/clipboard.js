@@ -27,5 +27,5 @@ $(function() {
         $clipBtn.attr('title', feedBack).tooltip('fixTitle').tooltip('show'); // Feedback msg
         $clipBtn.attr('title', hoverTxt).tooltip('fixTitle'); // Original msg
         $clipBtn.blur();
-    });   
+    });
 });

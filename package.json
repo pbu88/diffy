@@ -5,12 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "sh run-tests.sh",
-    "coverage": "nyc -r html --require babel-core/register npm test",
-    "start": "npm run build; node build/src/app.js",
-    "build": "babel src/ -d build/src; babel tests/ -d build/tests",
-    "v2_build": "rm -r dist;tsc",
+    "build": "rm -r dist;tsc",
     "v2_test": "jest dist/tests/v2/**/*.js dist/tests/v2/*.js",
-    "v2_start": "npm run v2_build && node dist/src/App.js"
+    "start": "npm run build && node dist/src/App.js"
   },
   "author": "",
   "license": "ISC",

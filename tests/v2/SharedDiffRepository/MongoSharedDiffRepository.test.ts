@@ -1,10 +1,10 @@
+var config = require('../../../src/config');
 import { makeSharedDiff } from '../../../src/v2/SharedDiff';
 import { MongoSharedDiffRepository } from '../../../src/v2/SharedDiffRepository/MongoSharedDiffRepository';
-
 describe('MongoSharedDiff tests', () => {
     let repo: MongoSharedDiffRepository = null;
     beforeEach(() => {
-        const url = 'mongodb://localhost:27017';
+        const url = config.db_url;
         const db_name = 'test';
         repo = new MongoSharedDiffRepository(url, db_name);
         repo.connect();
