@@ -9,8 +9,9 @@ var FileTree = require('./treeFunctions.js').FileTree;
 var multer  = require('multer');
 var flash = require('connect-flash');
 var cookieParser = require('cookie-parser');
-var session = require('express-session');
 var config = require('./config');
+var session = require('express-session');
+var MongoStore = require('connect-mongodb-session')(session);
 
 import { MongoSharedDiffRepository } from './v2/SharedDiffRepository/MongoSharedDiffRepository';
 import { GetSharedDiffAction } from './v2/GetSharedDiffAction';
@@ -40,7 +41,12 @@ app.use(session({
     cookie: { maxAge: 60000 },
     resave: false,
     saveUninitialized: false,
-    secret: 'not-that-secret'}));
+    secret: 'not-that-secret',
+    store: new MongoStore({
+        uri: config.db_url,
+        collection: config.session_collection,
+    })
+}));
 app.use(flash());
 
 // Nunjuck setup
