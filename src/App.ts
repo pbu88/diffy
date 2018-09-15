@@ -36,12 +36,12 @@ app.use(bodyParser.urlencoded({
       extended: true
 }));
 
-app.use(cookieParser('not-that-secret'));
+app.use(cookieParser(config.session_secret));
 app.use(session({
     cookie: { maxAge: 60000 },
     resave: false,
     saveUninitialized: false,
-    secret: 'not-that-secret',
+    secret: config.session_secret,
     store: new MongoStore({
         uri: config.db_url,
         collection: config.session_collection,

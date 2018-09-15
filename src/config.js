@@ -9,6 +9,7 @@ config.db_url  = `mongodb://${config.db_host}:${config.db_port}/diffy`;
 config.db_name = 'diffy';
 
 config.session_collection = 'sessions';
+config.session_secret = process.env.DIFFY_SESSION_SECRET || 'not-that-secret';
 
 config.GA_ANALITYCS_KEY   = process.env.DIFFY_GA_ANALYTICS_KEY;
 config.GA_DIFFY_API_KEY   = "diffApi";
