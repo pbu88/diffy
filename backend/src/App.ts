@@ -11,6 +11,11 @@ var flash = require('connect-flash');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var config = require('./config');
+var path = require('path');
+
+const PROJECT_ROOT = path.join(__dirname + '/../../../');
+const STATICS_FOLDER = path.join(PROJECT_ROOT, 'frontend/dist/ngdiffy');
+const INDEX_FILE = path.join(PROJECT_ROOT + '/frontend/dist/ngdiffy/index.html');
 
 import { MongoSharedDiffRepository } from './v2/SharedDiffRepository/MongoSharedDiffRepository';
 import { GetSharedDiffAction } from './v2/GetSharedDiffAction';
@@ -30,7 +35,8 @@ if (! config.GA_ANALITYCS_KEY) {
     throw new Error("GA_ANALYTICS_KEY has to be present");
 }
 
-app.use('/static', express.static('static'));
+app.use('/assets', express.static(STATICS_FOLDER));
+app.use('/', express.static(STATICS_FOLDER));
 app.use(bodyParser.urlencoded({
       extended: true
 }));
@@ -43,57 +49,19 @@ app.use(session({
     secret: 'not-that-secret'}));
 app.use(flash());
 
-// Nunjuck setup
-var nunjucksEnv = nunjucks.configure('templates', {
-    autoescape: true,
-    express: app
-});
-nunjucksEnv.addGlobal('utils', utils);
-nunjucksEnv.addGlobal('config', config);
-nunjucksEnv.addGlobal('isProduction', function() {
-    return app.get('env') == 'production';
+app.get('*', function (req: any, res: any) {
+    res.sendFile(INDEX_FILE);
 });
 
-app.get('/', function (req: any, res: any) {
-    res.render('index.html',
-            {'flash': req.flash()});
-});
-
-app.get('/diff/:id/download', function (req: any, res: any) {
-    var id = req.params.id;
-    mongoUtils.getDiffById(id, function(row: any) {
-        if (row === null) {
-            res.status(404);
-            res.send('404 Sorry, the requested page was not found, create one at <a href="http://diffy.org">http://diffy.org</a>');
-            return;
-        }
-        var rawDiff = row.rawDiff;
-        res.setHeader('Content-disposition', 'attachment; filename=' + id + '.diff');
-        res.setHeader('Content-type', 'text/plain');
-        res.send(rawDiff);
-    });
-});
-
-app.get('/diff/:id', function (req: any, res: any) {
+app.get('/diff/json/:id', function (req: any, res: any) {
     var id = req.params.id;
     var action = new GetSharedDiffAction(repo);
     action.getSharedDiff(id)
         .then((shared_diff: SharedDiff) => {
             var jsonDiff = shared_diff.diff;
             jsonDiff = jsonDiff.sort(utils.sortByFilenameCriteria);
-            var tree = new FileTree();
-            jsonDiff.forEach(function(e) {
-                tree.insert(utils.getFileName(e), e);
-            });
-            var html = tree.printTree(tree, 0);
-
-            res.render('diff.html', {
-                id: id,
-                diff: diff2html.Diff2Html.getPrettyHtmlFromJson(jsonDiff),
-                fileTreeHtml: html,
-                files: jsonDiff,
-                dbObj: shared_diff
-            });
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({diff: jsonDiff}));
         },
         (err: any) => {
             res.status(404);
@@ -103,6 +71,38 @@ app.get('/diff/:id', function (req: any, res: any) {
 });
 
 app.post('/new', upload.single('diffFile'), function (req: any, res: any) {
+    var diff = req.body.udiff;
+    if (req.file) {
+        if (utils.exceedsFileSizeLimit(req.file)) {
+            req.flash('alert', 'File too big, sorry!');
+            res.redirect('/');
+            return;
+        }
+        diff = req.file.buffer.toString();
+    }
+    // remove \r
+    diff = diff.replace(/\r/g, '');
+    // end of param cleaning
+
+    const metrics = new GAMetrics(config.GA_ANALITYCS_KEY, req.cookies._ga || config.GA_API_DEFAULT_KEY);
+    const action = new CreateSharedDiffAction(repo, metrics);
+    if(! action.isValidRawDiff(diff)) {
+        req.flash('alert', 'Not a valid diff');
+        res.redirect('/');
+        return;
+    }
+    const shared_diff = action.createSharedDiff(diff);
+    return action.storeSharedDiff(shared_diff)
+        .then((obj: SharedDiff) => {
+            if (!obj.id) {
+                console.warn("new: undefined obj id");
+            }
+            res.redirect('/diff/' + obj.id)
+        });
+
+});
+
+app.put('/new', function (req: any, res: any) {
     var diff = req.body.udiff;
     if (req.file) {
         if (utils.exceedsFileSizeLimit(req.file)) {

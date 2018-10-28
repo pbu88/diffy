@@ -1,12 +1,7 @@
 # Things to do
 
-* Most important: Clean the code
-* Investigate Angular or another js library to ease frontend work
-* Refactor and properly redesign stuff
-* Add tests
-* Make it possible to select either unified or split diffs view
-* Make better 40x and 50x pages
-* Warn about password or sensitive code
-* Feature: Add #<filename> to the url to go direct to that file
-* Feature: Add inline comments in code
-* Feature: Be able to share via email (Watchout for spamming here)
+* Unify test frameworks
+* Parse commit message and author (to get emails)
+* Catch error and exceptions and send emails (maybe pm2 has something already)
+* Fix the bad diff that blocks the site
+

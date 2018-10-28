@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Ngdiffy</title>
+  <base href="/">
+
+  <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--<link rel="icon" type="image/x-icon" href="favicon.ico">-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="/assets/diff2html.css">
+  <link rel="stylesheet" href="/assets/diff.css">
+  <link rel="stylesheet" href="/assets/fileTree.css">
+
+<!-- Stylesheet -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css">
+
+</head>
+<body>
+    <div id="wrap">
+        <app-root></app-root>
+    </div>
+    <div class="clearfix"></div>
+    <div id="footer">
+        <div class="container">
+            <div class="pull-right">
+                <p class="credit pull-right">
+                <iframe src="https://ghbtns.com/github-btn.html?user=pbu88&repo=diffy&type=star&count=true&&v=2"
+                        frameborder="0" scrolling="0" width="80px" height="30px">
+                </iframe>
+                <iframe src="https://ghbtns.com/github-btn.html?user=pbu88&repo=diffy&type=fork&count=true&&v=2"
+                        frameborder="0" scrolling="0" width="80px" height="30px">
+                </iframe>
+                </p>
+            </div>
+            <p class="credit">Created by <a href="https://paulobu.com" target="_blank">Paulo Bu</a></p>
+        </div>
+    </div>
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <!--<script src="./Cover Template for Bootstrap_files/ie10-viewport-bug-workaround.js"></script>-->
+  <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', '{{config.GA_ANALITYCS_KEY}}', 'auto');
+      ga('send', 'pageview');
+  </script>
+  <script>
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+//$(function() {
+//    $('#submit-file').change(function(evt) {
+//        var files = evt.target.files;
+//        var reader = new FileReader();
+//        reader.onload = function(e) {
+//            var text = e.target.result
+//            $('#diffTextArea').val(text);
+//            var element = document.getElementById('diffTextArea');
+//            var event = new Event('change', { bubbles: true });
+//            element.dispatchEvent(event);
+//        };
+//
+//        reader.readAsText(files[0]);
+//    });
+//});
+
+  </script>
+  <!--<script src="/static/clipboard.js"></script>-->
+  <!-- Javascripts -->
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>-->
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/scala.min.js"></script>-->
+  <!--<script type="text/javascript" src="/static/vendor/diff2html/diff2html-ui.js"></script>-->
+  <script>
+  $(document).ready(function() {
+      $('.d2h-file-wrapper').each(function(i, wrapper) {
+          var $wrapper = $(wrapper);
+          var lang = $wrapper.data('lang');
+          $wrapper.find('.d2h-code-line-ctn').each(function(i, line) {
+              var $line = $(line);
+              $line.addClass(lang);
+              //hljs.highlightBlock(line);
+      });
+    });
+  });
+  </script>
+
+</body>
+</html>

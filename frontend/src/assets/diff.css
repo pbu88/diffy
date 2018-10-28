@@ -1,0 +1,27 @@
+td, th {
+    padding: 1px;
+}
+
+#diff-wrapper {
+    min-width: 70%;
+    position: relative;
+    overflow: hidden;
+}
+
+.diff-content {
+    padding: 5px;
+}
+
+.clipboard-group{
+    width: 300px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#clip-txt{
+    width: 261px;
+}
+
+.directory, .file, .dir-name, .file-name {
+    white-space: nowrap;
+}
