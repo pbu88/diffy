@@ -12,8 +12,13 @@ import { Diff2Html }               from 'diff2html';
 })
 export class DiffyService {
   private diffyUrl = '/api/diff/';  // URL to web api
+
   private storage: {[id: number]: string} = {};
   private idCount = 1;
+
+  constructor(
+    private http: HttpClient
+  ) { }
 
   private makeSharedDiff(raw_diff: string, date: Date = new Date()): SharedDiff {
     let expire_date = new Date();
@@ -26,21 +31,27 @@ export class DiffyService {
     };
   }
 
-  constructor(
-    private http: HttpClient
-  ) { }
-
   public submitDiff(diffText: string): Observable<number> {
       this.storage[this.idCount] = diffText;
       const id = this.idCount;
       this.idCount++;
-      console.log(`submitted`);
-      console.log(diffText);
       return of(id);
   }
 
-  public getDiff(id: number): Observable<SharedDiff> {
-    const raw_diff = this.storage[id];
-    return of(raw_diff && this.makeSharedDiff(raw_diff));
+  public getDiff(id: number): Observable<any> {
+    return this.http.get(this.diffyUrl + id).pipe(
+      tap(_ => console.log(_))
+    );
+  }
+
+  /** PUT: update the hero on the server */
+  storeDiff(diffText: string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+
+    return this.http.put(this.diffyUrl, {diff: diffText}, httpOptions).pipe(
+      tap(_ => console.log(_))
+    );
   }
 }

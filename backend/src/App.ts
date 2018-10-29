@@ -13,9 +13,9 @@ var session = require('express-session');
 var config = require('./config');
 var path = require('path');
 
-const PROJECT_ROOT = path.join(__dirname + '/../../../');
+const PROJECT_ROOT   = path.join(__dirname + '/../../../');
 const STATICS_FOLDER = path.join(PROJECT_ROOT, 'frontend/dist/ngdiffy');
-const INDEX_FILE = path.join(PROJECT_ROOT + '/frontend/dist/ngdiffy/index.html');
+const INDEX_FILE     = path.join(PROJECT_ROOT + '/frontend/dist/ngdiffy/index.html');
 
 import { MongoSharedDiffRepository } from './v2/SharedDiffRepository/MongoSharedDiffRepository';
 import { GetSharedDiffAction } from './v2/GetSharedDiffAction';
@@ -37,6 +37,7 @@ if (! config.GA_ANALITYCS_KEY) {
 
 app.use('/assets', express.static(STATICS_FOLDER));
 app.use('/', express.static(STATICS_FOLDER));
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
       extended: true
 }));
@@ -49,11 +50,7 @@ app.use(session({
     secret: 'not-that-secret'}));
 app.use(flash());
 
-app.get('*', function (req: any, res: any) {
-    res.sendFile(INDEX_FILE);
-});
-
-app.get('/diff/json/:id', function (req: any, res: any) {
+app.get('/api/diff/:id', function (req: any, res: any) {
     var id = req.params.id;
     var action = new GetSharedDiffAction(repo);
     action.getSharedDiff(id)
@@ -70,25 +67,24 @@ app.get('/diff/json/:id', function (req: any, res: any) {
     );
 });
 
-app.post('/new', upload.single('diffFile'), function (req: any, res: any) {
-    var diff = req.body.udiff;
-    if (req.file) {
-        if (utils.exceedsFileSizeLimit(req.file)) {
-            req.flash('alert', 'File too big, sorry!');
-            res.redirect('/');
-            return;
-        }
-        diff = req.file.buffer.toString();
+app.put('/api/diff', function (req: any, res: any) {
+    try {
+        var diffRequest = req.body;
+        var diff = diffRequest.diff || '';
+        diff = diff.replace(/\r/g, '');
+    } catch (e) {
+        res.status(400);
+        res.send({error: "Invalid input"});
+        return;
     }
     // remove \r
-    diff = diff.replace(/\r/g, '');
     // end of param cleaning
 
     const metrics = new GAMetrics(config.GA_ANALITYCS_KEY, req.cookies._ga || config.GA_API_DEFAULT_KEY);
     const action = new CreateSharedDiffAction(repo, metrics);
     if(! action.isValidRawDiff(diff)) {
-        req.flash('alert', 'Not a valid diff');
-        res.redirect('/');
+        res.status(400);
+        res.send({error: 'Diff is not valid'});
         return;
     }
     const shared_diff = action.createSharedDiff(diff);
@@ -97,12 +93,17 @@ app.post('/new', upload.single('diffFile'), function (req: any, res: any) {
             if (!obj.id) {
                 console.warn("new: undefined obj id");
             }
-            res.redirect('/diff/' + obj.id)
+            res.send(obj);
         });
-
 });
 
-app.put('/new', function (req: any, res: any) {
+app.get('*', function (req: any, res: any) {
+    res.sendFile(INDEX_FILE);
+});
+
+
+
+app.post('/new', upload.single('diffFile'), function (req: any, res: any) {
     var diff = req.body.udiff;
     if (req.file) {
         if (utils.exceedsFileSizeLimit(req.file)) {

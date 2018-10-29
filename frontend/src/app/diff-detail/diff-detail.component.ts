@@ -23,13 +23,13 @@ export class DiffDetailComponent implements OnInit {
 
 
   ngOnInit() {
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
     this.loading = true;
     this.diffyService.getDiff(id)
-    .subscribe(diffy => {
-      this.sharedDiff = diffy
-      this.loading = false;
-    });
+      .subscribe(diffy => {
+        this.sharedDiff = diffy
+        this.loading = false;
+      });
   }
 
   renderDiff(): string {

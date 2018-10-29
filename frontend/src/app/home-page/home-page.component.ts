@@ -19,8 +19,10 @@ export class HomePageComponent implements OnInit {
   }
 
   submitDiff() {
-    this.diffyService.submitDiff(this.diffText)
-      .subscribe(id => this.router.navigate([`/diff/${id}`]));
+  //  this.diffyService.submitDiff(this.diffText)
+  //    .subscribe(id => this.router.navigate([`/diff/${id}`]));
+    this.diffyService.storeDiff(this.diffText)
+      .subscribe(sharedDiff => this.router.navigate([`/diff/${sharedDiff.id}`]));
   }
 
   uploadChange(fileInput: Event){
