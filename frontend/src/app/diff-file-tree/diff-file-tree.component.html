@@ -1,0 +1,29 @@
+<ul class="tree">
+    <li>
+        <div *ngIf="isOpen else closed">
+            <a href="javascript:void(0);" (click)="toggleFolder()" class="directory directory-visible">
+                <i class="fa fa-folder-open-o"></i><span class="dir-name">{{fileTree.path}}</span>
+            </a>
+            <app-diff-file-tree *ngFor="let subtree of fileTree.dirs" [fileTree]="subtree" [isOpen]="true">
+            </app-diff-file-tree>
+    <!--if (tree.dirs.length > 0) {
+        tree.dirs.forEach(function(subtree) {
+            result += that.printTree(subtree, level + 1);
+        });
+    }
+    if (tree.files.length > 0) {-->
+            <ul class="files">
+                <li *ngFor="let file of fileTree.files">
+                    <a href="javascript:void(0);" class="file">
+                        <i class="fa fa-file-code-o"></i><span class="file-name">{{file.path}}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <ng-template #closed>
+            <a href="javascript:void(0);" (click)="toggleFolder()" class="directory directory-visible">
+                <i class="fa fa-folder-o"></i><span class="dir-name">{{fileTree.path}}</span>
+            </a>
+        </ng-template>
+    </li>
+</ul>

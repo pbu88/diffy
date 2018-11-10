@@ -9,6 +9,8 @@ import { AppRoutingModule }        from './app-routing.module';
 import { DiffDetailComponent }     from './diff-detail/diff-detail.component';
 import { HomePageComponent }       from './home-page/home-page.component';
 import { EscapeHtmlPipe }          from './pipes/keep-html.pipe';
+import { DiffFileTreeComponent } from './diff-file-tree/diff-file-tree.component';
+import { DiffDetailContentComponent } from './diff-detail-content/diff-detail-content.component';
 
 
 @NgModule({
@@ -17,6 +19,8 @@ import { EscapeHtmlPipe }          from './pipes/keep-html.pipe';
     DiffDetailComponent,
     HomePageComponent,
     EscapeHtmlPipe,
+    DiffFileTreeComponent,
+    DiffDetailContentComponent,
   ],
   imports: [
     BrowserModule,

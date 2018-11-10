@@ -38,7 +38,7 @@ export class DiffyService {
       return of(id);
   }
 
-  public getDiff(id: number): Observable<any> {
+  public getDiff(id: string): Observable<any> {
     return this.http.get(this.diffyUrl + id).pipe(
       tap(_ => console.log(_))
     );

@@ -26,7 +26,6 @@ export class HomePageComponent implements OnInit {
   }
 
   uploadChange(fileInput: Event){
-    console.log("shit");
     let file = (fileInput.target as any).files[0];
     let reader = new FileReader();
     reader.onload = (e) => {

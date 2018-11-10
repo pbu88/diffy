@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DiffyService }      from '../diffy.service';
 import { SharedDiff }        from '../SharedDiff';
-import { FileTree }          from './tree-functions';
 import { ActivatedRoute }    from '@angular/router';
-//var diff2html = require('diff2html');
-import { Diff2Html }         from 'diff2html';
-console.log(Diff2Html);
+import { FileTree }          from '../diff-detail/tree-functions';
 
 @Component({
   selector: 'app-diff-detail',
@@ -13,8 +10,10 @@ console.log(Diff2Html);
   styleUrls: ['./diff-detail.component.css']
 })
 export class DiffDetailComponent implements OnInit {
-  sharedDiff: SharedDiff;
-  loading: boolean;
+  sharedDiff     : SharedDiff;
+  selectedFileId : string;
+  loading        : boolean;
+  fileTree       : FileTree;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,21 +31,22 @@ export class DiffDetailComponent implements OnInit {
       });
   }
 
-  renderDiff(): string {
-    return Diff2Html.getPrettyHtmlFromJson(this.sharedDiff.diff);
-  }
-
   private getFileName(file) {
     return file.newName == '/dev/null' ? file.oldName : file.newName;
   };
 
-  renderFileTree(): string {
-    let tree = new FileTree();
-    this.sharedDiff.diff.forEach(e => {
-        tree.insert(this.getFileName(e), e);
-    });
-    let html = tree.printTree(tree, 0);
-    return html;
+  getFileTree(): FileTree {
+    if(!this.fileTree) {
+        let tree = new FileTree();
+        this.sharedDiff.diff.forEach(e => {
+            tree.insert(this.getFileName(e), e);
+        });
+        this.fileTree = tree;
+    }
+    return this.fileTree;
   }
 
+  getFileCount(): number {
+    return 0;
+  }
 }

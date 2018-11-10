@@ -30,22 +30,26 @@
         </p>
     </div>
 
+
     <div class="diff-content">
         <div id="files-wrapper" class="files-wrapper">
             <div class="navigation-tree">
                 <div class="number-of-files d2h-file-header">
                     <div class="d2h-file-name">
-                        Number of files included: <span class="file-count">length</span>
+                        Number of files included: <span class="file-count">0</span>
                     </div>
                 </div>
-                    <div class="tree-root" [innerHtml]="renderFileTree() | keepHtml">
-                    </div>
+                <div class="tree-root">
+                    <app-diff-file-tree [fileTree]="getFileTree()" [isOpen]="true">
+                    </app-diff-file-tree>
+                </div>
             </div>
         </div>
-        <div id="diff-wrapper" [innerHtml]="renderDiff() | keepHtml">
-        </div>
+        <app-diff-detail-content [sharedDiff]="sharedDiff">
+        </app-diff-detail-content>
     </div>
 </div>
+
 <ng-template #noDiff>
     <div class="missing-diff">
         <div *ngIf="loading else notFound"> Loading ... </div>
