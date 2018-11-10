@@ -40,12 +40,12 @@
                     </div>
                 </div>
                 <div class="tree-root">
-                    <app-diff-file-tree [fileTree]="getFileTree()" [isOpen]="true">
+                    <app-diff-file-tree [fileTree]="getFileTree()" [isOpen]="true" [fileSelectorFn]="getFileSelectorFn()">
                     </app-diff-file-tree>
                 </div>
             </div>
         </div>
-        <app-diff-detail-content [sharedDiff]="sharedDiff">
+        <app-diff-detail-content [sharedDiff]="sharedDiff" [fileToRender]="selectedFileId">
         </app-diff-detail-content>
     </div>
 </div>

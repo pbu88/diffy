@@ -10,11 +10,14 @@ import { printerUtils } from './printer-utils.js';
 
 
 export class FileTree {
+
     public parent : any;
     public path   : any;
     public files  : any;
     public dirs   : any;
     public value  : any;
+    public fileId : string;
+
     constructor(parent = null, filename = '/', value = null) {
         this.parent = parent || null;
         this.path = filename || '/';
