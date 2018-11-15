@@ -38,9 +38,23 @@ export class DiffyService {
       return of(id);
   }
 
+  private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: better job of transforming error for user consumption
+      console.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+
   public getDiff(id: string): Observable<any> {
     return this.http.get(this.diffyUrl + id).pipe(
-      tap(_ => console.log(_))
+      catchError(this.handleError('getDiff', null))
     );
   }
 
@@ -51,7 +65,7 @@ export class DiffyService {
     };
 
     return this.http.put(this.diffyUrl, {diff: diffText}, httpOptions).pipe(
-      tap(_ => console.log(_))
+      catchError(this.handleError('getDiff', null))
     );
   }
 }
