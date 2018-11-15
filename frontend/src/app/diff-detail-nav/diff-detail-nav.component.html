@@ -1,0 +1,25 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" routerLink="/"><img src="/assets/img/diffy-logo.gif" height="25"></a>
+        </div>
+        <div *ngIf="showActions" class="pull-right">
+            <div class="input-group clipboard-group navbar-btn">
+                 <input id="clip-txt" type="text" class="form-control" readonly="readonly" aria-label="Diff URL">
+                 <span class="input-group-btn">
+                    <button aria-label="Copy to clipboard" data-toggle="tooltip" data-placement="bottom" title="Copy to clipboard" class="btn btn-default" type="button">
+                         <i class="fa fa-clipboard"></i>
+                     </button>
+                 </span>
+            </div>
+            <a href="/diff/shared/download" data-toggle="tooltip" data-placement="bottom" class="btn btn-success navbar-btn" title="You can apply it to your sources by doing: git apply <patch>">Download Patch</a>
+            <a href="/delete/id" data-toggle="tooltip" data-placement="bottom" class="btn btn-danger navbar-btn" title="Make it disappear for good :)">Delete Forever!</a>
+        </div>
+    </div>
+</nav>

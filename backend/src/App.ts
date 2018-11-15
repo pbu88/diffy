@@ -58,7 +58,7 @@ app.get('/api/diff/:id', function (req: any, res: any) {
             var jsonDiff = shared_diff.diff;
             jsonDiff = jsonDiff.sort(utils.sortByFilenameCriteria);
             res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({diff: jsonDiff}));
+            res.send(JSON.stringify({expiresAt: shared_diff.expiresAt, diff: jsonDiff}));
         },
         (err: any) => {
             res.status(404);

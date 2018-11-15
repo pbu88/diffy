@@ -11,6 +11,8 @@ import { HomePageComponent }       from './home-page/home-page.component';
 import { EscapeHtmlPipe }          from './pipes/keep-html.pipe';
 import { DiffFileTreeComponent } from './diff-file-tree/diff-file-tree.component';
 import { DiffDetailContentComponent } from './diff-detail-content/diff-detail-content.component';
+import { DiffDetailNavComponent } from './diff-detail-nav/diff-detail-nav.component';
+import { DiffDetailCountdownComponent } from './diff-detail-countdown/diff-detail-countdown.component';
 
 
 @NgModule({
@@ -21,6 +23,8 @@ import { DiffDetailContentComponent } from './diff-detail-content/diff-detail-co
     EscapeHtmlPipe,
     DiffFileTreeComponent,
     DiffDetailContentComponent,
+    DiffDetailNavComponent,
+    DiffDetailCountdownComponent,
   ],
   imports: [
     BrowserModule,
