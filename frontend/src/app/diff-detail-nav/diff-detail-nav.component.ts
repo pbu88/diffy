@@ -7,10 +7,14 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class DiffDetailNavComponent implements OnInit {
     @Input() showActions: boolean;
+    @Input() _deleteAction: () => void;
 
     constructor() { }
 
     ngOnInit() {
     }
 
+    deleteAction() {
+        this._deleteAction();
+    }
 }

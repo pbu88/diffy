@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DiffyService }             from '../diffy.service';
+import { AlertService }             from '../alert.service';
 import { Router }                   from '@angular/router';
 
 @Component({
@@ -12,7 +13,8 @@ export class HomePageComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private diffyService: DiffyService
+        private diffyService: DiffyService,
+        private alertService: AlertService
     ) { }
 
     ngOnInit() {
@@ -22,7 +24,13 @@ export class HomePageComponent implements OnInit {
         //  this.diffyService.submitDiff(this.diffText)
         //    .subscribe(id => this.router.navigate([`/diff/${id}`]));
         this.diffyService.storeDiff(this.diffText)
-            .subscribe(sharedDiff => this.router.navigate([`/diff/${sharedDiff.id}`]));
+            .subscribe(sharedDiff => {
+                if (!sharedDiff || !sharedDiff.id) {
+                    this.alertService.error("bad stuff");
+                    return;
+                }
+                this.router.navigate([`/diff/${sharedDiff.id}`])
+            });
     }
 
     uploadChange(fileInput: Event){

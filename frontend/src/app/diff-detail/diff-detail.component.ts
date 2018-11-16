@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { DiffyService }      from '../diffy.service';
-import { SharedDiff }        from '../SharedDiff';
-import { ActivatedRoute }    from '@angular/router';
-import { FileTree }          from '../diff-detail/tree-functions';
-import { printerUtils }      from '../diff-detail/printer-utils.js';
+import { Component, OnInit }      from '@angular/core';
+import { DiffyService }           from '../diffy.service';
+import { AlertService }           from '../alert.service';
+import { SharedDiff }             from '../SharedDiff';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FileTree }               from '../diff-detail/tree-functions';
+import { printerUtils }           from '../diff-detail/printer-utils.js';
 
 @Component({
     selector: 'app-diff-detail',
@@ -19,8 +20,10 @@ export class DiffDetailComponent implements OnInit {
     selectedFileId : string;
 
     constructor(
+        private router: Router,
         private route: ActivatedRoute,
-        private diffyService: DiffyService
+        private diffyService: DiffyService,
+        private alertService: AlertService
     ) { }
 
     ngOnInit() {
@@ -59,5 +62,19 @@ export class DiffDetailComponent implements OnInit {
 
     getFileCount(): number {
         return 0;
+    }
+
+    getDeleteDiff() {
+        return () => {
+            this.diffyService.deleteDiff(this.sharedDiff.id)
+                .subscribe(success => {
+                    if(success) {
+                        console.log(success);
+                        this.alertService.success("Deleted successfully", true);
+                        this.router.navigate(["/"]);
+                    } else {
+                    }
+            });
+        };
     }
 }

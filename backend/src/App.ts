@@ -50,6 +50,21 @@ app.use(session({
     secret: 'not-that-secret'}));
 app.use(flash());
 
+app.delete('/api/diff/:id', function (req: any, res: any) {
+    var id = req.params.id;
+    const metrics = new GAMetrics(config.GA_ANALITYCS_KEY, req.cookies._ga || config.GA_API_DEFAULT_KEY);
+    var action = new DeleteSharedDiffAction(repo, metrics);
+    return action.deleteSharedDiff(id)
+        .then(() => {
+            res.send(JSON.stringify({success: true}));
+        },
+        (err: any) => {
+            console.error(err);
+            res.status(400);
+            res.send(JSON.stringify({success: false}));
+        });
+});
+
 app.get('/api/diff/:id', function (req: any, res: any) {
     var id = req.params.id;
     var action = new GetSharedDiffAction(repo);
@@ -58,7 +73,11 @@ app.get('/api/diff/:id', function (req: any, res: any) {
             var jsonDiff = shared_diff.diff;
             jsonDiff = jsonDiff.sort(utils.sortByFilenameCriteria);
             res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({expiresAt: shared_diff.expiresAt, diff: jsonDiff}));
+            res.send(JSON.stringify({
+                id: shared_diff.id,
+                expiresAt: shared_diff.expiresAt,
+                diff: jsonDiff
+            }));
         },
         (err: any) => {
             res.status(404);

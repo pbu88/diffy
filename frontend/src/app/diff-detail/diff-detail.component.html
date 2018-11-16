@@ -1,5 +1,5 @@
 <div *ngIf="sharedDiff else noDiff">
-    <app-diff-detail-nav [showActions]="true">
+    <app-diff-detail-nav [showActions]="true" [_deleteAction]="getDeleteDiff()">
     </app-diff-detail-nav>
 
     <app-diff-detail-countdown [expiresAt]="sharedDiff.expiresAt">

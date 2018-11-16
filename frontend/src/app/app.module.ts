@@ -13,6 +13,7 @@ import { DiffFileTreeComponent } from './diff-file-tree/diff-file-tree.component
 import { DiffDetailContentComponent } from './diff-detail-content/diff-detail-content.component';
 import { DiffDetailNavComponent } from './diff-detail-nav/diff-detail-nav.component';
 import { DiffDetailCountdownComponent } from './diff-detail-countdown/diff-detail-countdown.component';
+import { HighlightComponent } from './highlight/highlight.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { DiffDetailCountdownComponent } from './diff-detail-countdown/diff-detai
     DiffDetailContentComponent,
     DiffDetailNavComponent,
     DiffDetailCountdownComponent,
+    HighlightComponent,
   ],
   imports: [
     BrowserModule,

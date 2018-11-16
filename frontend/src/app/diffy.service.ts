@@ -31,13 +31,6 @@ export class DiffyService {
         };
     }
 
-    public submitDiff(diffText: string): Observable<number> {
-        this.storage[this.idCount] = diffText;
-        const id = this.idCount;
-        this.idCount++;
-        return of(id);
-    }
-
     private handleError<T> (operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
 
@@ -58,7 +51,6 @@ export class DiffyService {
         );
     }
 
-    /** PUT: update the hero on the server */
     storeDiff(diffText: string): Observable<any> {
         const httpOptions = {
             headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -66,6 +58,16 @@ export class DiffyService {
 
         return this.http.put(this.diffyUrl, {diff: diffText}, httpOptions).pipe(
             catchError(this.handleError('getDiff', null))
+        );
+    }
+
+    deleteDiff(id: string): Observable<boolean> {
+        const httpOptions = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+        };
+
+        return this.http.delete(this.diffyUrl + id, httpOptions).pipe(
+            catchError(this.handleError('deleteDiff', null))
         );
     }
 }
