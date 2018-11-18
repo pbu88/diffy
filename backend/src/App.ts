@@ -37,10 +37,16 @@ if (! config.GA_ANALITYCS_KEY) {
 
 app.use('/assets', express.static(STATICS_FOLDER));
 app.use('/', express.static(STATICS_FOLDER));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-      extended: true
-}));
+app.use(bodyParser.json({limit: config.MAX_DIFF_SIZE}));
+app.use (diffTooBigErrorHandler);
+
+function diffTooBigErrorHandler (err: any, req: any, res: any, next: any) {
+    if (err.type == "entity.too.large") {
+        res.status(400).send({ error: "The diff is to big, the limit is " + config.MAX_DIFF_SIZE })
+    } else {
+        next(err)
+    }
+}
 
 app.use(cookieParser('not-that-secret'));
 app.use(session({

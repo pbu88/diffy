@@ -2,6 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DiffyService }             from '../diffy.service';
 import { AlertService }             from '../alert.service';
 import { Router }                   from '@angular/router';
+import { of }                       from 'rxjs';
+import { catchError }               from 'rxjs/operators';
+import { Error }                    from '../types/Error';
 
 @Component({
     selector: 'app-home-page',
@@ -21,15 +24,14 @@ export class HomePageComponent implements OnInit {
     }
 
     submitDiff() {
-        //  this.diffyService.submitDiff(this.diffText)
-        //    .subscribe(id => this.router.navigate([`/diff/${id}`]));
         this.diffyService.storeDiff(this.diffText)
             .subscribe(sharedDiff => {
                 if (!sharedDiff || !sharedDiff.id) {
-                    this.alertService.error("bad stuff");
                     return;
                 }
                 this.router.navigate([`/diff/${sharedDiff.id}`])
+            }, (error: Error) => {
+                this.alertService.error("Error: " + error.text);
             });
     }
 

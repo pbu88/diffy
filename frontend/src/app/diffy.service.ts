@@ -1,10 +1,10 @@
-import { Injectable }              from '@angular/core';
-
-import { Observable, of }          from 'rxjs';
-import { catchError, map, tap }    from 'rxjs/operators';
-import { SharedDiff }              from './SharedDiff';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Diff2Html }               from 'diff2html';
+import { Injectable }                 from '@angular/core';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, tap }       from 'rxjs/operators';
+import { SharedDiff }                 from './SharedDiff';
+import { Error }                      from './types/Error';
+import { HttpClient, HttpHeaders }    from '@angular/common/http';
+import { Diff2Html }                  from 'diff2html';
 //var diff2html = require('diff2html');
 
 @Injectable({
@@ -33,16 +33,23 @@ export class DiffyService {
 
     private handleError<T> (operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
-
-            // TODO: send the error to remote logging infrastructure
-            console.error(error); // log to console instead
-
-            // TODO: better job of transforming error for user consumption
-            console.log(`${operation} failed: ${error.message}`);
-
-            // Let the app keep running by returning an empty result.
-            return of(result as T);
+            return throwError(this.buildError(error));
         };
+    }
+
+    private buildError(httpError): Error {
+        if (httpError.status >= 500) {
+            return {
+                type: "SERVER_ERROR",
+                text: "Oops, something broke on the server :-/"
+            };
+        }
+        if (httpError.status >= 400) {
+            return {
+                type: "CLIENT_ERROR",
+                text: httpError.error.error
+            };
+        }
     }
 
     public getDiff(id: string): Observable<any> {
