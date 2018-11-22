@@ -77,4 +77,10 @@ export class DiffDetailComponent implements OnInit {
             });
         };
     }
+
+    getDownloadDiff() {
+        return () => {
+            this.diffyService.downloadDiff(this.sharedDiff.id);
+        };
+    }
 }

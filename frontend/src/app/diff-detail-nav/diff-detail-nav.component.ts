@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class DiffDetailNavComponent implements OnInit {
     @Input() showActions: boolean;
     @Input() _deleteAction: () => void;
+    @Input() _downloadAction: () => void;
 
     constructor() { }
 
@@ -16,5 +17,9 @@ export class DiffDetailNavComponent implements OnInit {
 
     deleteAction() {
         this._deleteAction();
+    }
+
+    downloadAction() {
+        this._downloadAction();
     }
 }

@@ -82,7 +82,8 @@ app.get('/api/diff/:id', function (req: any, res: any) {
             res.send(JSON.stringify({
                 id: shared_diff.id,
                 expiresAt: shared_diff.expiresAt,
-                diff: jsonDiff
+                diff: jsonDiff,
+                rawDiff: shared_diff.rawDiff,
             }));
         },
         (err: any) => {
@@ -120,6 +121,21 @@ app.put('/api/diff', function (req: any, res: any) {
             }
             res.send(obj);
         });
+});
+
+app.get('/diff_download/:id', function (req: any, res: any) {
+    var id = req.params.id;
+    mongoUtils.getDiffById(id, function(row: any) {
+        if (row === null) {
+            res.status(404);
+            res.send('404 Sorry, the requested page was not found, create one at <a href="http://diffy.org">http://diffy.org</a>');
+            return;
+        }
+        var rawDiff = row.rawDiff;
+        res.setHeader('Content-disposition', 'attachment; filename=' + id + '.diff');
+        res.setHeader('Content-type', 'text/plain');
+        res.send(rawDiff);
+    });
 });
 
 app.get('*', function (req: any, res: any) {

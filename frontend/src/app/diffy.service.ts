@@ -77,4 +77,8 @@ export class DiffyService {
             catchError(this.handleError('deleteDiff', null))
         );
     }
+
+    downloadDiff(id: string) {
+        window.open("/diff_download/" + id);
+    }
 }
