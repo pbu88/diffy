@@ -80,10 +80,10 @@ app.get('/api/diff/:id', function (req: any, res: any) {
             jsonDiff = jsonDiff.sort(utils.sortByFilenameCriteria);
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({
-                id: shared_diff.id,
-                expiresAt: shared_diff.expiresAt,
-                diff: jsonDiff,
-                rawDiff: shared_diff.rawDiff,
+                id        : shared_diff.id,
+                expiresAt : shared_diff.expiresAt,
+                created   : shared_diff.created,
+                rawDiff   : shared_diff.rawDiff,
             }));
         },
         (err: any) => {

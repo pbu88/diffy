@@ -1,10 +1,10 @@
-import { Component, OnInit }      from '@angular/core';
-import { DiffyService }           from '../diffy.service';
-import { AlertService }           from '../alert.service';
-import { SharedDiff }             from '../SharedDiff';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FileTree }               from '../diff-detail/tree-functions';
-import { printerUtils }           from '../diff-detail/printer-utils.js';
+import { Component, OnInit }          from '@angular/core';
+import { DiffyService }               from '../diffy.service';
+import { AlertService }               from '../alert.service';
+import { SharedDiff, makeSharedDiff } from '../SharedDiff';
+import { ActivatedRoute, Router }     from '@angular/router';
+import { FileTree }                   from '../diff-detail/tree-functions';
+import { printerUtils }               from '../diff-detail/printer-utils.js';
 
 @Component({
     selector: 'app-diff-detail',
@@ -31,12 +31,12 @@ export class DiffDetailComponent implements OnInit {
         this.loading = true;
         this.diffyService.getDiff(id)
             .subscribe(diffy => {
-                    this.sharedDiff = diffy
-                    this.loading = false;
-                }, error => {
-                    this.loading = false;
-                }
-            );
+                this.sharedDiff = makeSharedDiff(diffy.rawDiff, new Date(diffy.created));
+                this.loading = false;
+            }, error => {
+                this.loading = false;
+            }
+        );
     }
 
     private getFileName(file) {

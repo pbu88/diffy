@@ -34,12 +34,3 @@ function _isObjectEmpty(obj: Diff2Html.Result[]): boolean {
     }
     return true;
 };
-
-//export class SharedDiffRespository {
-//    function(diff: SharedDiff): SharedDiff {
-//    }
-//    function fetchById(id: string): SharedDiff {
-//    }
-//    function deleteById(id: string): boolean {
-//    }
-//}
