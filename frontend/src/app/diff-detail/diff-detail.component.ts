@@ -32,6 +32,7 @@ export class DiffDetailComponent implements OnInit {
         this.diffyService.getDiff(id)
             .subscribe(diffy => {
                 this.sharedDiff = makeSharedDiff(diffy.rawDiff, new Date(diffy.created));
+                this.sharedDiff.expiresAt = new Date(diffy.expiresAt);
                 this.loading = false;
             }, error => {
                 this.loading = false;

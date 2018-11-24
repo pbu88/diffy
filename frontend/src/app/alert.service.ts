@@ -22,7 +22,6 @@ export class AlertService {
                     // only keep for a single location change
                     this.keepAfterNavigationChange = false;
                 } else {
-                    console.log("clear");
                     // clear alert
                     this.subject.next();
                 }
@@ -31,7 +30,6 @@ export class AlertService {
     }
 
     success(message: string, keepAfterNavigationChange = false) {
-        console.log("success");
         this.keepAfterNavigationChange = keepAfterNavigationChange;
         this.subject.next({ type: 'success', text: message });
     }
