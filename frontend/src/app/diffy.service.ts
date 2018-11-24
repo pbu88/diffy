@@ -47,7 +47,7 @@ export class DiffyService {
         if (httpError.status >= 400) {
             return {
                 type: "CLIENT_ERROR",
-                text: httpError.error.error
+                text: httpError.error.error || "unknown error",
             };
         }
     }

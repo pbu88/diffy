@@ -31,9 +31,12 @@ export class DiffDetailComponent implements OnInit {
         this.loading = true;
         this.diffyService.getDiff(id)
             .subscribe(diffy => {
-                this.sharedDiff = diffy
-                this.loading = false;
-            });
+                    this.sharedDiff = diffy
+                    this.loading = false;
+                }, error => {
+                    this.loading = false;
+                }
+            );
     }
 
     private getFileName(file) {
