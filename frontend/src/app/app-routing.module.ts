@@ -8,6 +8,9 @@ import { HomePageComponent }    from './home-page/home-page.component';
 const routes: Routes = [
   { path: '', component: HomePageComponent, pathMatch: 'full' },
   { path: 'diff/:id', component: DiffDetailComponent },
+
+  // Match all and reditect to homepage
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
