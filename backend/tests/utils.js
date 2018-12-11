@@ -58,8 +58,8 @@ describe('Utils module', () => {
     });
     
     describe('#genRandomString()', () => {
-        it('should return a string of length greater or equal to 20', () => {
-            expect(Utils.genRandomString()).to.have.length.gte(20);
+        it('should return a string of length greater or equal to 10', () => {
+            expect(Utils.genRandomString()).to.have.length.gte(10);
         });
     });
     
