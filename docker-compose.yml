@@ -4,10 +4,10 @@ services:
     build: ./
     image: diffy
     ports:
-      - "3000:3000"
+      - 3000:3000
     volumes:
       - .:/diffy
-      - /diffy/node_modules
+      - /diffy/backend/node_modules
     links:
       - db
     environment:
