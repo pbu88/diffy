@@ -8,6 +8,7 @@ services:
     volumes:
       - .:/diffy
       - /diffy/backend/node_modules
+      - /diffy/frontend/node_modules
     links:
       - db
     environment:
