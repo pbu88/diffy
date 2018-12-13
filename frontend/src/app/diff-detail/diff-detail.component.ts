@@ -1,4 +1,5 @@
-import { Component, OnInit }          from '@angular/core';
+import { Component, OnInit, Inject }  from '@angular/core';
+import { DOCUMENT }                   from '@angular/common';
 import { DiffyService }               from '../diffy.service';
 import { AlertService }               from '../alert.service';
 import { SharedDiff, makeSharedDiff } from '../SharedDiff';
@@ -18,13 +19,17 @@ export class DiffDetailComponent implements OnInit {
     fileTree       : FileTree;
     fileSelectorFn : (fileId: string) => void;
     selectedFileId : string;
+    dom            : Document;
 
     constructor(
         private router: Router,
         private route: ActivatedRoute,
         private diffyService: DiffyService,
-        private alertService: AlertService
-    ) { }
+        private alertService: AlertService,
+        @Inject(DOCUMENT) dom: Document
+    ) {
+        this.dom = dom;
+    }
 
     ngOnInit() {
         const id = this.route.snapshot.paramMap.get('id');
@@ -86,5 +91,18 @@ export class DiffDetailComponent implements OnInit {
         return () => {
             this.diffyService.downloadDiff(this.sharedDiff.id);
         };
+    }
+
+    getCopyUrlToClipboard() {
+        return () => {
+            //copy logic here
+            let element = this.dom.getElementById("clip-txt") as any;
+            element.select();
+            this.dom.execCommand("copy");
+        };
+    }
+
+    getCurrentUrl() {
+        return window.location.href;
     }
 }

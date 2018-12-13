@@ -9,6 +9,8 @@ export class DiffDetailNavComponent implements OnInit {
     @Input() showActions: boolean;
     @Input() _deleteAction: () => void;
     @Input() _downloadAction: () => void;
+    @Input() _copyToClipboard: () => void;
+    @Input() currentUrl: string;
 
     constructor() { }
 
@@ -21,5 +23,9 @@ export class DiffDetailNavComponent implements OnInit {
 
     downloadAction() {
         this._downloadAction();
+    }
+
+    copyToClipboard() {
+        this._copyToClipboard();
     }
 }
