@@ -35,7 +35,7 @@
                         placeholder="Paste here any git diff output or upload a file with the diff contents"></textarea>
                 </div>
                 <div class="form-group">
-                    <a (click)="submitDiff()" class="btn btn-success btn-lg" style="padding: 15px 60px;font-size:20px;margin:20px 5px;">Diff me</a>
+                    <a (click)="diffMeClick()" class="btn btn-success btn-lg" style="padding: 15px 60px;font-size:20px;margin:20px 5px;">Diff me</a>
                     <span class="btn btn-success btn-lg btn-default btn-file" style="padding: 15px 60px;font-size:20px;margin:20px 0;">
                         Upload Diff<input (change)="uploadChange($event)" id="submit-file" name="diffFile" type="file">
                     </span>

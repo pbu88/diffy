@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DiffyService }             from '../diffy.service';
 import { AlertService }             from '../alert.service';
+import { AnalyticsService }         from '../analytics.service';
 import { Router }                   from '@angular/router';
 import { of }                       from 'rxjs';
 import { catchError }               from 'rxjs/operators';
@@ -17,10 +18,16 @@ export class HomePageComponent implements OnInit {
     constructor(
         private router: Router,
         private diffyService: DiffyService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private analyticsService: AnalyticsService
     ) { }
 
     ngOnInit() {
+    }
+
+    diffMeClick() {
+        this.analyticsService.clickDiffMeButton();
+        this.submitDiff();
     }
 
     submitDiff() {
@@ -36,6 +43,7 @@ export class HomePageComponent implements OnInit {
     }
 
     uploadChange(fileInput: Event){
+        this.analyticsService.clickUploadDiffButton();
         let file = (fileInput.target as any).files[0];
         let reader = new FileReader();
         reader.onload = (e) => {

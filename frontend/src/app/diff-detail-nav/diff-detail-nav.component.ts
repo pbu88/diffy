@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { AnalyticsService } from '../analytics.service';
 
 @Component({
     selector: 'app-diff-detail-nav',
@@ -12,20 +13,23 @@ export class DiffDetailNavComponent implements OnInit {
     @Input() _copyToClipboard: () => void;
     @Input() currentUrl: string;
 
-    constructor() { }
+    constructor(private analyticsService: AnalyticsService) { }
 
     ngOnInit() {
     }
 
     deleteAction() {
+        this.analyticsService.clickDeleteButton();
         this._deleteAction();
     }
 
     downloadAction() {
+        this.analyticsService.clickDownloadButton();
         this._downloadAction();
     }
 
     copyToClipboard() {
+        this.analyticsService.clickCopyUrlButton();
         this._copyToClipboard();
     }
 }
