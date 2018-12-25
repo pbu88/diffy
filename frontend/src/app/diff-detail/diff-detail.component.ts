@@ -73,8 +73,7 @@ export class DiffDetailComponent implements OnInit {
     }
 
     getFileCount(): number {
-        // TODO: implement
-        return 0;
+        return this.sharedDiff.diff.length;
     }
 
     getDeleteDiff() {
