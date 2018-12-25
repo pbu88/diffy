@@ -60,8 +60,13 @@ app.delete('/api/diff/:id', function (req: any, res: any) {
     const metrics = new GAMetrics(config.GA_ANALITYCS_KEY, req.cookies._ga || config.GA_API_DEFAULT_KEY);
     var action = new DeleteSharedDiffAction(repo, metrics);
     return action.deleteSharedDiff(id)
-        .then(() => {
-            res.send(JSON.stringify({success: true}));
+        .then((deletedRowsCount) => {
+            if(deletedRowsCount > 0) {
+                res.send(JSON.stringify({success: true}));
+            } else {
+                res.status(404);
+                res.send({success: false, error: "No documents found to delete"});
+            }
         },
         (err: any) => {
             console.error(err);

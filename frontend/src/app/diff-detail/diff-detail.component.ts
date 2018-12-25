@@ -6,6 +6,7 @@ import { SharedDiff, makeSharedDiff } from '../SharedDiff';
 import { ActivatedRoute, Router }     from '@angular/router';
 import { FileTree }                   from '../diff-detail/tree-functions';
 import { printerUtils }               from '../diff-detail/printer-utils.js';
+import { Error }                      from '../types/Error';
 
 @Component({
     selector: 'app-diff-detail',
@@ -20,6 +21,7 @@ export class DiffDetailComponent implements OnInit {
     fileSelectorFn : (fileId: string) => void;
     selectedFileId : string;
     dom            : Document;
+    currentId      : string;
 
     constructor(
         private router: Router,
@@ -33,6 +35,7 @@ export class DiffDetailComponent implements OnInit {
 
     ngOnInit() {
         const id = this.route.snapshot.paramMap.get('id');
+        this.currentId = id;
         this.loading = true;
         this.diffyService.getDiff(id)
             .subscribe(diffy => {
@@ -70,26 +73,26 @@ export class DiffDetailComponent implements OnInit {
     }
 
     getFileCount(): number {
+        // TODO: implement
         return 0;
     }
 
     getDeleteDiff() {
         return () => {
-            this.diffyService.deleteDiff(this.sharedDiff.id)
+            this.diffyService.deleteDiff(this.currentId)
                 .subscribe(success => {
-                    if(success) {
-                        console.log(success);
-                        this.alertService.success("Deleted successfully", true);
-                        this.router.navigate(["/"]);
-                    } else {
-                    }
+                    console.log(success);
+                    this.alertService.success("Deleted successfully", true);
+                    this.router.navigate(["/"]);
+            }, (error: Error) => {
+                        this.alertService.error(":-( Error while deleting: " + error.text, true);
             });
         };
     }
 
     getDownloadDiff() {
         return () => {
-            this.diffyService.downloadDiff(this.sharedDiff.id);
+            this.diffyService.downloadDiff(this.currentId);
         };
     }
 
