@@ -142,6 +142,7 @@ app.get('*', function (req: any, res: any) {
 });
 
 
+/*************** OLD CODE **************/
 
 app.post('/new', upload.single('diffFile'), function (req: any, res: any) {
     var diff = req.body.udiff;
