@@ -77,7 +77,8 @@ app.delete('/api/diff/:id', function (req: any, res: any) {
 
 app.get('/api/diff/:id', function (req: any, res: any) {
     var id = req.params.id;
-    var action = new GetSharedDiffAction(repo);
+    const metrics = new GAMetrics(config.GA_ANALITYCS_KEY, req.cookies._ga || config.GA_API_DEFAULT_KEY);
+    var action = new GetSharedDiffAction(repo, metrics);
     action.getSharedDiff(id)
         .then((shared_diff: SharedDiff) => {
             var jsonDiff = shared_diff.diff;

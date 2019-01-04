@@ -29,4 +29,7 @@ export class LogBasedMetrics implements Metrics {
     diffFailedToDelete() {
         this.logStr('error', "Diff failed to delete");
     }
+    diffRetrievedSuccessfully() {
+        this.logStr('info', "Diff retrieved successfully");
+    }
 }

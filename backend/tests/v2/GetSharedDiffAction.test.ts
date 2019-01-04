@@ -1,6 +1,7 @@
 import { SharedDiff, makeSharedDiff } from '../../src/v2/SharedDiff';
 import { SharedDiffRepository } from '../../src/v2/SharedDiffRepository';
 import { GetSharedDiffAction } from '../../src/v2/GetSharedDiffAction';
+import { metrics } from './MockedMetrics';
 
 test('should create a GetSharedDiffAction and fetch the SharedDiff', () => {
     const raw_diff = `
@@ -17,11 +18,12 @@ index 1456e89..e1da2da 100644
         fetchById: (id: string) => Promise.resolve({id, ...makeSharedDiff(raw_diff)}),
         deleteById: (id: string) => Promise.resolve(0),
     }
-    const action = new GetSharedDiffAction(repo);
+    const action = new GetSharedDiffAction(repo, metrics);
     expect(action).toBeDefined();
     return action.getSharedDiff('<diff_id>')
         .then(shared_diff => {
             expect(shared_diff.id).toEqual('<diff_id>');
             expect(shared_diff.diff).toBeDefined();
+            expect(metrics.diffRetrievedSuccessfully).toHaveBeenCalled()
         });
 });

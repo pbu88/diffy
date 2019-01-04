@@ -1,16 +1,8 @@
 import { SharedDiff } from '../../src/v2/SharedDiff';
 import { SharedDiffRepository } from '../../src/v2/SharedDiffRepository';
 import { CreateSharedDiffAction } from '../../src/v2/CreateSharedDiffAction';
-import { Metrics } from '../../src/v2/Metrics';
+import { metrics } from './MockedMetrics';
 
-const metrics: Metrics = {
-    diffStoredSuccessfully: jest.fn(),
-    diffFailedToStore: jest.fn(),
-    diffStoredSuccessfullyFromAPI: jest.fn(),
-    diffFailedToStoreFromAPI: jest.fn(),
-    diffDeletedSuccessfully: jest.fn(),
-    diffFailedToDelete: jest.fn(),
-};
 test('should create a CreateSharedDiffAction, create the SharedDiff and store it', () => {
     const raw_diff = `
 diff --git a/file.json b/file.json

@@ -1,15 +1,7 @@
 import { SharedDiffRepository } from '../../src/v2/SharedDiffRepository';
 import { DeleteSharedDiffAction } from '../../src/v2/DeleteSharedDiffAction';
-import { Metrics } from '../../src/v2/Metrics';
+import { metrics } from './MockedMetrics';
 
-const metrics: Metrics = {
-    diffStoredSuccessfully: jest.fn(),
-    diffFailedToStore: jest.fn(),
-    diffStoredSuccessfullyFromAPI: jest.fn(),
-    diffFailedToStoreFromAPI: jest.fn(),
-    diffDeletedSuccessfully: jest.fn(),
-    diffFailedToDelete: jest.fn(),
-};
 test('should create a DeleteSharedDiffAction and delete a SharedDiff by id', () => {
     const repo: SharedDiffRepository = {
         insert: jest.fn(),
