@@ -1,14 +1,19 @@
 FROM node:latest
 
 # Create a /diffy directory that will contain the application's code
-RUN mkdir -p /diffy
+RUN mkdir -p /diffy/backend
+RUN mkdir -p /diffy/frontend
 
-# Install app dependencies
-COPY package.json /diffy
+# Frontend
+COPY ./frontend/package.json /diffy/frontend/
+WORKDIR /diffy/frontend
+RUN npm install
+# Angular stuff (cli and dev)
+RUN npm install -g @angular/cli
 
-WORKDIR /diffy
-
-# Install the dependencies from `packages.json`
+# Backend
+COPY ./backend/package.json /diffy/backend/
+WORKDIR /diffy/backend
 RUN npm install
 
 # By default expose port 3000 and run `node /diffy/src/app.js` when executing the image
