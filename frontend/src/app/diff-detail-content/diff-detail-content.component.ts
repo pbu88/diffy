@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Diff2Html }                from 'diff2html';
 import { SharedDiff }               from '../SharedDiff';
 import { printerUtils }             from '../diff-detail/printer-utils.js';
+import { DomSanitizer, SafeHtml }   from '@angular/platform-browser';
 
 @Component({
     selector: 'app-diff-detail-content',
@@ -11,10 +12,14 @@ import { printerUtils }             from '../diff-detail/printer-utils.js';
 export class DiffDetailContentComponent implements OnInit {
     @Input() sharedDiff   : SharedDiff;
     @Input() fileToRender : string;
+    diffContent           : SafeHtml;
 
-    constructor() { }
+    constructor(private sanitizer: DomSanitizer) {
+    }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.diffContent = this.sanitizer.bypassSecurityTrustHtml(this.renderDiff());
+    }
 
     renderDiff(): string {
         if(this.fileToRender) {
