@@ -1,0 +1,14 @@
+version: "2"
+services:
+  web:
+    volumes:
+      - .:/diffy
+      - diffy-vol-be:/diffy/backend/node_modules
+      - diffy-vol-fe:/diffy/frontend/node_modules
+  db:
+    volumes:
+      - ./data:/data/db
+
+volumes:
+  diffy-vol-be:
+  diffy-vol-fe:
