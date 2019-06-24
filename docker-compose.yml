@@ -14,6 +14,5 @@ services:
     stop_signal: SIGINT
   db:
     image: mongo:latest
-      - ./data:/data/db
     ports:
       - 27017:27017
