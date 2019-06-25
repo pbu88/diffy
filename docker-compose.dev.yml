@@ -1,6 +1,9 @@
 version: "2"
 services:
   web:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
     volumes:
       - .:/diffy
       - diffy-vol-be:/diffy/backend/node_modules
