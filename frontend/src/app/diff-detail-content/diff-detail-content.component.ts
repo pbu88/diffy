@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnChanges, Input } from '@angular/core';
 import { Diff2Html }                from 'diff2html';
 import { SharedDiff }               from '../SharedDiff';
 import { printerUtils }             from '../diff-detail/printer-utils.js';
@@ -9,7 +9,7 @@ import { DomSanitizer, SafeHtml }   from '@angular/platform-browser';
     templateUrl: './diff-detail-content.component.html',
     styleUrls: ['./diff-detail-content.component.css']
 })
-export class DiffDetailContentComponent implements OnInit {
+export class DiffDetailContentComponent implements OnChanges {
     @Input() sharedDiff   : SharedDiff;
     @Input() fileToRender : string;
     diffContent           : SafeHtml;
@@ -17,7 +17,7 @@ export class DiffDetailContentComponent implements OnInit {
     constructor(private sanitizer: DomSanitizer) {
     }
 
-    ngOnInit() {
+    ngOnChanges(changes: any) {
         this.diffContent = this.sanitizer.bypassSecurityTrustHtml(this.renderDiff());
     }
 

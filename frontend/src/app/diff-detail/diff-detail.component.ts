@@ -1,12 +1,12 @@
-import { Component, OnInit, Inject }  from '@angular/core';
-import { DOCUMENT }                   from '@angular/common';
-import { DiffyService }               from '../diffy.service';
-import { AlertService }               from '../alert.service';
-import { SharedDiff, makeSharedDiff } from '../SharedDiff';
-import { ActivatedRoute, Router }     from '@angular/router';
-import { FileTree }                   from '../diff-detail/tree-functions';
-import { printerUtils }               from '../diff-detail/printer-utils.js';
-import { Error }                      from '../types/Error';
+import { Component, OnInit, Inject, Input } from '@angular/core';
+import { DOCUMENT }                         from '@angular/common';
+import { DiffyService }                     from '../diffy.service';
+import { AlertService }                     from '../alert.service';
+import { SharedDiff, makeSharedDiff }       from '../SharedDiff';
+import { ActivatedRoute, Router }           from '@angular/router';
+import { FileTree }                         from '../diff-detail/tree-functions';
+import { printerUtils }                     from '../diff-detail/printer-utils.js';
+import { Error }                            from '../types/Error';
 
 @Component({
     selector: 'app-diff-detail',
@@ -80,7 +80,6 @@ export class DiffDetailComponent implements OnInit {
         return () => {
             this.diffyService.deleteDiff(this.currentId)
                 .subscribe(success => {
-                    console.log(success);
                     this.alertService.success("Deleted successfully", true);
                     this.router.navigate(["/"]);
             }, (error: Error) => {
