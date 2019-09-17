@@ -94,6 +94,18 @@ export class DiffDetailComponent implements OnInit {
         };
     }
 
+    getExtendLifetime() {
+        return () => {
+            this.diffyService.extendLifetime(this.currentId)
+                .subscribe(diffy => {
+                    this.sharedDiff = makeSharedDiff(diffy.rawDiff, new Date(diffy.created));
+                    this.sharedDiff.expiresAt = new Date(diffy.expiresAt);
+                }, (error: Error) => {
+                        this.alertService.error(":-( Error while extending diff: " + error.text, true);
+                });
+        };
+    }
+
     getCopyUrlToClipboard() {
         return () => {
             //copy logic here

@@ -7,7 +7,9 @@
         >
     </app-diff-detail-nav>
 
-    <app-diff-detail-countdown [expiresAt]="sharedDiff.expiresAt">
+    <app-diff-detail-countdown
+        [expiresAt]="sharedDiff.expiresAt"
+        [_extendLifetime]="getExtendLifetime()">
     </app-diff-detail-countdown>
 
     <div class="diff-content">

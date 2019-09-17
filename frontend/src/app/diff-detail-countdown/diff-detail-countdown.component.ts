@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class DiffDetailCountdownComponent implements OnInit {
     @Input() expiresAt: string;
+    @Input() _extendLifetime: () => void;
     hours  : number;
     minutes: number;
     seconds: number;
@@ -30,6 +31,10 @@ export class DiffDetailCountdownComponent implements OnInit {
         this.hours = Math.floor(dateDiffInSecs / 60 / 60);
         this.minutes = Math.floor((dateDiffInSecs / 60) - (this.hours * 60));
         this.seconds = Math.floor((dateDiffInSecs) - (this.hours * 60 * 60) - (this.minutes * 60));
+    }
+
+    extendLifetime() {
+        this._extendLifetime();
     }
 
 }

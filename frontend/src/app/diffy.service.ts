@@ -78,6 +78,16 @@ export class DiffyService {
         );
     }
 
+    extendLifetime(id: string): Observable<any> {
+        const httpOptions = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+        };
+
+        return this.http.post(this.diffyUrl + 'extend/' + id, httpOptions).pipe(
+            catchError(this.handleError('extendLifetimeDiff', null))
+        );
+    }
+
     downloadDiff(id: string) {
         window.open("/diff_download/" + id);
     }
