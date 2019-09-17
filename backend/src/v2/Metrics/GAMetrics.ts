@@ -61,5 +61,9 @@ export class GAMetrics implements Metrics {
         const data = "v=1&cid="+this.clientId+"&t=event&ec=diff&ea=diff_retrieved&tid=" + this.key;
         this.sendRequest(data);
     }
+    diffLifetimeExtendedSuccessfully() {
+        const data = "v=1&cid="+this.clientId+"&t=event&ec=diff&ea=diff_ttl_extended&tid=" + this.key;
+        this.sendRequest(data);
+    }
 }
 

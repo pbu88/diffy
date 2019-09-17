@@ -32,4 +32,7 @@ export class LogBasedMetrics implements Metrics {
     diffRetrievedSuccessfully() {
         this.logStr('info', "Diff retrieved successfully");
     }
+    diffLifetimeExtendedSuccessfully() {
+        this.logStr('info', "Diff lifetime extended successfully");
+    }
 }

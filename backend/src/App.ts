@@ -22,6 +22,7 @@ import { GetSharedDiffAction } from './v2/GetSharedDiffAction';
 import { CreateSharedDiffAction } from './v2/CreateSharedDiffAction';
 import { CreateSharedDiffAPIAction } from './v2/CreateSharedDiffAPIAction';
 import { DeleteSharedDiffAction } from './v2/DeleteSharedDiffAction';
+import { ExtendLifetimeSharedDiffAction } from './v2/ExtendLifetimeSharedDiffAction';
 import { SharedDiff } from './v2/SharedDiff';
 //import { LogBasedMetrics } from './v2/Metrics/LogBasedMetrics';
 import { GAMetrics } from './v2/Metrics/GAMetrics';
@@ -75,7 +76,6 @@ app.delete('/api/diff/:id', function (req: any, res: any) {
             }
         },
         (err: any) => {
-            console.error(err);
             res.status(400);
             res.send(JSON.stringify({success: false}));
         });
@@ -147,6 +147,27 @@ app.get('/diff_download/:id', function (req: any, res: any) {
         res.setHeader('Content-type', 'text/plain');
         res.send(rawDiff);
     });
+});
+
+app.post('/api/diff/extend/:id', function (req: any, res: any) {
+    var id = req.params.id;
+    const metrics = new GAMetrics(config.GA_ANALITYCS_KEY, req.cookies._ga || config.GA_API_DEFAULT_KEY);
+    const action = new ExtendLifetimeSharedDiffAction(repo, metrics);
+    return action.extendSharedDiffLifetime(id, 24) // extend 24 hours
+        .then((obj: SharedDiff) => {
+            if (!obj.id) {
+                console.warn("new: undefined obj id");
+            }
+            res.send(obj);
+        },
+        (err: any) => {
+            res.status(400);
+            res.send(JSON.stringify({
+                success: false,
+                error: err.message
+            }));
+        }
+    );
 });
 
 app.get('*', function (req: any, res: any) {
