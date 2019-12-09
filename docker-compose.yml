@@ -17,7 +17,7 @@ services:
       - DIFFY_GA_ANALYTICS_KEY=none
     stop_signal: SIGINT
   db:
-    image: mongo:latest
+    image: mongo:4.0.13-xenial
     volumes:
       - ./data:/data/db
     ports:
