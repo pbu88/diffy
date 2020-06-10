@@ -80,16 +80,12 @@ describe('MongoSharedDiff tests', () => {
     const msPerDay = 24 * 60 * 60 * 1000;
     return repo.insert(shared_diff)
         .then((diff) => {
-            console.log(diff);
           expect(diff.expiresAt.getTime() - diff.created.getTime()).toBeLessThan(2 * msPerDay);
           return diff;
         })
         .then(stored_diff => repo.extendLifetime(stored_diff.id, 24))
         .then(
-            (diff) => {
-                console.log(diff);
-                return
-                expect(diff.expiresAt.getTime() - diff.created.getTime())
-                          .toBeGreaterThanOrEqual(2 * msPerDay));};
+            (diff) => expect(diff.expiresAt.getTime() - diff.created.getTime())
+                          .toBeGreaterThanOrEqual(2 * msPerDay));
   });
 });
