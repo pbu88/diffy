@@ -1,8 +1,9 @@
 language: node_js
-node_js:
-  - "9"
 services:
-  - mongodb
+  - docker
 
 before_install:
-  -  cd backend/
+  -  sh tools/rebuild_image.sh
+
+script;
+  - sh tools/run_tests.sh
