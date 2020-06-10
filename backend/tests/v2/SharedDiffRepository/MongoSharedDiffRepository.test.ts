@@ -84,8 +84,9 @@ describe('MongoSharedDiff tests', () => {
           return diff;
         })
         .then(stored_diff => repo.extendLifetime(stored_diff.id, 24))
+        .then(diff => {console.log(diff); return diff})
         .then(
-            (diff) => expect(diff.expiresAt.getTime() - diff.created.getTime())
-                          .toBeGreaterThanOrEqual(2 * msPerDay));
+            diff => expect(diff.expiresAt.getTime() - diff.created.getTime())
+                        .toBeGreaterThanOrEqual(2 * msPerDay));
   });
 });
