@@ -7,14 +7,13 @@ RUN mkdir -p /diffy/frontend
 # Frontend
 COPY ./frontend/package.json /diffy/frontend/
 WORKDIR /diffy/frontend
-RUN npm install
 # Angular stuff (cli and dev)
 RUN npm install -g @angular/cli
 
 # Backend
 COPY ./backend/package.json /diffy/backend/
 WORKDIR /diffy/backend
-RUN npm install
+RUN npm install -g clang-format
 
 # By default expose port 3000 and run `node /diffy/src/app.js` when executing the image
 EXPOSE 3000

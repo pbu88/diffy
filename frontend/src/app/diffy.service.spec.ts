@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { DiffyService } from './diffy.service';
+import {DiffyService} from './diffy.service';
 
 describe('DiffyService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

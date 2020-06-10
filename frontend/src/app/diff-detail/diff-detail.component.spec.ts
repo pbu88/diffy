@@ -1,16 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DiffDetailComponent } from './diff-detail.component';
+import {DiffDetailComponent} from './diff-detail.component';
 
 describe('DiffDetailComponent', () => {
   let component: DiffDetailComponent;
   let fixture: ComponentFixture<DiffDetailComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ DiffDetailComponent ]
-    })
-    .compileComponents();
+    TestBed.configureTestingModule({declarations: [DiffDetailComponent]}).compileComponents();
   }));
 
   beforeEach(() => {

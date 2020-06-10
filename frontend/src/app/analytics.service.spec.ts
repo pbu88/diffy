@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { AnalyticsService } from './analytics.service';
+import {AnalyticsService} from './analytics.service';
 
 describe('AnalyticsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

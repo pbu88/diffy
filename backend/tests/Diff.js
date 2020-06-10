@@ -27,7 +27,7 @@ describe('Diff', () => {
             });
         });
     });
-    
+
     describe('#getRawDiff()', () => {
 
         it('should return the raw diff text', () => {
@@ -37,7 +37,7 @@ describe('Diff', () => {
             });
         });
     });
-    
+
 });
 
 describe('DiffFile', () => {
@@ -55,7 +55,7 @@ describe('DiffFile', () => {
         });
 
     });
-    
+
     describe('#getAddedLines()', () => {
 
         it('should return 1', () => {
@@ -66,7 +66,7 @@ describe('DiffFile', () => {
         });
 
     });
-    
+
     describe('#getNewFileName()', () => {
 
         it('should return package.json', () => {
@@ -77,7 +77,7 @@ describe('DiffFile', () => {
         });
 
     });
-    
+
     describe('#getOldFileName()', () => {
 
         it('should return package.json', () => {

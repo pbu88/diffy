@@ -11,7 +11,7 @@ export function MongoCollection(url, collection) {
          * @return Promise
          */
         connect: function() {
-            return new Promise(function (fulfill, reject) {
+            return new Promise(function(fulfill, reject) {
                 MongoClient.connect(url, function(err, db) {
                     if (err) {
                         return reject(err);
@@ -30,17 +30,17 @@ export function MongoCollection(url, collection) {
                 .then(db => db.collection(collection))
                 .then(collection => collection.insertOne(elem));
         },
-        
+
         getOneById: function(id, callback) {
             return this.connect()
                 .then(db => db.collection(collection))
-                .then(collection => collection.findOne({"_id": id}));
+                .then(collection => collection.findOne({ "_id": id }));
         },
 
         removeById: function(id, callback) {
             return this.connect()
                 .then(db => db.collection(collection))
-                .then(collection => collection.deleteOne({"_id": id}));
+                .then(collection => collection.deleteOne({ "_id": id }));
         },
 
         deleteCollection: function() {

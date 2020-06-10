@@ -1,19 +1,21 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { AlertService }             from '../alert.service';
-import { Alert }                    from '../Alert';
+import {Component, Input, OnInit} from '@angular/core';
+
+import {Alert} from '../Alert';
+import {AlertService} from '../alert.service';
 
 @Component({
-    selector: 'app-highlight',
-    templateUrl: './highlight.component.html',
-    styleUrls: ['./highlight.component.css']
+  selector: 'app-highlight',
+  templateUrl: './highlight.component.html',
+  styleUrls: ['./highlight.component.css']
 })
 export class HighlightComponent implements OnInit {
-    alert: Alert;
+  alert: Alert;
 
-    constructor(private alertService: AlertService) { }
+  constructor(private alertService: AlertService) {}
 
-    ngOnInit() {
-      this.alertService.getMessage()
-          .subscribe(alert => { this.alert = alert; });
-    }
+  ngOnInit() {
+    this.alertService.getMessage().subscribe(alert => {
+      this.alert = alert;
+    });
+  }
 }

@@ -1,16 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { HighlightComponent } from './highlight.component';
+import {HighlightComponent} from './highlight.component';
 
 describe('HighlightComponent', () => {
   let component: HighlightComponent;
   let fixture: ComponentFixture<HighlightComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ HighlightComponent ]
-    })
-    .compileComponents();
+    TestBed.configureTestingModule({declarations: [HighlightComponent]}).compileComponents();
   }));
 
   beforeEach(() => {

@@ -6,11 +6,11 @@
  *
  * */
 
-(function () {
+(function() {
 
     var printerUtils = require('./printerUtils.js').PrinterUtils;
 
-    function FileTree(parent, filename, value){
+    function FileTree(parent, filename, value) {
         this.parent = parent || null;
         this.path = filename || '/';
         this.files = [];
@@ -25,8 +25,8 @@
     FileTree.prototype._getCommonPrefixIndex = function(pathSplit, dirs) {
         var l = Math.min(pathSplit.length, dirs.length);
         var i = 0;
-        for(; i < l; i++){
-            if (pathSplit[i] != dirs[i]){
+        for (; i < l; i++) {
+            if (pathSplit[i] != dirs[i]) {
                 return i;
             }
         }
@@ -82,7 +82,7 @@
             this.files = [];
 
             // If the new subtree is a file
-            if (dirsSuffix == ''){
+            if (dirsSuffix == '') {
                 // Appending the new leaf
                 leaf = this.createLeaf(this, file, value);
                 this.files.push(leaf);
@@ -136,7 +136,7 @@
     FileTree.prototype.printTree = function(tree, level) {
         var space = '';
         var spaceStr = '    ';
-        for(var i=0; i<level; i++) space += spaceStr;
+        for (var i = 0; i < level; i++) space += spaceStr;
         var result = '';
         result += space + '<ul class="tree">\n';
         space = space + spaceStr;
@@ -164,7 +164,7 @@
         }
         result += space + '</li>\n';
         space = '';
-        for(i=0; i<level; i++) space += spaceStr;
+        for (i = 0; i < level; i++) space += spaceStr;
         result += space + '</ul>\n';
         return result;
     };

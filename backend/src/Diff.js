@@ -1,7 +1,7 @@
 var Diff2Html = require('diff2html').Diff2Html;
 var _ = require('lodash');
 
-(function(){
+(function() {
     /**
      * @param string rawDiffString -- the raw diff string
      */
@@ -12,7 +12,7 @@ var _ = require('lodash');
         var diffFiles = _.map(jsonDiff, (jsonDiffFile) => {
             return new DiffFile(jsonDiffFile);
         });
-        
+
         this.diffFiles = diffFiles;
         this.rawDiff = rawDiffString;
 
@@ -24,7 +24,7 @@ var _ = require('lodash');
         Diff.prototype.getFiles = function() {
             return this.diffFiles;
         };
-        
+
         /*
          * @param int n - the index of the file
          * @return DiffFiles - the list of files
@@ -121,21 +121,21 @@ var _ = require('lodash');
         DiffFile.prototype.getDeletedLines = function() {
             return this.deletedLines;
         };
-        
+
         /*
          * @return int
          */
         DiffFile.prototype.getAddedLines = function() {
             return this.addedLines;
         };
-        
+
         /*
          * @return string
          */
         DiffFile.prototype.getNewFileName = function() {
             return this.newFileName;
         };
-        
+
         /*
          * @return string
          */
@@ -144,7 +144,7 @@ var _ = require('lodash');
         };
 
     }
-    
+
 
     module.exports = {
         Diff: Diff,

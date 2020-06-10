@@ -6,17 +6,17 @@ describe('SharedDiff', () => {
     var readDiff = testUtilities
         .readDiffFromFile('tests/testData/file.diff');
 
-        describe('#SharedDiff()', () => {
+    describe('#SharedDiff()', () => {
 
-            it('should set up all the necessary fields', () => {
-                return readDiff.then(diff => {
-                    var sharedDiff = new SharedDiff(diff);
-                    expect(sharedDiff._id).to.exist;
-                    expect(sharedDiff.diff).to.exist;
-                    expect(sharedDiff.diff).to.be.deep.equal(diff);
-                    expect(sharedDiff.createdAt).to.exist;
-                    expect(sharedDiff.expiresAt).to.exist;
-                });
+        it('should set up all the necessary fields', () => {
+            return readDiff.then(diff => {
+                var sharedDiff = new SharedDiff(diff);
+                expect(sharedDiff._id).to.exist;
+                expect(sharedDiff.diff).to.exist;
+                expect(sharedDiff.diff).to.be.deep.equal(diff);
+                expect(sharedDiff.createdAt).to.exist;
+                expect(sharedDiff.expiresAt).to.exist;
             });
         });
+    });
 });

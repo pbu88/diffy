@@ -33,7 +33,7 @@ describe('FileTree', () => {
 
     describe('#insert(\'test.txt\', {<arbitrary object>})', () => {
         var tree = new FileTree();
-        var value = {a: 1};
+        var value = { a: 1 };
         tree.insert('test.txt', value);
         it('path should be the root (/)', () => {
             assert.equal('/', tree.path);
@@ -72,10 +72,10 @@ describe('FileTree', () => {
 
     describe("#insert() multiple times", () => {
         var tree = new FileTree();
-        tree.insert('dir/subdir/subsubdir/file.php', {name: "s/file.php"});
-        tree.insert('dir/subdir/subsubdir/file1.php', {name: "s/file1.php"});
-        tree.insert('dir/subdir/subsubdir1/file.js', {name: "s1/file.php"});
-        tree.insert('dir/subdir/subsubdir1/file1.js', {name: "s1/file1.php"});
+        tree.insert('dir/subdir/subsubdir/file.php', { name: "s/file.php" });
+        tree.insert('dir/subdir/subsubdir/file1.php', { name: "s/file1.php" });
+        tree.insert('dir/subdir/subsubdir1/file.js', { name: "s1/file.php" });
+        tree.insert('dir/subdir/subsubdir1/file1.js', { name: "s1/file1.php" });
         it('root should have one dir', () => {
             assert.equal(1, tree.dirs.length);
         });
@@ -131,7 +131,7 @@ describe('FileTree', () => {
             });
         });
     });
-    
+
     describe("#insert() multiple levels", () => {
         var tree = new FileTree();
         tree.insert('dir/subdir/file.py');
@@ -143,12 +143,12 @@ describe('FileTree', () => {
         tree.insert('dir/subdir/file7.py');
         tree.insert('dir/file8.py');
         tree.insert('dir/subdir/subsubdir/file9.py');
-        
+
         var subtree0 = tree.dirs[0];
         it('subtree must have 3 files on level 0 dir', () => {
             assert.equal(3, subtree0.files.length);
         });
-        
+
         var subtree1 = subtree0.dirs[0];
         it('subtree1 must have 3 files on level 1 dir', () => {
             assert.equal(3, subtree1.files.length);

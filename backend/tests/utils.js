@@ -43,7 +43,7 @@ describe('Utils module', () => {
             };
             expect(Utils.sortByFilenameCriteria(file1, file2)).to.be.equals(1);
         });
-        
+
         it('files with same filename should be equal', () => {
             var file1 = {
                 newName: 'b',
@@ -56,23 +56,23 @@ describe('Utils module', () => {
             expect(Utils.sortByFilenameCriteria(file1, file2)).to.be.equals(0);
         });
     });
-    
+
     describe('#genRandomString()', () => {
         it('should return a string of length greater or equal to 10', () => {
             expect(Utils.genRandomString()).to.have.length.gte(10);
         });
     });
-    
+
     describe('#isObjectEmpty()', () => {
         it('should return true for {}', () => {
             expect(Utils.isObjectEmpty({})).to.be.true;
         });
-        
+
         it('should return false for non empty object', () => {
-            expect(Utils.isObjectEmpty({x:1})).to.be.false;
+            expect(Utils.isObjectEmpty({ x: 1 })).to.be.false;
         });
     });
-    
+
     describe('#exceedsFileSizeLimit()', () => {
         it('should return true for files of size 1000001', () => {
             var file = {
@@ -80,14 +80,14 @@ describe('Utils module', () => {
             };
             expect(Utils.exceedsFileSizeLimit(file)).to.be.true;
         });
-        
+
         it('should return false for files of size 1000000', () => {
             var file = {
                 size: 1000000
             };
             expect(Utils.exceedsFileSizeLimit(file)).to.be.false;
         });
-        
+
         it('should return false for files of size less than 999999', () => {
             var file = {
                 size: 999999

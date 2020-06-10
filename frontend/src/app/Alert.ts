@@ -1,4 +1,3 @@
 export interface Alert {
-    type: String,
-    text: String,
+  type: String, text: String,
 }

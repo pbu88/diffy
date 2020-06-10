@@ -15,23 +15,23 @@ describe('MongoCollection', () => {
 
     describe('#insertOne()', () => {
         it('should insert an element', () => {
-            return mongoCollection.insertOne({test:1})
+            return mongoCollection.insertOne({ test: 1 })
                 .then(res => expect(res.result.ok).to.be.equal(1));
         });
     });
-    
+
     describe('#getOneById()', () => {
         it('should retrieve an element by its id', () => {
-            return mongoCollection.insertOne({test:10})
+            return mongoCollection.insertOne({ test: 10 })
                 .then(res => res.insertedId)
                 .then(id => mongoCollection.getOneById(id))
                 .then(res => expect(res.test).to.be.equal(10));
         });
     });
-    
+
     describe('#removeById()', () => {
         it('should delete an element by its id', () => {
-            return mongoCollection.insertOne({test:10})
+            return mongoCollection.insertOne({ test: 10 })
                 .then(res => res.insertedId)
                 .then(id => mongoCollection.getOneById(id))
                 .then(res => mongoCollection.removeById(res._id))
@@ -39,4 +39,4 @@ describe('MongoCollection', () => {
         });
     });
 });
-    
+

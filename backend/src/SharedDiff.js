@@ -1,6 +1,6 @@
 var Utils = require('./utils').Utils;
 
-(function () {
+(function() {
     /*
      * This is the actual object that will be persisted in the db
      * @param Diff diff

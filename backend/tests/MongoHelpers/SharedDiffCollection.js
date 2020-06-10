@@ -5,7 +5,7 @@ var SharedDiff = require('../../src/SharedDiff');
 var config = require('../../src/config');
 
 describe('SharedDiffMongoCollection', () => {
-    
+
     var URL = config.db_url;
     var COLLECTION = 'shared_diff_test';
     var sharedDiffMongoCollection = SharedDiffMongoCollection(URL, COLLECTION);
@@ -13,7 +13,7 @@ describe('SharedDiffMongoCollection', () => {
     var readSharedDiff = testUtilities
         .readDiffFromFile('tests/testData/file.diff')
         .then(diff => new SharedDiff(diff));
-    
+
     before(() => {
         return sharedDiffMongoCollection.deleteCollection();
     });
