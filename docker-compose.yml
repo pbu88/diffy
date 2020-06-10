@@ -7,8 +7,6 @@ services:
       - 3000:3000
     volumes:
       - .:/diffy
-      - diffy-vol-be:/diffy/backend/node_modules
-      - diffy-vol-fe:/diffy/frontend/node_modules
     links:
       - db
     environment:
@@ -22,6 +20,3 @@ services:
       - ./data:/data/db
     ports:
       - 27017:27017
-volumes:
-  diffy-vol-be:
-  diffy-vol-fe:
