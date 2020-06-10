@@ -1,9 +1,8 @@
-language: node_js
 services:
   - docker
 
 before_install:
   -  sh tools/rebuild_image.sh
 
-script;
+script:
   - sh tools/run_tests.sh
