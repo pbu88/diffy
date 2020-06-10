@@ -19,7 +19,9 @@
     };
 
     Utils.prototype.genRandomString = function() {
-        return (Math.random() + 1).toString(36).substring(2);
+        // A random decimal in the range [0, 1) converted to a base 16 (hexadecimal) string
+        // with the first two chars (0.) removed
+        return (Math.random()).toString(16).substring(2);
     };
 
     Utils.prototype.isObjectEmpty = function(obj) {
