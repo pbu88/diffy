@@ -9,4 +9,5 @@ export const metrics: Metrics = {
   diffFailedToDelete: jest.fn(),
   diffRetrievedSuccessfully: jest.fn(),
   diffLifetimeExtendedSuccessfully: jest.fn(),
+  diffMadePermanentSuccesfully: jest.fn(),
 };

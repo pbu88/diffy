@@ -7,4 +7,5 @@ export interface Metrics {
   diffFailedToDelete: () => void;
   diffRetrievedSuccessfully: () => void;
   diffLifetimeExtendedSuccessfully: () => void;
+  diffMadePermanentSuccesfully: () => void;
 }

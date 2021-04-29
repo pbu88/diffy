@@ -173,6 +173,26 @@ app.post('/api/diff/extend/:id', function(req: any, res: any) {
           });
 });
 
+app.post('/api/diff/makePermanent/:id', function(req: any, res: any) {
+  var id = req.params.id;
+  const metrics =
+      new GAMetrics(config.GA_ANALITYCS_KEY, req.cookies._ga || config.GA_API_DEFAULT_KEY);
+  const action = new ExtendLifetimeSharedDiffAction(repo, metrics);
+  return action
+      .makePermanent(id)
+      .then(
+          (obj: SharedDiff) => {
+            if (!obj.id) {
+              console.warn('new: undefined obj id');
+            }
+            res.send(obj);
+          },
+          (err: any) => {
+            res.status(400);
+            res.send(JSON.stringify({success: false, error: err.message}));
+          });
+});
+
 app.get('*', function(req: any, res: any) {
   res.sendFile(INDEX_FILE);
 });

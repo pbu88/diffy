@@ -19,6 +19,7 @@ index 1456e89..e1da2da 100644
     fetchById: (id: string) => Promise.resolve({id, ...makeSharedDiff(raw_diff)}),
     deleteById: (id: string) => Promise.resolve(0),
     extendLifetime: (id: string, noOfDays: number) => Promise.reject('random err'),
+    makePermanent: (id: string) => Promise.reject('random err'),
   };
   const action = new GetSharedDiffAction(repo, metrics);
   expect(action).toBeDefined();

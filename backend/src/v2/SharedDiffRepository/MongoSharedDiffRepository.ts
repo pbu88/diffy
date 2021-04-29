@@ -4,6 +4,7 @@ import {SharedDiffRepository} from '../SharedDiffRepository';
 const utils = require('../../utils.js').Utils;
 
 const COLLECTION_NAME = 'diffy';  // maybe should be SharedDiff
+const MAX_DIFF_DATE = new Date('9999-01-01');  
 
 export class MongoSharedDiffRepository implements SharedDiffRepository {
   url: string;
@@ -48,6 +49,15 @@ export class MongoSharedDiffRepository implements SharedDiffRepository {
                                        collection => collection.updateOne(
                                            {'_id': id}, {$set: {expiresAt: newExpiredDate}}))})
         .then(updateResult => this.fetchById(id));
+  }
+
+  makePermanent(id: string): Promise<SharedDiff> {
+    return this.client.then(client => client.db(this.db_name))
+      .then(db => db.collection(COLLECTION_NAME))
+      .then(
+        collection => collection.updateOne(
+          { '_id': id }, { $set: { expiresAt: MAX_DIFF_DATE } }))
+      .then(updateResult => this.fetchById(id));
   }
 
   // returns a promise of how many items where

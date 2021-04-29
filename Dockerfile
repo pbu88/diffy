@@ -4,11 +4,13 @@ FROM node:9.5.0
 RUN mkdir -p /diffy/backend
 RUN mkdir -p /diffy/frontend
 
+RUN npm install -g typescript@2.6.2
+# Angular stuff (cli and dev)
+RUN npm install -g @angular/cli@7.0.2
+
 # Frontend
 COPY ./frontend/package.json /diffy/frontend/
 WORKDIR /diffy/frontend
-# Angular stuff (cli and dev)
-RUN npm install -g @angular/cli
 
 # Backend
 COPY ./backend/package.json /diffy/backend/

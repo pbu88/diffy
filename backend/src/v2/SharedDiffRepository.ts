@@ -5,4 +5,5 @@ export interface SharedDiffRepository {
   fetchById: (id: string) => Promise<SharedDiff>;
   deleteById: (id: string) => Promise<number>;
   extendLifetime: (id: string, noOfDays: number) => Promise<SharedDiff>;
+  makePermanent: (id: string) => Promise<SharedDiff>;
 }

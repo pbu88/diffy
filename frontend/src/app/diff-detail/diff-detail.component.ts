@@ -15,6 +15,8 @@ import {Error} from '../types/Error';
   styleUrls: ['./diff-detail.component.css']
 })
 export class DiffDetailComponent implements OnInit {
+  static MAKE_PERMANENT_THRESHOLD = 5 * 24 * 60 * 60 * 1000 - 1;
+
   loading: boolean;
   sharedDiff: SharedDiff;
   fileTree: FileTree;
@@ -47,6 +49,11 @@ export class DiffDetailComponent implements OnInit {
   private getFileName(file) {
     return file.newName == '/dev/null' ? file.oldName : file.newName;
   };
+
+  shouldDisplayMakePermanent(): boolean {
+    const dateDiff = this.sharedDiff.expiresAt.getTime() - this.sharedDiff.created.getTime();
+    return dateDiff > DiffDetailComponent.MAKE_PERMANENT_THRESHOLD;
+  }
 
   getFileSelectorFn() {
     if (!this.fileSelectorFn) {
@@ -92,7 +99,7 @@ export class DiffDetailComponent implements OnInit {
     };
   }
 
-  getExtendLifetime() {
+  getExtendLifetimeFn() {
     return () => {
       this.diffyService.extendLifetime(this.currentId)
           .subscribe(
@@ -102,6 +109,20 @@ export class DiffDetailComponent implements OnInit {
               },
               (error: Error) => {
                 this.alertService.error(':-( Error while extending diff: ' + error.text, true);
+              });
+    };
+  }
+
+  getMakePermanentDiffFn(): (email: string) => void {
+    return () => {
+      this.diffyService.makePermanent(this.currentId)
+          .subscribe(
+              diffy => {
+                this.sharedDiff = makeSharedDiff(diffy.rawDiff, new Date(diffy.created));
+                this.sharedDiff.expiresAt = new Date(diffy.expiresAt);
+              },
+              (error: Error) => {
+                this.alertService.error(':-( Error while making diff permanent: ' + error.text, true);
               });
     };
   }

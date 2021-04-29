@@ -46,7 +46,8 @@ export class HomePageComponent implements OnInit {
     let file = (fileInput.target as any).files[0];
     let reader = new FileReader();
     reader.onload = (e) => {
-      this.diffText = (e.target as any).result this.submitDiff();
+      this.diffText = (e.target as any).result;
+      this.submitDiff();
     };
     reader.readAsText(file);
   }

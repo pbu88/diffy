@@ -7,7 +7,10 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class DiffDetailCountdownComponent implements OnInit {
   @Input() expiresAt: string;
+  @Input() displayMakePermanent: boolean;
   @Input() _extendLifetime: () => void;
+  @Input() _makePermanent: () => void;
+  @Input() diffEmail: string;
   hours: number;
   minutes: number;
   seconds: number;
@@ -37,5 +40,9 @@ export class DiffDetailCountdownComponent implements OnInit {
 
   extendLifetime() {
     this._extendLifetime();
+  }
+
+  makePermanent() {
+    this._makePermanent();
   }
 }

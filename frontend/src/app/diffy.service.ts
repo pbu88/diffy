@@ -1,10 +1,7 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Diff2Html} from 'diff2html';
-import {Observable, of, throwError} from 'rxjs';
-import {catchError, map, tap} from 'rxjs/operators';
-
-import {SharedDiff} from './SharedDiff';
+import {Observable, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
 import {Error} from './types/Error';
 
 // var diff2html = require('diff2html');
@@ -17,17 +14,6 @@ export class DiffyService {
   private idCount = 1;
 
   constructor(private http: HttpClient) {}
-
-  private makeSharedDiff(raw_diff: string, date: Date = new Date()): SharedDiff {
-    let expire_date = new Date();
-    expire_date.setDate(date.getDate() + 1);
-    return {
-      created: date,
-      expiresAt: expire_date,
-      diff: Diff2Html.getJsonFromDiff(raw_diff),
-      rawDiff: raw_diff,
-    };
-  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
@@ -69,6 +55,15 @@ export class DiffyService {
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
 
     return this.http.post(this.diffyUrl + 'extend/' + id, httpOptions)
+        .pipe(catchError(this.handleError('extendLifetimeDiff', null)));
+  }
+
+  makePermanent(id: string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'}),
+    };
+
+    return this.http.post(this.diffyUrl + 'makePermanent/' + id, httpOptions,)
         .pipe(catchError(this.handleError('extendLifetimeDiff', null)));
   }
 

@@ -21,6 +21,7 @@ index 1456e89..e1da2da 100644
     fetchById: (id: string) => null,
     deleteById: (id: string) => Promise.resolve(0),
     extendLifetime: jest.fn(diff => Promise.resolve(diff)),
+    makePermanent: jest.fn(diff => Promise.resolve(diff)),
   };
   const action = new CreateSharedDiffAPIAction(repo, metrics);
   expect(action).toBeDefined();
@@ -49,6 +50,7 @@ index 1456e89..e1da2da 100644
     fetchById: (id: string) => null,
     deleteById: (id: string) => Promise.resolve(0),
     extendLifetime: jest.fn(diff => Promise.reject('random err')),
+    makePermanent: jest.fn(diff => Promise.resolve(diff)),
   };
   const action = new CreateSharedDiffAPIAction(repo, metrics);
   expect(action).toBeDefined();

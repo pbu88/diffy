@@ -26,4 +26,13 @@ export class ExtendLifetimeSharedDiffAction {
           return result;
         });
   }
+
+  makePermanent(diff_id: string): Promise<SharedDiff> {
+    return this.repository.fetchById(diff_id)
+        .then(() => this.repository.makePermanent(diff_id))
+        .then(result => {
+          this.metrics.diffMadePermanentSuccesfully();
+          return result;
+        });
+  }
 }

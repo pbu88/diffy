@@ -66,4 +66,11 @@ export class GAMetrics implements Metrics {
         'v=1&cid=' + this.clientId + '&t=event&ec=diff&ea=diff_ttl_extended&tid=' + this.key;
     this.sendRequest(data);
   }
+
+  diffMadePermanentSuccesfully() {
+    const data =
+        'v=1&cid=' + this.clientId + '&t=event&ec=diff&ea=diff_made_permanent&tid=' + this.key;
+    this.sendRequest(data);
+  }
+  
 }
