@@ -1,7 +1,7 @@
 var config = require('../../../src/config');
 
-import {makeSharedDiff} from '../../../src/v2/SharedDiff';
-import {MongoSharedDiffRepository} from '../../../src/v2/SharedDiffRepository/MongoSharedDiffRepository';
+import { makeSharedDiff } from '../../../src/v2/SharedDiff';
+import { MongoSharedDiffRepository } from '../../../src/v2/SharedDiffRepository/MongoSharedDiffRepository';
 
 describe('MongoSharedDiff tests', () => {
   let repo: MongoSharedDiffRepository = null;
@@ -28,7 +28,12 @@ describe('MongoSharedDiff tests', () => {
             `
     const shared_diff = makeSharedDiff(raw_diff);
     expect(repo).toBeDefined();
-    return repo.insert(shared_diff).then(stored_diff => expect(stored_diff.id).toBeDefined());
+    return repo.insert(shared_diff).then(stored_diff => {
+      expect(stored_diff.id).toBeDefined()
+      expect(stored_diff.rawDiff).toBeDefined()
+      expect(stored_diff.diff).toBeDefined()
+      expect(stored_diff.diff).toHaveLength(0) // apparently the parsed diff is empty
+    });
   });
 
   test('Mongo test: fetch a SharedDiff', () => {
@@ -43,11 +48,11 @@ describe('MongoSharedDiff tests', () => {
             `
     const shared_diff = makeSharedDiff(raw_diff);
     return repo.insert(shared_diff)
-        .then(stored_diff => repo.fetchById(stored_diff.id))
-        .then(shared_diff => {
-          expect(shared_diff.id).toBeDefined()
-          expect(shared_diff.rawDiff).toEqual(raw_diff);
-        });
+      .then(stored_diff => repo.fetchById(stored_diff.id))
+      .then(shared_diff => {
+        expect(shared_diff.id).toBeDefined()
+        expect(shared_diff.rawDiff).toEqual(raw_diff);
+      });
   });
 
   test('Mongo test: delete a SharedDiff', () => {
@@ -62,8 +67,8 @@ describe('MongoSharedDiff tests', () => {
             `
     const shared_diff = makeSharedDiff(raw_diff);
     return repo.insert(shared_diff)
-        .then(stored_diff => repo.deleteById(stored_diff.id))
-        .then(deletedCount => expect(deletedCount).toEqual(1));
+      .then(stored_diff => repo.deleteById(stored_diff.id))
+      .then(deletedCount => expect(deletedCount).toEqual(1));
   });
 
   test('Mongo test: extend lifetime of a SharedDiff', () => {
@@ -79,13 +84,13 @@ describe('MongoSharedDiff tests', () => {
     const shared_diff = makeSharedDiff(raw_diff);
     const msPerDay = 24 * 60 * 60 * 1000;
     return repo.insert(shared_diff)
-        .then((diff) => {
-          expect(diff.expiresAt.getTime() - diff.created.getTime()).toBeLessThan(2 * msPerDay);
-          return diff;
-        })
-        .then(stored_diff => repo.extendLifetime(stored_diff.id, 24))
-        .then(
-            (diff) => expect(diff.expiresAt.getTime() - diff.created.getTime())
-                          .toBeGreaterThanOrEqual(2 * msPerDay));
+      .then((diff) => {
+        expect(diff.expiresAt.getTime() - diff.created.getTime()).toBeLessThan(2 * msPerDay);
+        return diff;
+      })
+      .then(stored_diff => repo.extendLifetime(stored_diff.id, 24))
+      .then(
+        (diff) => expect(diff.expiresAt.getTime() - diff.created.getTime())
+          .toBeGreaterThanOrEqual(2 * msPerDay));
   });
 });

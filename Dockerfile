@@ -1,4 +1,4 @@
-FROM node:9.5.0
+FROM node:16.7.0
 
 # Create a /diffy directory that will contain the application's code
 RUN mkdir -p /diffy/backend

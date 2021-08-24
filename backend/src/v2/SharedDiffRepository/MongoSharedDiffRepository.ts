@@ -1,5 +1,5 @@
 import mongodb = require('mongodb');
-import {SharedDiff} from '../SharedDiff';
+import {makeSharedDiffWithId, SharedDiff} from '../SharedDiff';
 import {SharedDiffRepository} from '../SharedDiffRepository';
 const utils = require('../../utils.js').Utils;
 
@@ -36,7 +36,7 @@ export class MongoSharedDiffRepository implements SharedDiffRepository {
     return this.client.then(client => client.db(this.db_name))
         .then(db => db.collection(COLLECTION_NAME))
         .then(collection => collection.findOne({'_id': id}))
-        .then(doc => ({id: doc._id, ...doc}));
+        .then(doc => makeSharedDiffWithId(doc._id, doc.rawDiff, doc.created, doc.expiresAt));
   }
 
   extendLifetime(id: string, hours: number): Promise<SharedDiff> {
