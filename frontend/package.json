@@ -20,7 +20,7 @@
     "@angular/platform-browser-dynamic": "~12.2.2",
     "@angular/router": "~12.2.2",
     "core-js": "^2.5.4",
-    "diff2html": "^2.4.0",
+    "diff2html": "3.4.9",
     "path": "^0.12.7",
     "rxjs": "~6.6.7",
     "zone.js": "~0.11.4"
@@ -28,7 +28,6 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.2.2",
     "@angular/cli": "~12.2.2",
-    "@types/diff2html": "0.0.4",
     "@angular/compiler-cli": "~12.2.2",
     "@angular/language-service": "~12.2.2",
     "@types/jasmine": "~2.8.8",

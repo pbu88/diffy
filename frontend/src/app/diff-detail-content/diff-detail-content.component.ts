@@ -1,9 +1,14 @@
-import {Component, Input, OnChanges} from '@angular/core';
-import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
-import {Diff2Html} from 'diff2html';
+import { Component, Input, OnChanges } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import * as Diff2Html from 'diff2html';
 
-import {printerUtils} from '../diff-detail/printer-utils';
-import {SharedDiff} from '../SharedDiff';
+import { printerUtils } from '../diff-detail/printer-utils';
+import { SharedDiff } from '../SharedDiff';
+
+const DIFF2HTML_RENDER_CONFIG: Diff2Html.Diff2HtmlConfig = {
+  drawFileList: false,
+  matching: 'lines',
+};
 
 @Component({
   selector: 'app-diff-detail-content',
@@ -15,7 +20,7 @@ export class DiffDetailContentComponent implements OnChanges {
   @Input() fileToRender: string;
   diffContent: SafeHtml;
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer) { }
 
   ngOnChanges(changes: any) {
     this.diffContent = this.sanitizer.bypassSecurityTrustHtml(this.renderDiff());
@@ -23,9 +28,11 @@ export class DiffDetailContentComponent implements OnChanges {
 
   renderDiff(): string {
     if (this.fileToRender) {
-      return Diff2Html.getPrettyHtmlFromJson(this.sharedDiff.diff.filter(
-          fileContent => printerUtils.getHtmlId(fileContent) == this.fileToRender));
+      return Diff2Html.html(
+        this.sharedDiff.diff.filter(
+          fileContent => printerUtils.getHtmlId(fileContent) == this.fileToRender),
+        DIFF2HTML_RENDER_CONFIG);
     }
-    return Diff2Html.getPrettyHtmlFromJson([this.sharedDiff.diff[0]]);
+    return Diff2Html.html([this.sharedDiff.diff[0]], DIFF2HTML_RENDER_CONFIG);
   }
 }

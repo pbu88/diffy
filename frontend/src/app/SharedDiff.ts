@@ -1,11 +1,12 @@
-import { Diff2Html } from 'diff2html';
+import { DiffFile } from 'diff2html/lib/types';
+import * as Diff2Html from 'diff2html';
 const DIFF_MAX_DATE = new Date('9999-01-01');
 
 export interface SharedDiff {
   id?: string,
   created: Date,
   expiresAt: Date,
-  diff: Diff2Html.Result[],
+  diff: DiffFile[],
   rawDiff: string,
   isPermanent: () => boolean
 }
@@ -17,7 +18,7 @@ export function makeSharedDiff(raw_diff: string, date: Date = new Date()): Share
   return {
     created: date,
     expiresAt: expire_date,
-    diff: Diff2Html.getJsonFromDiff(raw_diff),
+    diff: Diff2Html.parse(raw_diff),
     rawDiff: raw_diff,
     isPermanent: function() {
       return this.expiresAt >= DIFF_MAX_DATE;
