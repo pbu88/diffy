@@ -1,7 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var utils = require('./utils.js').Utils;
-var mongoUtils = require('./mongoUtils.js');
 var multer = require('multer');
 var flash = require('connect-flash');
 var cookieParser = require('cookie-parser');
@@ -14,6 +13,7 @@ const PROJECT_ROOT = path.join(__dirname + '/../../../');
 const STATICS_FOLDER = path.join(PROJECT_ROOT, 'frontend/dist/ngdiffy');
 const INDEX_FILE = path.join(PROJECT_ROOT + '/frontend/dist/ngdiffy/index.html');
 
+import * as mongoUtils from './mongoUtils';
 import {MongoSharedDiffRepository} from './v2/SharedDiffRepository/MongoSharedDiffRepository';
 import {GetSharedDiffAction} from './v2/GetSharedDiffAction';
 import {CreateSharedDiffAction} from './v2/CreateSharedDiffAction';
@@ -136,7 +136,7 @@ app.put('/api/diff', function(req: any, res: any) {
 
 app.get('/diff_download/:id', function(req: any, res: any) {
   var id = req.params.id;
-  mongoUtils.getDiffById(id, function(row: any) {
+  mongoUtils.getDiffById(id, function(row) {
     if (row === null) {
       res.status(404);
       res.send(
