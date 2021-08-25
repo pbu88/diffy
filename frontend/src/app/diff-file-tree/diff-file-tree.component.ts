@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-import {printerUtils} from '../diff-detail/printer-utils.js';
+import {printerUtils} from '../diff-detail/printer-utils';
 import {FileTree} from '../diff-detail/tree-functions';
 
 @Component({

@@ -6,7 +6,7 @@
  *
  * */
 
-import {printerUtils} from './printer-utils.js';
+import {printerUtils} from './printer-utils';
 
 
 export class FileTree {

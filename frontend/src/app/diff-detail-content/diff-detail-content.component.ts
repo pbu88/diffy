@@ -2,7 +2,7 @@ import {Component, Input, OnChanges} from '@angular/core';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {Diff2Html} from 'diff2html';
 
-import {printerUtils} from '../diff-detail/printer-utils.js';
+import {printerUtils} from '../diff-detail/printer-utils';
 import {SharedDiff} from '../SharedDiff';
 
 @Component({
