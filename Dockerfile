@@ -9,12 +9,16 @@ RUN npm install -g typescript@4.3.5
 RUN npm install -g @angular/cli@12.2.2
 
 # Frontend
-COPY ./frontend/package.json /diffy/frontend/
+COPY ./frontend/ /diffy/frontend/
 WORKDIR /diffy/frontend
+RUN npm install --legacy-peer-deps
+RUN npm run-script build
 
 # Backend
-COPY ./backend/package.json /diffy/backend/
+COPY ./backend/ /diffy/backend/
 WORKDIR /diffy/backend
+RUN npm install
+RUN npm run-script build
 
 # By default expose port 3000 and run `node /diffy/src/app.js` when executing the image
 EXPOSE 3000
