@@ -1,6 +1,6 @@
 import {CreateSharedDiffAPIAction} from '../../src/v2/CreateSharedDiffAPIAction';
-import {SharedDiff} from '../../src/v2/SharedDiff';
 import {SharedDiffRepository} from '../../src/v2/SharedDiffRepository';
+import {SharedDiff} from '../../src/v2/SharedDiff';
 
 import {metrics} from './MockedMetrics';
 
@@ -21,7 +21,7 @@ index 1456e89..e1da2da 100644
     fetchById: (id: string) => null,
     deleteById: (id: string) => Promise.resolve(0),
     extendLifetime: jest.fn(diff => Promise.resolve(diff)),
-    makePermanent: jest.fn(diff => Promise.resolve(diff)),
+    update: (diff: SharedDiff) => Promise.reject('random err'),
   };
   const action = new CreateSharedDiffAPIAction(repo, metrics);
   expect(action).toBeDefined();
@@ -50,7 +50,7 @@ index 1456e89..e1da2da 100644
     fetchById: (id: string) => null,
     deleteById: (id: string) => Promise.resolve(0),
     extendLifetime: jest.fn(diff => Promise.reject('random err')),
-    makePermanent: jest.fn(diff => Promise.resolve(diff)),
+    update: (diff: SharedDiff) => Promise.resolve(diff),
   };
   const action = new CreateSharedDiffAPIAction(repo, metrics);
   expect(action).toBeDefined();

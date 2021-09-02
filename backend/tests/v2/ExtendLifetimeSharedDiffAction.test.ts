@@ -1,6 +1,7 @@
 import { ExtendLifetimeSharedDiffAction } from '../../src/v2/ExtendLifetimeSharedDiffAction';
 import { makeSharedDiff } from '../../src/v2/SharedDiff';
 import { SharedDiffRepository } from '../../src/v2/SharedDiffRepository';
+import {SharedDiff} from '../../src/v2/SharedDiff';
 jest.mock('../../src/v2/SharedDiffRepository');
 
 import { metrics } from './MockedMetrics';
@@ -19,13 +20,14 @@ const repo: SharedDiffRepository = {
   fetchById: (id: string) => Promise.resolve({ id, ...makeSharedDiff(raw_diff) }),
   deleteById: (id: string) => Promise.resolve(0),
   extendLifetime: (id: string, noOfDays: number) => Promise.reject('random err'),
-  makePermanent: jest.fn()
+  update: (diff: SharedDiff) => Promise.resolve(diff),
 };
 
 test('should make a diff permanent', () => {
+  const spy = jest.spyOn(repo, "update");
   const action = new ExtendLifetimeSharedDiffAction(repo, metrics);
-  action.makePermanent("1").then(diff => {
-    expect((repo.makePermanent as any).mock.calls.length).toBe(1);
-    expect((repo.makePermanent as any).mock.calls[0][0]).toBe("1");
-  })
+  return action.makePermanent("1").then(diff => {
+    expect(spy).toHaveBeenCalled();
+    expect(diff.expiresAt.getFullYear()).toBe(9999);
+  });
 });

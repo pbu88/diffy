@@ -1,6 +1,8 @@
 import * as Diff2Html from 'diff2html';
 import { DiffFile } from 'diff2html/lib/types';
 
+const MAX_DIFF_DATE = new Date('9999-01-01');  
+
 export interface SharedDiff {
   id?: string,
   created: Date,
@@ -12,6 +14,15 @@ export interface SharedDiff {
 export function makeSharedDiff(raw_diff: string, createdDate: Date = new Date()): SharedDiff {
   const expireDate = calculateExpireDate(createdDate)
   return makeSharedDiffWithId(null, raw_diff, createdDate, expireDate)
+}
+
+/**
+ * Returns a new SharedDiff with the expiresAt set at {@link MAX_DIFF_DATE}
+ * @param diff - a shared diff
+ * @returns a new SharedDiff
+ */
+export function makePermanent(diff: SharedDiff): SharedDiff {
+  return {...diff, expiresAt: MAX_DIFF_DATE }
 }
 
 export function makeSharedDiffWithId(id: string, raw_diff: string, createdDate: Date, expireDate: Date): SharedDiff {

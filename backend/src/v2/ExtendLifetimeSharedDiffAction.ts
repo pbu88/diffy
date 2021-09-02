@@ -1,5 +1,5 @@
 import {Metrics} from './Metrics';
-import {SharedDiff} from './SharedDiff';
+import {SharedDiff, makePermanent} from './SharedDiff';
 import {SharedDiffRepository} from './SharedDiffRepository';
 
 export class ExtendLifetimeSharedDiffAction {
@@ -29,7 +29,8 @@ export class ExtendLifetimeSharedDiffAction {
 
   makePermanent(diff_id: string): Promise<SharedDiff> {
     return this.repository.fetchById(diff_id)
-        .then(() => this.repository.makePermanent(diff_id))
+        .then(diff => makePermanent(diff))
+        .then(diff => this.repository.update(diff))
         .then(result => {
           this.metrics.diffMadePermanentSuccesfully();
           return result;
