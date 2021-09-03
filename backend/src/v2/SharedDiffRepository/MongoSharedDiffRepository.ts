@@ -4,7 +4,6 @@ import {SharedDiffRepository} from '../SharedDiffRepository';
 const utils = require('../../utils.js').Utils;
 
 const COLLECTION_NAME = 'diffy';  // maybe should be SharedDiff
-const MAX_DIFF_DATE = new Date('9999-01-01');  
 
 export class MongoSharedDiffRepository implements SharedDiffRepository {
   url: string;

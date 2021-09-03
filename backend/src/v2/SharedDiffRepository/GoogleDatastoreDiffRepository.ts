@@ -6,7 +6,6 @@ import { SharedDiffRepository } from '../SharedDiffRepository';
 const utils = require('../../utils.js').Utils;
 
 const ENTITY_NAME = 'diffy';  // maybe should be SharedDiff
-const MAX_DIFF_DATE = new Date('9999-01-01');
 
 export class GoogleDatastoreDiffRepository implements SharedDiffRepository {
   datastore: Datastore;
@@ -24,18 +23,33 @@ export class GoogleDatastoreDiffRepository implements SharedDiffRepository {
       expiresAt: diff.expiresAt
     }
     return this.datastore.save({
-      key: this.datastore.key("diffy"),
-      data: row
+      key: this.datastore.key([ENTITY_NAME, url_id]),
+      data: row,
+      excludeFromIndexes: [
+        'rawDiff', // important, otherwise google fails saying that is longer than 1500 bytes
+      ],
     }).then(_ => ({ ...diff, id: url_id }));
   }
 
   update(diff: SharedDiff): Promise<SharedDiff> {
-    return null;
+    const row = {
+      url_id: diff.id,
+      rawDiff: diff.rawDiff,
+      created: diff.created,
+      expiresAt: diff.expiresAt
+    }
+    return this.datastore.save({
+      key: this.datastore.key([ENTITY_NAME, diff.id]),
+      data: row,
+      excludeFromIndexes: [
+        'rawDiff', // important, otherwise google fails saying that is longer than 1500 bytes
+      ],
+    }).then(_ => (diff));
   }
 
   fetchById(id: string): Promise<SharedDiff> {
-    const query = this.datastore.createQuery("diffy")
-      .filter("url_id",  "=", id)
+    const query = this.datastore.createQuery(ENTITY_NAME)
+      .filter("url_id", "=", id)
       .limit(1);
     return this.datastore.runQuery(query)
       .then(diffys => diffys[0][0])
@@ -45,6 +59,8 @@ export class GoogleDatastoreDiffRepository implements SharedDiffRepository {
   // returns a promise of how many items where
   // deleted
   deleteById(id: string): Promise<number> {
-    return null;
+    // can't seem to figure out how get the number of deletions from google datastore
+    return this.datastore.delete(this.datastore.key(["diffy", id]))
+      .then(() => 1);
   }
 }

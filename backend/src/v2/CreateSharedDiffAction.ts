@@ -28,7 +28,7 @@ export class CreateSharedDiffAction {
             },
             error => {
               this.registerFailedCreation();
-              return error
+              return Promise.reject(error)
             })
   }
 
