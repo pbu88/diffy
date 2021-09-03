@@ -20,7 +20,6 @@ index 1456e89..e1da2da 100644
     insert: jest.fn(diff => Promise.resolve(diff)),
     fetchById: (id: string) => null,
     deleteById: (id: string) => Promise.resolve(0),
-    extendLifetime: (id: string, noOfDays: number) => Promise.reject('random err'),
     update: (diff: SharedDiff) => Promise.reject('random err'),
   };
   const action = new CreateSharedDiffAction(repo, metrics);
@@ -49,7 +48,6 @@ index 1456e89..e1da2da 100644
     insert: jest.fn((diff) => Promise.reject(new Error('fake error'))),
     fetchById: (id: string) => null,
     deleteById: (id: string) => Promise.resolve(0),
-    extendLifetime: (id: string, noOfDays: number) => Promise.reject('random err'),
     update: (diff: SharedDiff) => Promise.reject('random err'),
   };
   const action = new CreateSharedDiffAction(repo, metrics);
@@ -78,7 +76,6 @@ index 1456e89..e1da2da 100644
     insert: jest.fn().mockReturnValueOnce(new Promise(() => {})),
     fetchById: (id: string) => null,
     deleteById: (id: string) => Promise.resolve(0),
-    extendLifetime: (id: string, noOfDays: number) => Promise.reject('random err'),
     update: (diff: SharedDiff) => Promise.reject('random err'),
   };
   const action = new CreateSharedDiffAction(repo, metrics);

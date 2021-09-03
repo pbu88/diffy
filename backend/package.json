@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/datastore": "6.5.0",
     "asap": "^2.0.6",
     "body-parser": "^1.13.3",
     "connect-flash": "^0.1.1",

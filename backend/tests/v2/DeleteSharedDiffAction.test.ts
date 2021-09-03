@@ -9,7 +9,6 @@ test('should create a DeleteSharedDiffAction and delete a SharedDiff by id', () 
     insert: jest.fn(),
     fetchById: jest.fn(),
     deleteById: (id: string) => Promise.resolve(1),
-    extendLifetime: (id: string, noOfDays: number) => Promise.reject('random err'),
     update: (diff: SharedDiff) => Promise.reject('random err'),
   };
   const action = new DeleteSharedDiffAction(repo, metrics);

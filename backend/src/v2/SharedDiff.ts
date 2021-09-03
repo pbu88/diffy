@@ -1,7 +1,7 @@
 import * as Diff2Html from 'diff2html';
 import { DiffFile } from 'diff2html/lib/types';
 
-const MAX_DIFF_DATE = new Date('9999-01-01');  
+const MAX_DIFF_DATE = new Date('9999-01-01');
 
 export interface SharedDiff {
   id?: string,
@@ -19,10 +19,21 @@ export function makeSharedDiff(raw_diff: string, createdDate: Date = new Date())
 /**
  * Returns a new SharedDiff with the expiresAt set at {@link MAX_DIFF_DATE}
  * @param diff - a shared diff
- * @returns a new SharedDiff
+ * @returns - a new SharedDiff
  */
 export function makePermanent(diff: SharedDiff): SharedDiff {
-  return {...diff, expiresAt: MAX_DIFF_DATE }
+  return { ...diff, expiresAt: MAX_DIFF_DATE }
+}
+
+/**
+ * Returns a new SharedDiff with a expiresAt date set to further in the future (by number of hours).
+ * @param diff - a shared diff
+ * @param hours - the number of hours by which to extend the expire time date
+ * @returns - a new SharedDiff with the expiresAt date changed
+ */
+export function extendLifetime(diff: SharedDiff, hours: number): SharedDiff {
+  const newDate = new Date(diff.expiresAt.getTime() + (hours * 60 * 60 * 1000));
+  return { ...diff, expiresAt: newDate }
 }
 
 export function makeSharedDiffWithId(id: string, raw_diff: string, createdDate: Date, expireDate: Date): SharedDiff {

@@ -15,11 +15,11 @@ index 1456e89..e1da2da 100644
 -a
 +b
 `
+const DIFF = makeSharedDiff(raw_diff);
 const repo: SharedDiffRepository = {
   insert: jest.fn(),
-  fetchById: (id: string) => Promise.resolve({ id, ...makeSharedDiff(raw_diff) }),
+  fetchById: (id: string) => Promise.resolve({ id, ...DIFF }),
   deleteById: (id: string) => Promise.resolve(0),
-  extendLifetime: (id: string, noOfDays: number) => Promise.reject('random err'),
   update: (diff: SharedDiff) => Promise.resolve(diff),
 };
 
@@ -29,5 +29,14 @@ test('should make a diff permanent', () => {
   return action.makePermanent("1").then(diff => {
     expect(spy).toHaveBeenCalled();
     expect(diff.expiresAt.getFullYear()).toBe(9999);
+  });
+});
+
+test('should extend the diff lifetime', () => {
+  const spy = jest.spyOn(repo, "update");
+  const action = new ExtendLifetimeSharedDiffAction(repo, metrics);
+  return action.extendSharedDiffLifetime("1", 24).then(diff => {
+    expect(spy).toHaveBeenCalled();
+    expect(diff.expiresAt.getTime()).toBeGreaterThan(DIFF.expiresAt.getTime());
   });
 });

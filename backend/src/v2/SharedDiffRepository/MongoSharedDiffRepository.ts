@@ -47,18 +47,6 @@ export class MongoSharedDiffRepository implements SharedDiffRepository {
         .then(doc => makeSharedDiffWithId(doc._id, doc.rawDiff, doc.created, doc.expiresAt));
   }
 
-  extendLifetime(id: string, hours: number): Promise<SharedDiff> {
-    return this.fetchById(id)
-        .then(sharedDiff => new Date(sharedDiff.expiresAt.getTime() + (hours * 60 * 60 * 1000)))
-        .then(
-            newExpiredDate => {this.client.then(client => client.db(this.db_name))
-                                   .then(db => db.collection(COLLECTION_NAME))
-                                   .then(
-                                       collection => collection.updateOne(
-                                           {'_id': id}, {$set: {expiresAt: newExpiredDate}}))})
-        .then(updateResult => this.fetchById(id));
-  }
-
   // returns a promise of how many items where
   // deleted
   deleteById(id: string): Promise<number> {
