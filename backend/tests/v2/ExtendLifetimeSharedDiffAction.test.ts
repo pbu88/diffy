@@ -21,6 +21,7 @@ const repo: SharedDiffRepository = {
   fetchById: (id: string) => Promise.resolve({ id, ...DIFF }),
   deleteById: (id: string) => Promise.resolve(0),
   update: (diff: SharedDiff) => Promise.resolve(diff),
+  deleteExpired: jest.fn(),
 };
 
 test('should make a diff permanent', () => {

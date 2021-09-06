@@ -54,4 +54,11 @@ export class MongoSharedDiffRepository implements SharedDiffRepository {
         .then(collection => collection.deleteOne({'_id': id}))
         .then(result => result.deletedCount);
   }
+
+  deleteExpired(): Promise<boolean> {
+    return this.client.then(client => client.db(this.db_name))
+      .then(db => db.collection(COLLECTION_NAME))
+      .then(collection => collection.deleteMany({ expiresAt: { '$lte': new Date } }))
+      .then(result => { return true; /* success, TODO: add metrics in the future */ })
+  }
 }

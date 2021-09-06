@@ -21,6 +21,7 @@ index 1456e89..e1da2da 100644
     fetchById: (id: string) => null,
     deleteById: (id: string) => Promise.resolve(0),
     update: (diff: SharedDiff) => Promise.reject('random err'),
+    deleteExpired: jest.fn(),
   };
   const action = new CreateSharedDiffAction(repo, metrics);
   expect(action).toBeDefined();
@@ -49,6 +50,7 @@ index 1456e89..e1da2da 100644
     fetchById: (id: string) => null,
     deleteById: (id: string) => Promise.resolve(0),
     update: (diff: SharedDiff) => Promise.reject('random err'),
+    deleteExpired: jest.fn(),
   };
   const action = new CreateSharedDiffAction(repo, metrics);
   expect(action).toBeDefined();
@@ -77,6 +79,7 @@ index 1456e89..e1da2da 100644
     fetchById: (id: string) => null,
     deleteById: (id: string) => Promise.resolve(0),
     update: (diff: SharedDiff) => Promise.reject('random err'),
+    deleteExpired: jest.fn(),
   };
   const action = new CreateSharedDiffAction(repo, metrics);
   const is_valid = action.isValidRawDiff(raw_diff);

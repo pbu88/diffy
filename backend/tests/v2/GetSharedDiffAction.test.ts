@@ -19,6 +19,7 @@ index 1456e89..e1da2da 100644
     fetchById: (id: string) => Promise.resolve({...makeSharedDiff(raw_diff), id}),
     deleteById: (id: string) => Promise.resolve(0),
     update: (diff: SharedDiff) => Promise.reject('random err'),
+    deleteExpired: jest.fn(),
   };
   const action = new GetSharedDiffAction(repo, metrics);
   expect(action).toBeDefined();

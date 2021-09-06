@@ -31,6 +31,11 @@ export class GoogleDatastoreDiffRepository implements SharedDiffRepository {
     }).then(_ => ({ ...diff, id: url_id }));
   }
 
+  /**
+   * This method is more of an upsert really, it will update or inster if it doesn't exist.
+   * @param diff - data to be updated
+   * @returns 
+   */
   update(diff: SharedDiff): Promise<SharedDiff> {
     const row = {
       url_id: diff.id,
@@ -62,5 +67,15 @@ export class GoogleDatastoreDiffRepository implements SharedDiffRepository {
     // can't seem to figure out how get the number of deletions from google datastore
     return this.datastore.delete(this.datastore.key(["diffy", id]))
       .then(() => 1);
+  }
+
+  deleteExpired(): Promise<boolean> {
+    const query = this.datastore.createQuery(ENTITY_NAME)
+      .filter("expiresAt", ">", new Date())
+    return this.datastore.runQuery(query)
+      .then(diffys => diffys[0])
+      .then(expiredDiffys => {
+        return this.datastore.delete(expiredDiffys.map(d => d[this.datastore.KEY]));
+      }).then(r => true);
   }
 }
