@@ -34,9 +34,12 @@ export class MongoSharedDiffRepository implements SharedDiffRepository {
   update(diff: SharedDiff): Promise<SharedDiff> {
     return this.client.then(client => client.db(this.db_name))
         .then(db => db.collection(COLLECTION_NAME))
-        .then(collection => collection.insertOne({...diff, _id: new mongodb.ObjectId(diff.id)}))
-        .then(result => result.insertedId.toString())
-        .then(id => ({...diff, id}));
+        .then(collection => collection.replaceOne({_id: diff.id}, {
+          rawDiff: diff.rawDiff,
+          expiresAt: diff.expiresAt,
+          created: diff.created
+        }))
+        .then(result => ({ ...diff }));
   }
 
   fetchById(id: string): Promise<SharedDiff> {

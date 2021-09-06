@@ -162,6 +162,7 @@ app.post('/api/diff/extend/:id', function (req: any, res: any) {
         res.send(obj);
       },
       (err: any) => {
+        console.warn("Failed to extend diff lifetime:", err);
         res.status(400);
         res.send(JSON.stringify({ success: false, error: err.message }));
       });
@@ -189,80 +190,6 @@ app.post('/api/diff/makePermanent/:id', function (req: any, res: any) {
 
 app.get('*', function (req: any, res: any) {
   res.sendFile(INDEX_FILE);
-});
-
-/*************** OLD CODE **************/
-
-app.post('/new', upload.single('diffFile'), function (req: any, res: any) {
-  var diff = req.body.udiff;
-  if (req.file) {
-    if (utils.exceedsFileSizeLimit(req.file)) {
-      req.flash('alert', 'File too big, sorry!');
-      res.redirect('/');
-      return;
-    }
-    diff = req.file.buffer.toString();
-  }
-  // remove \r
-  diff = diff.replace(/\r/g, '');
-  // end of param cleaning
-
-  const metrics =
-    new GAMetrics(config.GA_ANALITYCS_KEY, req.cookies._ga || config.GA_API_DEFAULT_KEY);
-  const action = new CreateSharedDiffAction(repo, metrics);
-  if (!action.isValidRawDiff(diff)) {
-    req.flash('alert', 'Not a valid diff');
-    res.redirect('/');
-    return;
-  }
-  const shared_diff = action.createSharedDiff(diff);
-  return action.storeSharedDiff(shared_diff).then((obj: SharedDiff) => {
-    if (!obj.id) {
-      console.warn('new: undefined obj id');
-    }
-    res.redirect('/diff/' + obj.id)
-  });
-});
-
-app.post('/api/new', upload.single('diffFile'), function (req: any, res: any) {
-  var diff = req.body.udiff;
-  // remove \r
-  if (!diff) {
-    res.json({ 'status': 'error', 'message': 'udiff argument missing' });
-    return;
-  }
-  diff = diff.replace(/\r/g, '');
-
-  const metrics = new GAMetrics(config.GA_ANALITYCS_KEY, config.GA_API_KEY);
-  const action = new CreateSharedDiffAPIAction(repo, metrics);
-  if (!action.isValidRawDiff(diff)) {
-    res.json({ 'status': 'error', 'message': 'Not a valid diff' });
-    return;
-  }
-  const shared_diff = action.createSharedDiff(diff);
-  return action.storeSharedDiff(shared_diff).then((obj: SharedDiff) => {
-    if (!obj.id) {
-      console.warn('api.new: undefined obj id');
-    }
-    res.json({ 'status': 'success', 'url': 'http://diffy.org/diff/' + obj.id });
-  });
-});
-
-app.get('/delete/:id', function (req: any, res: any) {
-  var id = req.params.id;
-  const metrics =
-    new GAMetrics(config.GA_ANALITYCS_KEY, req.cookies._ga || config.GA_API_DEFAULT_KEY);
-  var action = new DeleteSharedDiffAction(repo, metrics);
-  return action.deleteSharedDiff(id).then(
-    () => {
-      req.flash('success', 'Deleted successfully');
-      res.redirect('/');
-    },
-    (err: any) => {
-      console.error(err);
-      req.flash('alert', 'File not found');
-      res.redirect('/');
-    });
 });
 
 var server = app.listen(config.port, config.host, function () {
