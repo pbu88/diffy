@@ -2,11 +2,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var utils = require('./utils.js').Utils;
 var multer = require('multer');
-var flash = require('connect-flash');
 var cookieParser = require('cookie-parser');
 var config = require('./config');
-var session = require('express-session');
-var MongoStore = require('connect-mongodb-session')(session)
 var path = require('path');
 
 const PROJECT_ROOT = path.join(__dirname + '/../../../');
@@ -43,18 +40,7 @@ function diffTooBigErrorHandler(err: any, req: any, res: any, next: any) {
   }
 }
 
-app.use(cookieParser(config.session_secret));
-app.use(session({
-  cookie: { maxAge: 60000 },
-  resave: false,
-  saveUninitialized: false,
-  secret: config.session_secret,
-  store: new MongoStore({
-        uri: config.db_url,
-        collection: config.session_collection,
-      })
-}));
-app.use(flash());
+app.use(cookieParser(config.session_secret)); // neded to read from req.cookie
 
 app.delete('/api/diff/:id', function (req: any, res: any) {
   var id = req.params.id;
