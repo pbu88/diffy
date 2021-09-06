@@ -16,6 +16,6 @@ config.GA_DIFFY_API_KEY = "diffApi";
 config.GA_API_DEFAULT_KEY = "<no_ga_cookie>";
 
 config.MAX_DIFF_SIZE = '1mb';
-config.DIFF_REPO_TYPE = 'mongo'
+config.DIFF_REPO_TYPE = 'mongo_google'
 
 module.exports = config;

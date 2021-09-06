@@ -1,5 +1,6 @@
 import { Datastore } from '@google-cloud/datastore';
 import {SharedDiff} from './SharedDiff';
+import { DoubleWriteDiffRepository } from './SharedDiffRepository/DoubleWriteDiffRepository';
 import { GoogleDatastoreDiffRepository } from './SharedDiffRepository/GoogleDatastoreDiffRepository';
 import { MongoSharedDiffRepository } from './SharedDiffRepository/MongoSharedDiffRepository';
 
@@ -26,6 +27,11 @@ export function getRepositorySupplierFor(type: string, config: any): () => Share
     }
   } else if (type == "google") {
     return () => new GoogleDatastoreDiffRepository(new Datastore())
+  } else if (type == "mongo_google") {
+    return () => new DoubleWriteDiffRepository(
+      getRepositorySupplierFor("mongo", config)(),
+      getRepositorySupplierFor("google", config)()
+    );
   }
   throw "unknown diff repo";
 }
