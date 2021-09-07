@@ -71,7 +71,7 @@ export class GoogleDatastoreDiffRepository implements SharedDiffRepository {
 
   deleteExpired(): Promise<boolean> {
     const query = this.datastore.createQuery(ENTITY_NAME)
-      .filter("expiresAt", ">", new Date())
+      .filter("expiresAt", "<=", new Date())
     return this.datastore.runQuery(query)
       .then(diffys => diffys[0])
       .then(expiredDiffys => {
