@@ -13,8 +13,10 @@ export class DoubleWriteDiffRepository implements SharedDiffRepository {
     insert(diff: SharedDiff): Promise<SharedDiff> {
         const masterResult = this.masterRepo.insert(diff)
         masterResult
-            .then(diff => this.followerRepo.update(diff))
-            .catch(err => console.warn("Failed to double write diff with id", err));
+            .then(diff => {
+                this.followerRepo.update(diff)
+                    .catch(err => console.warn(`Failed to double write diff with id ${diff.id}`, err))
+            });
         return masterResult;
     }
 
