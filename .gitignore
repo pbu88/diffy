@@ -51,3 +51,5 @@ Thumbs.db
 
 playground_scripts/
 deploy_scripts/
+docker/
+kubernetes/

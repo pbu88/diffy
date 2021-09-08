@@ -1,8 +1,8 @@
-import {CreateSharedDiffAction} from '../../src/v2/CreateSharedDiffAction';
-import {SharedDiff} from '../../src/v2/SharedDiff';
-import {SharedDiffRepository} from '../../src/v2/SharedDiffRepository';
+import { CreateSharedDiffAction } from '../../src/v2/CreateSharedDiffAction';
+import { SharedDiff } from '../../src/v2/SharedDiff';
+import { SharedDiffRepository } from '../../src/v2/SharedDiffRepository';
 
-import {metrics} from './MockedMetrics';
+import { metrics } from './MockedMetrics';
 
 test('should create a CreateSharedDiffAction, create the SharedDiff and store it', () => {
   const raw_diff = `
@@ -46,7 +46,7 @@ index 1456e89..e1da2da 100644
   const repo: SharedDiffRepository = {
     // insert: (diff: SharedDiff) => ({ id:
     // '1', ...diff }),
-    insert: jest.fn((diff) => Promise.reject(new Error('fake error'))),
+    insert: jest.fn((diff) => Promise.reject('fake error')),
     fetchById: (id: string) => null,
     deleteById: (id: string) => Promise.resolve(0),
     update: (diff: SharedDiff) => Promise.reject('random err'),
@@ -56,10 +56,12 @@ index 1456e89..e1da2da 100644
   expect(action).toBeDefined();
   const shared_diff = action.createSharedDiff(raw_diff);
   expect(shared_diff.diff).toBeDefined();
-  return action.storeSharedDiff(shared_diff).then(() => {
-    expect(repo.insert).toHaveBeenCalled();
-    expect(metrics.diffFailedToStore).toHaveBeenCalled();
-  });
+  return action.storeSharedDiff(shared_diff)
+    .then(() => fail('should never reach'))
+    .catch(() => {
+      expect(repo.insert).toHaveBeenCalled();
+      expect(metrics.diffFailedToStore).toHaveBeenCalled();
+    });
 });
 
 test('isValidRawDiff() should validate a raw diff', () => {
@@ -75,7 +77,7 @@ index 1456e89..e1da2da 100644
   const repo: SharedDiffRepository = {
     // insert: (diff: SharedDiff) => ({ id:
     // '1', ...diff }),
-    insert: jest.fn().mockReturnValueOnce(new Promise(() => {})),
+    insert: jest.fn().mockReturnValueOnce(new Promise(() => { })),
     fetchById: (id: string) => null,
     deleteById: (id: string) => Promise.resolve(0),
     update: (diff: SharedDiff) => Promise.reject('random err'),

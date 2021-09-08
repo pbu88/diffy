@@ -1,8 +1,9 @@
 import { Datastore } from '@google-cloud/datastore';
-import {SharedDiff} from './SharedDiff';
+import { SharedDiff } from './SharedDiff';
 import { DoubleWriteDiffRepository } from './SharedDiffRepository/DoubleWriteDiffRepository';
 import { GoogleDatastoreDiffRepository } from './SharedDiffRepository/GoogleDatastoreDiffRepository';
-import { MongoSharedDiffRepository } from './SharedDiffRepository/MongoSharedDiffRepository';
+import { buildDbUrl, MongoSharedDiffRepository } from './SharedDiffRepository/MongoSharedDiffRepository';
+import { MemoryDiffRepository } from './SharedDiffRepository/MemoryDiffRepository';
 
 export interface SharedDiffRepository {
   insert: (diff: SharedDiff) => Promise<SharedDiff>;
@@ -14,23 +15,28 @@ export interface SharedDiffRepository {
 
 /**
  * Returns a function that when invoked, will build a repository
- * @param type - a string defining the type of the repo: 'google', 'mongo'
- * @param config - a config object used to initialize the App
+ * @param config - a DIFF_REPO config object used to initialize the App
  * @returns a non-parametrized function to build a repository of said type
  */
-export function getRepositorySupplierFor(type: string, config: any): () => SharedDiffRepository {
-  if(type == "mongo") {
+export function getRepositorySupplierFor(config: any): () => SharedDiffRepository {
+  if (config["type"] == "mongo") {
     return () => {
-      const repo = new MongoSharedDiffRepository(config.db_url, config.db_name);
+      const db_url = buildDbUrl(config["db_host"], config["db_port"]);
+      const repo = new MongoSharedDiffRepository(db_url, config["db_name"]);
       repo.connect();
       return repo;
     }
-  } else if (type == "google") {
+
+  } else if (config["type"] == "google") {
     return () => new GoogleDatastoreDiffRepository(new Datastore())
-  } else if (type == "mongo_google") {
+
+  } else if (config["type"] == "memory") {
+    return () => new MemoryDiffRepository();
+
+  } else if (config["type"] == "double_write") {
     return () => new DoubleWriteDiffRepository(
-      getRepositorySupplierFor("mongo", config)(),
-      getRepositorySupplierFor("google", config)()
+      getRepositorySupplierFor(config["primary"])(),
+      getRepositorySupplierFor(config["secondary"])(),
     );
   }
   throw "unknown diff repo";

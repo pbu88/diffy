@@ -1,6 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
 var config = require('../config');
-var url = config.db_url;
+var url = config.db_url; // legacy, this config is discontinued
 
 function main() {
     var now = new Date;

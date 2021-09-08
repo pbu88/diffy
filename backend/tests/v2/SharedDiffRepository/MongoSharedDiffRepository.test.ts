@@ -1,12 +1,18 @@
-var config = require('../../../src/config');
-
 import { makeSharedDiff } from '../../../src/v2/SharedDiff';
-import { MongoSharedDiffRepository } from '../../../src/v2/SharedDiffRepository/MongoSharedDiffRepository';
+import { buildDbUrl, MongoSharedDiffRepository } from '../../../src/v2/SharedDiffRepository/MongoSharedDiffRepository';
 
-describe('MongoSharedDiff tests', () => {
+const config = {
+  type: "mongo",
+  db_host: process.env.DIFFY_DB_HOST || '127.0.0.1',
+  db_port: process.env.DIFFY_DB_PORT || '27017',
+  db_name: 'diffy',
+};
+const db_url = buildDbUrl(config["db_host"], config["db_port"]);
+
+describe.skip('MongoSharedDiff tests', () => {
   let repo: MongoSharedDiffRepository = null;
   beforeEach(() => {
-    const url = config.db_url;
+    const url = db_url;
     const db_name = 'test';
     repo = new MongoSharedDiffRepository(url, db_name);
     repo.connect();

@@ -12,16 +12,7 @@ config.GA_API_DEFAULT_KEY = "<no_ga_cookie>";
 
 config.MAX_DIFF_SIZE = '1mb';
 config.DIFF_REPO = {
-    type: "double_write",
-    primary: {
-        type: "mongo",
-        db_host: process.env.DIFFY_DB_HOST || '127.0.0.1',
-        db_port: process.env.DIFFY_DB_PORT || '27017',
-        db_name: 'diffy',
-    },
-    secondary: {
-        type: "google"
-    }
+    type: "memory",
 };
 
 module.exports = config;

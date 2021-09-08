@@ -1,8 +1,9 @@
-import { Datastore } from "@google-cloud/datastore";
-import { GoogleDatastoreDiffRepository } from "../v2/SharedDiffRepository/GoogleDatastoreDiffRepository";
+import { getRepositorySupplierFor } from "../v2/SharedDiffRepository";
+var config = require('../config');
+
 
 function main() {
-    const repo = new GoogleDatastoreDiffRepository(new Datastore());
+    const repo = getRepositorySupplierFor(config.DIFF_REPO)();
     repo.deleteExpired();
 }
 

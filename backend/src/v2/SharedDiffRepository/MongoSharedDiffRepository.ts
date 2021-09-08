@@ -5,10 +5,15 @@ const utils = require('../../utils.js').Utils;
 
 const COLLECTION_NAME = 'diffy';  // maybe should be SharedDiff
 
+export function buildDbUrl(host:string , port: string): string {
+    return "mongodb://" + host + ":" + port + "/diffy";
+}
+
 export class MongoSharedDiffRepository implements SharedDiffRepository {
   url: string;
   db_name: string;
   client: Promise<mongodb.MongoClient>;
+
 
   constructor(url: string, db_name: string) {
     this.url = url;

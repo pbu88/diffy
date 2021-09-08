@@ -7,16 +7,8 @@ services:
       - 3000:3000
     volumes:
       - .:/diffy
-    links:
-      - db
     environment:
-      - DIFFY_DB_HOST=db
       - DIFFY_WEB_HOST=0.0.0.0
       - DIFFY_GA_ANALYTICS_KEY=none
     stop_signal: SIGINT
-  db:
-    image: mongo:4.0.13-xenial
-    volumes:
-      - ./data:/data/db
-    ports:
-      - 27017:27017
+

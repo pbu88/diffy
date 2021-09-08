@@ -1,10 +1,16 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var utils = require('./utils.js').Utils;
-var multer = require('multer');
 var cookieParser = require('cookie-parser');
-var config = require('./config');
 var path = require('path');
+
+if (process.env["NODE_ENV"] == "production") {
+  console.info("using config.js");
+  var config = require('./config');
+} else {
+  console.info("using config_dev.js");
+  var config = require('./config_dev');
+}
 
 const PROJECT_ROOT = path.join(__dirname + '/../../../');
 const STATICS_FOLDER = path.join(PROJECT_ROOT, 'frontend/dist/ngdiffy');
@@ -12,16 +18,14 @@ const INDEX_FILE = path.join(PROJECT_ROOT + '/frontend/dist/ngdiffy/index.html')
 
 import { GetSharedDiffAction } from './v2/GetSharedDiffAction';
 import { CreateSharedDiffAction } from './v2/CreateSharedDiffAction';
-import { CreateSharedDiffAPIAction } from './v2/CreateSharedDiffAPIAction';
 import { DeleteSharedDiffAction } from './v2/DeleteSharedDiffAction';
 import { ExtendLifetimeSharedDiffAction } from './v2/ExtendLifetimeSharedDiffAction';
 import { SharedDiff } from './v2/SharedDiff';
 import { getRepositorySupplierFor } from './v2/SharedDiffRepository';
 import { GAMetrics } from './v2/Metrics/GAMetrics';
 
-var upload = multer({ storage: multer.memoryStorage() });
 var app = express();
-const repo = getRepositorySupplierFor(config.DIFF_REPO_TYPE, config)();
+const repo = getRepositorySupplierFor(config.DIFF_REPO)();
 
 if (!config.GA_ANALITYCS_KEY) {
   throw new Error('GA_ANALYTICS_KEY has to be present');
