@@ -15,7 +15,10 @@ export class DoubleWriteDiffRepository implements SharedDiffRepository {
         masterResult
             .then(diff => {
                 this.followerRepo.update(diff)
-                    .catch(err => console.warn(`Failed to double write diff with id ${diff.id}`, err))
+                    .catch(err => {
+                        console.warn(`Failed to double write diff with id ${diff.id}`);
+                        console.log(JSON.stringify(err, null, '    '));
+                    })
             });
         return masterResult;
     }
