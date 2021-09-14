@@ -12,14 +12,12 @@ export class DoubleWriteDiffRepository implements SharedDiffRepository {
 
     insert(diff: SharedDiff): Promise<SharedDiff> {
         const masterResult = this.masterRepo.insert(diff)
-        masterResult
-            .then(diff => {
-                this.followerRepo.update(diff)
-                    .catch(err => {
-                        console.warn(`Failed to double write diff with id ${diff.id}`);
-                        console.log(JSON.stringify(err, null, '    '));
-                    })
-            });
+        masterResult.then(diff => {
+            this.followerRepo.update(diff)
+                .catch(err => console.warn(
+                    `Failed to double insert diff with id ${diff.id}`,
+                    JSON.stringify(err, null, '    ')))
+        });
         return masterResult;
     }
 
@@ -29,18 +27,35 @@ export class DoubleWriteDiffRepository implements SharedDiffRepository {
 
     deleteById(id: string): Promise<number> {
         const masterResult = this.masterRepo.deleteById(id);
-        masterResult.then(_ => this.followerRepo.deleteById(id));
+        masterResult.then(_ => {
+            this.followerRepo.deleteById(id)
+                .catch(err => console.warn(
+                    `Failed to delete update diff with id ${id}`,
+                    JSON.stringify(err, null, '    ')))
+        });
         return masterResult;
     }
 
     update(diff: SharedDiff): Promise<SharedDiff> {
         const masterResult = this.masterRepo.update(diff);
-        masterResult.then(_ => this.followerRepo.update(diff));
+        masterResult.then(diff => {
+            this.followerRepo.update(diff)
+                .catch(err => console.warn(
+                    `Failed to double update diff with id ${diff.id}`,
+                    JSON.stringify(err, null, '    ')))
+        });
         return masterResult;
     }
 
     deleteExpired(): Promise<boolean> {
-        throw new Error("Method not implemented.");
+        const masterResult = this.masterRepo.deleteExpired();
+        masterResult.then(primaryResult => {
+            this.followerRepo.deleteExpired()
+                .catch(err => console.warn(
+                    `Failed to double delete expired diff`,
+                    JSON.stringify(err, null, '    ')))
+        });
+        return masterResult;
     }
 
 }
