@@ -5,3 +5,7 @@ span.hljs {
     color: #333;
     background: inherit;
 }
+
+.no-pointer-events {
+    pointer-events: none;
+}

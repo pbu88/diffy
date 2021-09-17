@@ -115,9 +115,14 @@ app.put('/api/diff', function (req: any, res: any) {
   return action.storeSharedDiff(shared_diff).then((obj: SharedDiff) => {
     if (!obj.id) {
       console.warn('new: undefined obj id');
+      return Promise.reject({error: 'new: undefined obj id'});
     }
     res.send(obj);
-  }).catch(err => console.error(err));
+  }).catch(err => {
+    console.error(err)
+    res.status(500)
+    res.send({error: "Oops, something failed, please try again later ..."});
+  });
 });
 
 app.get('/diff_download/:id', function (req: any, res: any) {

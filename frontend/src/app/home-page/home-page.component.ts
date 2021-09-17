@@ -1,12 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {of} from 'rxjs';
-import {catchError} from 'rxjs/operators';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
-import {AlertService} from '../alert.service';
-import {AnalyticsService} from '../analytics.service';
-import {DiffyService} from '../diffy.service';
-import {Error} from '../types/Error';
+import { AlertService } from '../alert.service';
+import { AnalyticsService } from '../analytics.service';
+import { DiffyService } from '../diffy.service';
+import { Error } from '../types/Error';
 
 @Component({
   selector: 'app-home-page',
@@ -15,12 +15,20 @@ import {Error} from '../types/Error';
 })
 export class HomePageComponent implements OnInit {
   @Input() diffText: string;
+  private uploading: boolean;
 
   constructor(
-      private router: Router, private diffyService: DiffyService,
-      private alertService: AlertService, private analyticsService: AnalyticsService) {}
+    private router: Router, private diffyService: DiffyService,
+    private alertService: AlertService, private analyticsService: AnalyticsService) {
 
-  ngOnInit() {}
+    this.uploading = false;
+  }
+
+  ngOnInit() { }
+
+  isUploading(): boolean {
+    return this.uploading;
+  }
 
   diffMeClick() {
     this.analyticsService.clickDiffMeButton();
@@ -28,17 +36,17 @@ export class HomePageComponent implements OnInit {
   }
 
   submitDiff() {
+    this.uploading = true;
     this.diffyService.storeDiff(this.diffText)
-        .subscribe(
-            sharedDiff => {
-              if (!sharedDiff || !sharedDiff.id) {
-                return;
-              }
-              this.router.navigate([`/diff/${sharedDiff.id}`])
-            },
-            (error: Error) => {
-              this.alertService.error('Error: ' + error.text);
-            });
+      .subscribe(
+        sharedDiff => {
+          this.router.navigate([`/diff/${sharedDiff.id}`])
+          this.uploading = false;
+        },
+        (error: Error) => {
+          this.alertService.error('Error: ' + error.text);
+          this.uploading = false;
+        });
   }
 
   uploadChange(fileInput: Event) {
