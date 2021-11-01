@@ -121,7 +121,7 @@ app.put('/api/diff', function (req: any, res: any) {
   }).catch(err => {
     console.error(err)
     res.status(500)
-    res.send({error: "Oops, something failed, please try again later ..."});
+    res.send({error: "Oops, something failed, please try again later. If the problem persists, create an issue in https://github.com/pbu88/diffy/issues/new/"});
   });
 });
 
