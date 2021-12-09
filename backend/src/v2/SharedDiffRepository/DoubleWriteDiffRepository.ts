@@ -14,7 +14,7 @@ export class DoubleWriteDiffRepository implements SharedDiffRepository {
         const masterResult = this.masterRepo.insert(diff)
         masterResult.then(diff => {
             this.followerRepo.update(diff)
-                .catch(err => console.warn(
+                .catch(err => console.trace(
                     `Failed to double insert diff with id ${diff.id}`,
                     JSON.stringify(err, null, '    ')))
         });
@@ -29,7 +29,7 @@ export class DoubleWriteDiffRepository implements SharedDiffRepository {
         const masterResult = this.masterRepo.deleteById(id);
         masterResult.then(_ => {
             this.followerRepo.deleteById(id)
-                .catch(err => console.warn(
+                .catch(err => console.trace(
                     `Failed to delete update diff with id ${id}`,
                     JSON.stringify(err, null, '    ')))
         });
@@ -40,7 +40,7 @@ export class DoubleWriteDiffRepository implements SharedDiffRepository {
         const masterResult = this.masterRepo.update(diff);
         masterResult.then(diff => {
             this.followerRepo.update(diff)
-                .catch(err => console.warn(
+                .catch(err => console.trace(
                     `Failed to double update diff with id ${diff.id}`,
                     JSON.stringify(err, null, '    ')))
         });
@@ -51,7 +51,7 @@ export class DoubleWriteDiffRepository implements SharedDiffRepository {
         const masterResult = this.masterRepo.deleteExpired();
         masterResult.then(primaryResult => {
             this.followerRepo.deleteExpired()
-                .catch(err => console.warn(
+                .catch(err => console.trace(
                     `Failed to double delete expired diff`,
                     JSON.stringify(err, null, '    ')))
         });
