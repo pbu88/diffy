@@ -7,7 +7,7 @@
         >
     </app-diff-detail-nav>
 
-    <app-diff-detail-countdown *ngIf="!sharedDiff.isPermanent()"
+    <app-diff-detail-countdown *ngIf="!isDiffPermanent()"
         [expiresAt]="sharedDiff.expiresAt"
         [displayMakePermanent]="shouldDisplayMakePermanent()"
         [_extendLifetime]="getExtendLifetimeFn()"

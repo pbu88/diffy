@@ -1,5 +1,5 @@
 import { CreateSharedDiffAction } from '../../src/v2/CreateSharedDiffAction';
-import { SharedDiff } from '../../src/v2/SharedDiff';
+import { SharedDiff } from 'diffy-models';
 import { SharedDiffRepository } from '../../src/v2/SharedDiffRepository';
 
 import { metrics } from './MockedMetrics';

@@ -1,5 +1,5 @@
 import { Datastore } from '@google-cloud/datastore';
-import { SharedDiff } from './SharedDiff';
+import { SharedDiff } from "diffy-models";
 import { DoubleWriteDiffRepository } from './SharedDiffRepository/DoubleWriteDiffRepository';
 import { GoogleDatastoreDiffRepository } from './SharedDiffRepository/GoogleDatastoreDiffRepository';
 import { buildDbUrl, MongoSharedDiffRepository } from './SharedDiffRepository/MongoSharedDiffRepository';

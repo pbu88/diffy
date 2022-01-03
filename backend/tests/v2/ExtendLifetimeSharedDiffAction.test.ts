@@ -1,7 +1,8 @@
 import { ExtendLifetimeSharedDiffAction } from '../../src/v2/ExtendLifetimeSharedDiffAction';
 import { makeSharedDiff } from '../../src/v2/SharedDiff';
 import { SharedDiffRepository } from '../../src/v2/SharedDiffRepository';
-import {SharedDiff} from '../../src/v2/SharedDiff';
+import { SharedDiff } from 'diffy-models';
+
 jest.mock('../../src/v2/SharedDiffRepository');
 
 import { metrics } from './MockedMetrics';

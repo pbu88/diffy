@@ -1,6 +1,6 @@
-import {Metrics} from './Metrics';
-import {SharedDiff} from './SharedDiff';
-import {SharedDiffRepository} from './SharedDiffRepository';
+import { Metrics } from './Metrics';
+import { SharedDiff } from "diffy-models";
+import { SharedDiffRepository } from './SharedDiffRepository';
 
 export class GetSharedDiffAction {
   constructor(private repository: SharedDiffRepository, private metrics: Metrics) {}

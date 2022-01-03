@@ -3,7 +3,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import * as Diff2Html from 'diff2html';
 
 import { printerUtils } from '../diff-detail/printer-utils';
-import { SharedDiff } from '../SharedDiff';
+import { SharedDiff } from 'diffy-models';
 
 const DIFF2HTML_RENDER_CONFIG: Diff2Html.Diff2HtmlConfig = {
   drawFileList: false,

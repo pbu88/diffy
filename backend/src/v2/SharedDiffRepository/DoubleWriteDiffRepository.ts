@@ -1,4 +1,4 @@
-import { SharedDiff } from "../SharedDiff";
+import { SharedDiff } from "diffy-models";
 import { SharedDiffRepository } from "../SharedDiffRepository";
 
 export class DoubleWriteDiffRepository implements SharedDiffRepository {

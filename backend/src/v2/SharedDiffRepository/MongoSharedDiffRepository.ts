@@ -1,6 +1,7 @@
 import mongodb = require('mongodb');
-import {makeSharedDiffWithId, SharedDiff} from '../SharedDiff';
-import {SharedDiffRepository} from '../SharedDiffRepository';
+import { SharedDiff } from "diffy-models";
+import { makeSharedDiffWithId } from '../SharedDiff';
+import { SharedDiffRepository} from '../SharedDiffRepository';
 const utils = require('../../utils.js').Utils;
 
 const COLLECTION_NAME = 'diffy';  // maybe should be SharedDiff

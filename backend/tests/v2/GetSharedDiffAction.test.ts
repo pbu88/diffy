@@ -1,5 +1,6 @@
 import {GetSharedDiffAction} from '../../src/v2/GetSharedDiffAction';
-import {makeSharedDiff, SharedDiff} from '../../src/v2/SharedDiff';
+import {makeSharedDiff } from '../../src/v2/SharedDiff';
+import { SharedDiff } from 'diffy-models';
 import {SharedDiffRepository} from '../../src/v2/SharedDiffRepository';
 
 import {metrics} from './MockedMetrics';

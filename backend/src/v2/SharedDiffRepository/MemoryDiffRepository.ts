@@ -1,4 +1,4 @@
-import { SharedDiff } from "../SharedDiff";
+import { SharedDiff } from "diffy-models";
 import { SharedDiffRepository } from "../SharedDiffRepository";
 const utils = require('../../utils.js').Utils;
 

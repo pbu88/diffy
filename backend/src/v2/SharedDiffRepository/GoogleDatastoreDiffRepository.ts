@@ -1,7 +1,8 @@
 // Imports the Google Cloud client library
 import { Datastore } from '@google-cloud/datastore';
 
-import { makeSharedDiffWithId, SharedDiff } from '../SharedDiff';
+import { SharedDiff } from "diffy-models";
+import { makeSharedDiffWithId } from '../SharedDiff';
 import { SharedDiffRepository } from '../SharedDiffRepository';
 const utils = require('../../utils.js').Utils;
 

@@ -1,6 +1,6 @@
 import {DeleteSharedDiffAction} from '../../src/v2/DeleteSharedDiffAction';
 import {SharedDiffRepository} from '../../src/v2/SharedDiffRepository';
-import {SharedDiff} from '../../src/v2/SharedDiff';
+import { SharedDiff } from 'diffy-models';
 
 import {metrics} from './MockedMetrics';
 

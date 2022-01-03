@@ -1,15 +1,8 @@
 import * as Diff2Html from 'diff2html';
 import { DiffFile } from 'diff2html/lib/types';
+import { SharedDiff } from 'diffy-models';
 
 const MAX_DIFF_DATE = new Date('9999-01-01');
-
-export interface SharedDiff {
-  id?: string,
-  created: Date,
-  expiresAt: Date,
-  diff: DiffFile[],
-  rawDiff: string,
-};
 
 export function makeSharedDiff(raw_diff: string, createdDate: Date = new Date()): SharedDiff {
   const expireDate = calculateExpireDate(createdDate)

@@ -3,11 +3,14 @@ import {Component, Inject, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {AlertService} from '../alert.service';
-import {printerUtils} from '../diff-detail/printer-utils';
 import {FileTree} from '../diff-detail/tree-functions';
 import {DiffyService} from '../diffy.service';
-import {makeSharedDiff, SharedDiff} from '../SharedDiff';
+import { makeSharedDiff } from '../SharedDiff';
+import { SharedDiff } from 'diffy-models';
 import {Error} from '../types/Error';
+
+const DIFF_MAX_DATE = new Date('9999-01-01');
+const MAKE_PERMANENT_THRESHOLD = 5 * 24 * 60 * 60 * 1000 - 1;
 
 @Component({
   selector: 'app-diff-detail',
@@ -15,7 +18,6 @@ import {Error} from '../types/Error';
   styleUrls: ['./diff-detail.component.css']
 })
 export class DiffDetailComponent implements OnInit {
-  static MAKE_PERMANENT_THRESHOLD = 5 * 24 * 60 * 60 * 1000 - 1;
 
   loading: boolean;
   sharedDiff: SharedDiff;
@@ -52,7 +54,7 @@ export class DiffDetailComponent implements OnInit {
 
   shouldDisplayMakePermanent(): boolean {
     const dateDiff = this.sharedDiff.expiresAt.getTime() - this.sharedDiff.created.getTime();
-    return dateDiff > DiffDetailComponent.MAKE_PERMANENT_THRESHOLD;
+    return dateDiff > MAKE_PERMANENT_THRESHOLD;
   }
 
   getFileSelectorFn() {
@@ -138,5 +140,8 @@ export class DiffDetailComponent implements OnInit {
 
   getCurrentUrl() {
     return window.location.href;
+  }
+  isDiffPermanent() {
+    return this.sharedDiff.expiresAt >= DIFF_MAX_DATE;
   }
 }

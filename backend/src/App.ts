@@ -20,7 +20,7 @@ import { GetSharedDiffAction } from './v2/GetSharedDiffAction';
 import { CreateSharedDiffAction } from './v2/CreateSharedDiffAction';
 import { DeleteSharedDiffAction } from './v2/DeleteSharedDiffAction';
 import { ExtendLifetimeSharedDiffAction } from './v2/ExtendLifetimeSharedDiffAction';
-import { SharedDiff } from './v2/SharedDiff';
+import { SharedDiff } from "diffy-models";
 import { getRepositorySupplierFor } from './v2/SharedDiffRepository';
 import { GAMetrics } from './v2/Metrics/GAMetrics';
 

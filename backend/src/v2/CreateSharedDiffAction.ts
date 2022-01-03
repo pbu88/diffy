@@ -1,5 +1,6 @@
 import {Metrics} from './Metrics';
-import {isValidRawDiff, makeSharedDiff, SharedDiff} from './SharedDiff';
+import {isValidRawDiff, makeSharedDiff } from './SharedDiff';
+import { SharedDiff } from "diffy-models";
 import {SharedDiffRepository} from './SharedDiffRepository';
 
 export class CreateSharedDiffAction {
