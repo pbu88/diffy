@@ -24,6 +24,7 @@ export class MemoryDiffRepository implements SharedDiffRepository {
     }
 
     deleteById(id: string): Promise<number> {
+        delete this.db[id];
         return Promise.resolve(1);
     }
 

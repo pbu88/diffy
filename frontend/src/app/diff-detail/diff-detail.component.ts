@@ -1,13 +1,12 @@
-import {DOCUMENT} from '@angular/common';
-import {Component, Inject, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import {AlertService} from '../alert.service';
-import {FileTree} from '../diff-detail/tree-functions';
-import {DiffyService} from '../diffy.service';
-import { makeSharedDiff } from '../SharedDiff';
+import { AlertService } from '../alert.service';
+import { FileTree } from '../diff-detail/tree-functions';
+import { DiffyService } from '../diffy.service';
 import { SharedDiff } from 'diffy-models';
-import {Error} from '../types/Error';
+import { Error } from '../types/Error';
 
 const DIFF_MAX_DATE = new Date('9999-01-01');
 const MAKE_PERMANENT_THRESHOLD = 5 * 24 * 60 * 60 * 1000 - 1;
@@ -38,9 +37,8 @@ export class DiffDetailComponent implements OnInit {
     this.currentId = id;
     this.loading = true;
     this.diffyService.getDiff(id).subscribe(
-        diffy => {
-          this.sharedDiff = makeSharedDiff(diffy.rawDiff, new Date(diffy.created));
-          this.sharedDiff.expiresAt = new Date(diffy.expiresAt);
+        sharedDiff => {
+          this.sharedDiff = sharedDiff
           this.loading = false;
         },
         error => {
@@ -105,9 +103,8 @@ export class DiffDetailComponent implements OnInit {
     return () => {
       this.diffyService.extendLifetime(this.currentId)
           .subscribe(
-              diffy => {
-                this.sharedDiff = makeSharedDiff(diffy.rawDiff, new Date(diffy.created));
-                this.sharedDiff.expiresAt = new Date(diffy.expiresAt);
+              sharedDiff => {
+                this.sharedDiff = sharedDiff;
               },
               (error: Error) => {
                 this.alertService.error(':-( Error while extending diff: ' + error.text, true);
@@ -119,9 +116,8 @@ export class DiffDetailComponent implements OnInit {
     return () => {
       this.diffyService.makePermanent(this.currentId)
           .subscribe(
-              diffy => {
-                this.sharedDiff = makeSharedDiff(diffy.rawDiff, new Date(diffy.created));
-                this.sharedDiff.expiresAt = new Date(diffy.expiresAt);
+              sharedDiff => {
+                this.sharedDiff = sharedDiff;
               },
               (error: Error) => {
                 this.alertService.error(':-( Error while making diff permanent: ' + error.text, true);
