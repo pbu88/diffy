@@ -1,4 +1,4 @@
-import {isValidRawDiff, makeSharedDiff} from '../../src/v2/SharedDiff';
+import {isValidRawDiff, makeSharedDiff} from '../src/SharedDiff';
 
 test('should create shared diff', () => {
   const raw_diff = `

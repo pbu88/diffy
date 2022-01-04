@@ -1,4 +1,4 @@
-import { getRepositorySupplierFor } from "../v2/SharedDiffRepository";
+import { getRepositorySupplierFor } from "../sharedDiffRepository/SharedDiffRepository";
 //var config = require('../config');
 let config = {
     DIFF_REPO: {

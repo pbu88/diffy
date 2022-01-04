@@ -1,6 +1,6 @@
-import { MemoryDiffRepository } from "../../src/v2/SharedDiffRepository/MemoryDiffRepository";
-import { getRepositorySupplierFor } from "../../src/v2/SharedDiffRepository";
-import { DoubleWriteDiffRepository } from "../../src/v2/SharedDiffRepository/DoubleWriteDiffRepository";
+import { MemoryDiffRepository } from "../../src/sharedDiffRepository/MemoryDiffRepository";
+import { getRepositorySupplierFor } from "../../src/sharedDiffRepository/SharedDiffRepository";
+import { DoubleWriteDiffRepository } from "../../src/sharedDiffRepository/DoubleWriteDiffRepository";
 
 describe("SharedDiffRepository", () => {
     it("getRepositorySupplierFor double write repo", () => {

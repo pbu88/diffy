@@ -1,8 +1,8 @@
-import { CreateSharedDiffAPIAction } from '../../src/v2/CreateSharedDiffAPIAction';
-import { SharedDiffRepository } from '../../src/v2/SharedDiffRepository';
+import { CreateSharedDiffAPIAction } from '../../src/actions/CreateSharedDiffAPIAction';
+import { SharedDiffRepository } from '../../src/sharedDiffRepository/SharedDiffRepository';
 import { SharedDiff } from 'diffy-models';
 
-import { metrics } from './MockedMetrics';
+import { metrics } from '../MockedMetrics';
 
 test('should create a CreateSharedDiffAction, create the SharedDiff and store it', () => {
   const raw_diff = `

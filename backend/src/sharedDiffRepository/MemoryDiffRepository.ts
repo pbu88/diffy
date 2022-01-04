@@ -1,6 +1,6 @@
 import { SharedDiff } from "diffy-models";
-import { SharedDiffRepository } from "../SharedDiffRepository";
-const utils = require('../../utils.js').Utils;
+import { SharedDiffRepository } from "./SharedDiffRepository";
+const utils = require('../utils.js').Utils;
 
 export class MemoryDiffRepository implements SharedDiffRepository {
     private db: { [id: string]: SharedDiff } = {};

@@ -1,9 +1,9 @@
-import {GetSharedDiffAction} from '../../src/v2/GetSharedDiffAction';
-import {makeSharedDiff } from '../../src/v2/SharedDiff';
+import {GetSharedDiffAction} from '../../src/actions/GetSharedDiffAction';
+import {makeSharedDiff } from '../../src/SharedDiff';
 import { SharedDiff } from 'diffy-models';
-import {SharedDiffRepository} from '../../src/v2/SharedDiffRepository';
+import {SharedDiffRepository} from '../../src/sharedDiffRepository/SharedDiffRepository';
 
-import {metrics} from './MockedMetrics';
+import {metrics} from '../MockedMetrics';
 
 test('should create a GetSharedDiffAction and fetch the SharedDiff', () => {
   const raw_diff = `

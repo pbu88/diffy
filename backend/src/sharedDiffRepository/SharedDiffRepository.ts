@@ -1,9 +1,9 @@
 import { Datastore } from '@google-cloud/datastore';
 import { SharedDiff } from "diffy-models";
-import { DoubleWriteDiffRepository } from './SharedDiffRepository/DoubleWriteDiffRepository';
-import { GoogleDatastoreDiffRepository } from './SharedDiffRepository/GoogleDatastoreDiffRepository';
-import { buildDbUrl, MongoSharedDiffRepository } from './SharedDiffRepository/MongoSharedDiffRepository';
-import { MemoryDiffRepository } from './SharedDiffRepository/MemoryDiffRepository';
+import { DoubleWriteDiffRepository } from './DoubleWriteDiffRepository';
+import { GoogleDatastoreDiffRepository } from './GoogleDatastoreDiffRepository';
+import { buildDbUrl, MongoSharedDiffRepository } from './MongoSharedDiffRepository';
+import { MemoryDiffRepository } from './MemoryDiffRepository';
 
 export interface SharedDiffRepository {
   insert: (diff: SharedDiff) => Promise<SharedDiff>;

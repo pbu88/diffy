@@ -16,13 +16,13 @@ const PROJECT_ROOT = path.join(__dirname + '/../../../');
 const STATICS_FOLDER = path.join(PROJECT_ROOT, 'frontend/dist/ngdiffy');
 const INDEX_FILE = path.join(PROJECT_ROOT + '/frontend/dist/ngdiffy/index.html');
 
-import { GetSharedDiffAction } from './v2/GetSharedDiffAction';
-import { CreateSharedDiffAction } from './v2/CreateSharedDiffAction';
-import { DeleteSharedDiffAction } from './v2/DeleteSharedDiffAction';
-import { ExtendLifetimeSharedDiffAction } from './v2/ExtendLifetimeSharedDiffAction';
+import { GetSharedDiffAction } from './actions/GetSharedDiffAction';
+import { CreateSharedDiffAction } from './actions/CreateSharedDiffAction';
+import { DeleteSharedDiffAction } from './actions/DeleteSharedDiffAction';
+import { ExtendLifetimeSharedDiffAction } from './actions/ExtendLifetimeSharedDiffAction';
 import { SharedDiff } from "diffy-models";
-import { getRepositorySupplierFor } from './v2/SharedDiffRepository';
-import { GAMetrics } from './v2/Metrics/GAMetrics';
+import { getRepositorySupplierFor } from './sharedDiffRepository/SharedDiffRepository';
+import { GAMetrics } from './metrics/GAMetrics';
 
 var app = express();
 const repo = getRepositorySupplierFor(config.DIFF_REPO)();

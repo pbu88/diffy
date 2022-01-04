@@ -1,7 +1,7 @@
-import { Metrics } from './Metrics';
-import { makePermanent, extendLifetime} from './SharedDiff';
+import { Metrics } from '../metrics/Metrics';
+import { makePermanent, extendLifetime} from '../SharedDiff';
 import { SharedDiff } from "diffy-models";
-import { SharedDiffRepository } from './SharedDiffRepository';
+import { SharedDiffRepository } from '../sharedDiffRepository/SharedDiffRepository';
 
 export class ExtendLifetimeSharedDiffAction {
   static readonly MAX_LIFETIME_OF_DIFF_MS = 5 * 24 * 60 * 60 * 1000;  // 5 days

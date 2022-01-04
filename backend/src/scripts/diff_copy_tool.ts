@@ -1,5 +1,5 @@
-import { buildDbUrl, MongoSharedDiffRepository } from "../v2/SharedDiffRepository/MongoSharedDiffRepository";
-import { GoogleDatastoreDiffRepository } from "../v2/SharedDiffRepository/GoogleDatastoreDiffRepository";
+import { buildDbUrl, MongoSharedDiffRepository } from "../sharedDiffRepository/MongoSharedDiffRepository";
+import { GoogleDatastoreDiffRepository } from "../sharedDiffRepository/GoogleDatastoreDiffRepository";
 import { Datastore } from "@google-cloud/datastore";
 import * as readline from 'readline';
 

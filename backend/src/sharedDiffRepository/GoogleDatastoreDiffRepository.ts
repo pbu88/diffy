@@ -3,8 +3,8 @@ import { Datastore } from '@google-cloud/datastore';
 
 import { SharedDiff } from "diffy-models";
 import { makeSharedDiffWithId } from '../SharedDiff';
-import { SharedDiffRepository } from '../SharedDiffRepository';
-const utils = require('../../utils.js').Utils;
+import { SharedDiffRepository } from './SharedDiffRepository';
+const utils = require('../utils.js').Utils;
 
 const ENTITY_NAME = 'diffy';  // maybe should be SharedDiff
 

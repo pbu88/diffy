@@ -1,5 +1,5 @@
-import { makeSharedDiff } from '../../../src/v2/SharedDiff';
-import { buildDbUrl, MongoSharedDiffRepository } from '../../../src/v2/SharedDiffRepository/MongoSharedDiffRepository';
+import { makeSharedDiff } from '../../src/SharedDiff';
+import { buildDbUrl, MongoSharedDiffRepository } from '../../src/sharedDiffRepository/MongoSharedDiffRepository';
 
 const config = {
   type: "mongo",

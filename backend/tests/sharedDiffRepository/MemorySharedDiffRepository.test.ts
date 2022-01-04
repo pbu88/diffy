@@ -1,5 +1,5 @@
-import { makeSharedDiff } from "../../../src/v2/SharedDiff";
-import { MemoryDiffRepository } from "../../../src/v2/SharedDiffRepository/MemoryDiffRepository"
+import { makeSharedDiff } from "../../src/SharedDiff";
+import { MemoryDiffRepository } from "../../src/sharedDiffRepository/MemoryDiffRepository"
 
 describe('MemorySharedDiffRepository tests', () => {
     it("should add items", () => {

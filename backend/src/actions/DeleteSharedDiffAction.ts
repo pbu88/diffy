@@ -1,5 +1,5 @@
-import {Metrics} from './Metrics';
-import {SharedDiffRepository} from './SharedDiffRepository';
+import {Metrics} from '../metrics/Metrics';
+import {SharedDiffRepository} from '../sharedDiffRepository/SharedDiffRepository';
 
 export class DeleteSharedDiffAction {
   repository: SharedDiffRepository;

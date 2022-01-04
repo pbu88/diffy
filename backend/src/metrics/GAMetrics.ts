@@ -1,6 +1,6 @@
 import * as http from 'http';
 
-import {Metrics} from '../Metrics';
+import {Metrics} from './Metrics';
 
 export class GAMetrics implements Metrics {
   key: string;

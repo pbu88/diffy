@@ -1,8 +1,8 @@
-import {DeleteSharedDiffAction} from '../../src/v2/DeleteSharedDiffAction';
-import {SharedDiffRepository} from '../../src/v2/SharedDiffRepository';
+import {DeleteSharedDiffAction} from '../../src/actions/DeleteSharedDiffAction';
+import {SharedDiffRepository} from '../../src/sharedDiffRepository/SharedDiffRepository';
 import { SharedDiff } from 'diffy-models';
 
-import {metrics} from './MockedMetrics';
+import {metrics} from '../MockedMetrics';
 
 test('should create a DeleteSharedDiffAction and delete a SharedDiff by id', () => {
   const repo: SharedDiffRepository = {

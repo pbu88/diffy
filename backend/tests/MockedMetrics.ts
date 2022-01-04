@@ -1,4 +1,4 @@
-import {Metrics} from '../../src/v2/Metrics';
+import {Metrics} from '../src/metrics/Metrics';
 
 export const metrics: Metrics = {
   diffStoredSuccessfully: jest.fn(),

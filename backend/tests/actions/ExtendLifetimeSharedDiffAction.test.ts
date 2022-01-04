@@ -1,11 +1,11 @@
-import { ExtendLifetimeSharedDiffAction } from '../../src/v2/ExtendLifetimeSharedDiffAction';
-import { makeSharedDiff } from '../../src/v2/SharedDiff';
-import { SharedDiffRepository } from '../../src/v2/SharedDiffRepository';
+import { ExtendLifetimeSharedDiffAction } from '../../src/actions/ExtendLifetimeSharedDiffAction';
+import { makeSharedDiff } from '../../src/SharedDiff';
+import { SharedDiffRepository } from '../../src/sharedDiffRepository/SharedDiffRepository';
 import { SharedDiff } from 'diffy-models';
 
-jest.mock('../../src/v2/SharedDiffRepository');
+jest.mock('../../src/sharedDiffRepository/SharedDiffRepository');
 
-import { metrics } from './MockedMetrics';
+import { metrics } from '../MockedMetrics';
 
 const raw_diff = `
 diff --git a/file.json b/file.json
