@@ -34,14 +34,15 @@ export class DiffyService {
 
   getDiff(id: string): Observable<SharedDiff> {
     return this.http.get(this.diffyUrl + id)
-      .pipe(map((getDiffOutput: any) => this.makeSharedDiffFromJson(getDiffOutput.sharedDiff)))
+      .pipe(map((getDiffOutput: any) => this.makeSharedDiffFromJson(getDiffOutput._sharedDiff)))
       .pipe(catchError(this.handleError('getDiff', null)));
   }
 
-  storeDiff(diffText: string): Observable<any> {
+  storeDiff(diffText: string): Observable<SharedDiff> {
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
 
     return this.http.put(this.diffyUrl, {diff: diffText}, httpOptions)
+        .pipe(map((createDiffOutput: any) => this.makeSharedDiffFromJson(createDiffOutput._sharedDiff)))
         .pipe(catchError(this.handleError('getDiff', null)));
   }
 
@@ -88,6 +89,7 @@ export class DiffyService {
   private makeSharedDiffFromJson(diffyObj): SharedDiff {
     let sharedDiff = this.makeSharedDiff(diffyObj.rawDiff, new Date(diffyObj.created));
     sharedDiff.expiresAt = new Date(diffyObj.expiresAt);
+    sharedDiff.id = diffyObj.id;
     return sharedDiff
   }
 }

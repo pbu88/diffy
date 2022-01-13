@@ -20,7 +20,7 @@ import { GetSharedDiffAction } from './actions/GetSharedDiffAction';
 import { CreateSharedDiffAction } from './actions/CreateSharedDiffAction';
 import { DeleteSharedDiffAction } from './actions/DeleteSharedDiffAction';
 import { ExtendLifetimeSharedDiffAction } from './actions/ExtendLifetimeSharedDiffAction';
-import { ContextParser, GetDiffInput, GetDiffInputFactory, SharedDiff } from "diffy-models";
+import { ContextParser, CreateDiffInputFactory, GetDiffInput, GetDiffInputFactory, SharedDiff } from "diffy-models";
 import { getRepositorySupplierFor } from './sharedDiffRepository/SharedDiffRepository';
 import { GAMetrics } from './metrics/GAMetrics';
 import { toMPromise } from './actions/ActionUtils';
@@ -70,42 +70,12 @@ app.delete('/api/diff/:id', function (req: any, res: any) {
 let getDiffInputParserProvider = () => new GetDiffInputFactory();
 let contextParserProvider = () => new ContextParser();
 let getSharedDiffActionProvider = () => new GetSharedDiffAction(repo, config);
+
+let createDiffInputParserProvider = () => new CreateDiffInputFactory();
+let createDiffActionProvider = () => new CreateSharedDiffAction(repo, config);
+
 app.get('/api/diff/:id', toMPromise(getDiffInputParserProvider, contextParserProvider, getSharedDiffActionProvider))
-
-app.put('/api/diff', function (req: any, res: any) {
-  try {
-    var diffRequest = req.body;
-    var diff = diffRequest.diff || '';
-    diff = diff.replace(/\r/g, '');
-  } catch (e) {
-    res.status(400);
-    res.send({ error: 'Invalid input' });
-    return;
-  }
-  // remove \r
-  // end of param cleaning
-
-  const metrics =
-    new GAMetrics(config.GA_ANALITYCS_KEY, req.cookies._ga || config.GA_API_DEFAULT_KEY);
-  const action = new CreateSharedDiffAction(repo, metrics);
-  if (!action.isValidRawDiff(diff)) {
-    res.status(400);
-    res.send({ error: 'Diff is not valid' });
-    return;
-  }
-  const shared_diff = action.createSharedDiff(diff);
-  return action.storeSharedDiff(shared_diff).then((obj: SharedDiff) => {
-    if (!obj.id) {
-      console.warn('new: undefined obj id');
-      return Promise.reject({error: 'new: undefined obj id'});
-    }
-    res.send(obj);
-  }).catch(err => {
-    console.error(err)
-    res.status(500)
-    res.send({error: "Oops, something failed, please try again later. If the problem persists, create an issue in https://github.com/pbu88/diffy/issues/new/"});
-  });
-});
+app.put('/api/diff', toMPromise(createDiffInputParserProvider, contextParserProvider, createDiffActionProvider));
 
 app.get('/diff_download/:id', function (req: any, res: any) {
   var id = req.params.id;
