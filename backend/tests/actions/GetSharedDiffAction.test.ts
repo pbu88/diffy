@@ -22,11 +22,11 @@ index 1456e89..e1da2da 100644
     update: (diff: SharedDiff) => Promise.reject('random err'),
     deleteExpired: jest.fn(),
   };
-  const action = new GetSharedDiffAction(repo, metrics);
+  const action = new GetSharedDiffAction(repo, {});
   expect(action).toBeDefined();
-  return action.getSharedDiff('<diff_id>').then(shared_diff => {
-    expect(shared_diff.id).toEqual('<diff_id>');
-    expect(shared_diff.diff).toBeDefined();
-    expect(metrics.diffRetrievedSuccessfully).toHaveBeenCalled()
+  return action.execute({id: '<diff_id>'}, {gaCookie: ""}).then(shared_diff => {
+    expect(shared_diff.sharedDiff.id).toEqual('<diff_id>');
+    expect(shared_diff.sharedDiff.rawDiff).toBeDefined();
+    //expect(metrics.diffRetrievedSuccessfully).toHaveBeenCalled()
   });
 });

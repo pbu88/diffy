@@ -8,6 +8,7 @@
         "outDir": "dist",
         "baseUrl": ".",
         "allowJs": true,
+        "rootDir": ".",
         "paths": {
             "*": [
                 "src/types/*"
@@ -17,5 +18,6 @@
     "include": [
         "src/**/*",
         "tests/**/*"
-    ]
+    ],
+    "exclude": ["node_modules", "dist"]
 }

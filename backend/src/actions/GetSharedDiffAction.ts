@@ -1,14 +1,16 @@
-import { Metrics } from '../metrics/Metrics';
-import { SharedDiff } from "diffy-models";
 import { SharedDiffRepository } from '../sharedDiffRepository/SharedDiffRepository';
+import { ActionPromise, Context, GetDiffInput, GetDiffOutput } from 'diffy-models';
+import { GAMetrics } from '../metrics/GAMetrics';
 
-export class GetSharedDiffAction {
-  constructor(private repository: SharedDiffRepository, private metrics: Metrics) {}
+export class GetSharedDiffAction extends ActionPromise<GetDiffInput, Context, GetDiffOutput> {
+  constructor(private repository: SharedDiffRepository, private config: any) { super(); }
 
-  getSharedDiff(diff_id: string): Promise<SharedDiff> {
-    return this.repository.fetchById(diff_id).then(result => {
-      this.metrics.diffRetrievedSuccessfully();
-      return result;
+  execute(input: GetDiffInput, context: Context): Promise<GetDiffOutput> {
+    const metrics =
+      new GAMetrics(this.config.GA_ANALITYCS_KEY, context.gaCookie || this.config.GA_API_DEFAULT_KEY);
+    return this.repository.fetchById(input.id).then(result => {
+      metrics.diffRetrievedSuccessfully();
+      return new GetDiffOutput(result);
     });
   }
 }

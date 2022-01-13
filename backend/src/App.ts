@@ -20,9 +20,10 @@ import { GetSharedDiffAction } from './actions/GetSharedDiffAction';
 import { CreateSharedDiffAction } from './actions/CreateSharedDiffAction';
 import { DeleteSharedDiffAction } from './actions/DeleteSharedDiffAction';
 import { ExtendLifetimeSharedDiffAction } from './actions/ExtendLifetimeSharedDiffAction';
-import { SharedDiff } from "diffy-models";
+import { ContextParser, GetDiffInput, GetDiffInputFactory, SharedDiff } from "diffy-models";
 import { getRepositorySupplierFor } from './sharedDiffRepository/SharedDiffRepository';
 import { GAMetrics } from './metrics/GAMetrics';
+import { toMPromise } from './actions/ActionUtils';
 
 var app = express();
 const repo = getRepositorySupplierFor(config.DIFF_REPO)();
@@ -66,29 +67,10 @@ app.delete('/api/diff/:id', function (req: any, res: any) {
     });
 });
 
-app.get('/api/diff/:id', function (req: any, res: any) {
-  var id = req.params.id;
-  const metrics =
-    new GAMetrics(config.GA_ANALITYCS_KEY, req.cookies._ga || config.GA_API_DEFAULT_KEY);
-  var action = new GetSharedDiffAction(repo, metrics);
-  action.getSharedDiff(id).then(
-    (shared_diff: SharedDiff) => {
-      var jsonDiff = shared_diff.diff;
-      jsonDiff = jsonDiff.sort(utils.sortByFilenameCriteria);
-      res.setHeader('Content-Type', 'application/json');
-      res.send(JSON.stringify({
-        id: shared_diff.id,
-        expiresAt: shared_diff.expiresAt,
-        created: shared_diff.created,
-        rawDiff: shared_diff.rawDiff,
-      }));
-    },
-    (err: any) => {
-      res.status(404);
-      res.send(
-        '404 Sorry, the requested page was not found, create one at <a href="http://diffy.org">http://diffy.org</a>');
-    });
-});
+let getDiffInputParserProvider = () => new GetDiffInputFactory();
+let contextParserProvider = () => new ContextParser();
+let getSharedDiffActionProvider = () => new GetSharedDiffAction(repo, config);
+app.get('/api/diff/:id', toMPromise(getDiffInputParserProvider, contextParserProvider, getSharedDiffActionProvider))
 
 app.put('/api/diff', function (req: any, res: any) {
   try {

@@ -2,11 +2,12 @@
   "name": "diffy",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.js",
   "scripts": {
     "test": "sh run-tests.sh",
     "build": "rm -r dist;tsc",
-    "v2_test": "jest dist/tests/v2/**/*.js dist/tests/v2/*.js",
+    "v2_test": "jest",
     "start": "node dist/src/App.js"
   },
   "author": "",

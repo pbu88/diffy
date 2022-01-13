@@ -32,9 +32,9 @@ export class DiffyService {
     }
   }
 
-  public getDiff(id: string): Observable<SharedDiff> {
+  getDiff(id: string): Observable<SharedDiff> {
     return this.http.get(this.diffyUrl + id)
-      .pipe(map(diffyObj => this.makeSharedDiffFromJson(diffyObj)))
+      .pipe(map((getDiffOutput: any) => this.makeSharedDiffFromJson(getDiffOutput.sharedDiff)))
       .pipe(catchError(this.handleError('getDiff', null)));
   }
 
