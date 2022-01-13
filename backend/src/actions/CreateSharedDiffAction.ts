@@ -8,7 +8,7 @@ import { CreateDiffInput } from 'diffy-models';
 import { GetDiffOutput } from 'diffy-models';
 import { GAMetrics } from '../metrics/GAMetrics';
 
-export class CreateSharedDiffAction extends ActionPromise<CreateDiffInput, Context, GetDiffOutput>{
+export class CreateSharedDiffAction extends ActionPromise<CreateDiffInput, Context, GetDiffOutput> {
   constructor(
     private repository: SharedDiffRepository,
     private config: any) {

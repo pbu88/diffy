@@ -20,7 +20,7 @@ import { GetSharedDiffAction } from './actions/GetSharedDiffAction';
 import { CreateSharedDiffAction } from './actions/CreateSharedDiffAction';
 import { DeleteSharedDiffAction } from './actions/DeleteSharedDiffAction';
 import { ExtendLifetimeSharedDiffAction } from './actions/ExtendLifetimeSharedDiffAction';
-import { ContextParser, CreateDiffInputFactory, GetDiffInput, GetDiffInputFactory, SharedDiff } from "diffy-models";
+import { ContextParser, CreateDiffInputFactory, DeleteDiffInputFactory, GetDiffInput, GetDiffInputFactory, SharedDiff } from "diffy-models";
 import { getRepositorySupplierFor } from './sharedDiffRepository/SharedDiffRepository';
 import { GAMetrics } from './metrics/GAMetrics';
 import { toMPromise } from './actions/ActionUtils';
@@ -47,26 +47,6 @@ function diffTooBigErrorHandler(err: any, req: any, res: any, next: any) {
 
 app.use(cookieParser(config.session_secret)); // neded to read from req.cookie
 
-app.delete('/api/diff/:id', function (req: any, res: any) {
-  var id = req.params.id;
-  const metrics =
-    new GAMetrics(config.GA_ANALITYCS_KEY, req.cookies._ga || config.GA_API_DEFAULT_KEY);
-  var action = new DeleteSharedDiffAction(repo, metrics);
-  return action.deleteSharedDiff(id).then(
-    (deletedRowsCount) => {
-      if (deletedRowsCount > 0) {
-        res.send(JSON.stringify({ success: true }));
-      } else {
-        res.status(404);
-        res.send({ success: false, error: 'No documents found to delete' });
-      }
-    },
-    (err: any) => {
-      res.status(400);
-      res.send(JSON.stringify({ success: false }));
-    });
-});
-
 let getDiffInputParserProvider = () => new GetDiffInputFactory();
 let contextParserProvider = () => new ContextParser();
 let getSharedDiffActionProvider = () => new GetSharedDiffAction(repo, config);
@@ -74,8 +54,12 @@ let getSharedDiffActionProvider = () => new GetSharedDiffAction(repo, config);
 let createDiffInputParserProvider = () => new CreateDiffInputFactory();
 let createDiffActionProvider = () => new CreateSharedDiffAction(repo, config);
 
+let deleteDiffInputParserProvider = () => new DeleteDiffInputFactory();
+let deleteDiffActionProvider = () => new DeleteSharedDiffAction(repo, config);
+
 app.get('/api/diff/:id', toMPromise(getDiffInputParserProvider, contextParserProvider, getSharedDiffActionProvider))
 app.put('/api/diff', toMPromise(createDiffInputParserProvider, contextParserProvider, createDiffActionProvider));
+app.delete('/api/diff/:id', toMPromise(deleteDiffInputParserProvider, contextParserProvider, deleteDiffActionProvider));
 
 app.get('/diff_download/:id', function (req: any, res: any) {
   var id = req.params.id;

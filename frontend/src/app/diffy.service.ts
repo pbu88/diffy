@@ -50,6 +50,7 @@ export class DiffyService {
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
 
     return this.http.delete(this.diffyUrl + id, httpOptions)
+        .pipe(map((deleteDiffOutput: any) => deleteDiffOutput._success))
         .pipe(catchError(this.handleError('deleteDiff', null)));
   }
 

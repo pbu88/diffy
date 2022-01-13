@@ -1,24 +1,28 @@
-import {Metrics} from '../metrics/Metrics';
-import {SharedDiffRepository} from '../sharedDiffRepository/SharedDiffRepository';
+import { DeleteDiffInput } from 'diffy-models';
+import { DeleteDiffOutput } from 'diffy-models';
+import { ActionPromise } from 'diffy-models';
+import { Context } from 'diffy-models';
+import { GAMetrics } from '../metrics/GAMetrics';
+import { SharedDiffRepository } from '../sharedDiffRepository/SharedDiffRepository';
 
-export class DeleteSharedDiffAction {
-  repository: SharedDiffRepository;
-  metrics: Metrics;
+export class DeleteSharedDiffAction extends ActionPromise<DeleteDiffInput, Context, DeleteDiffOutput> {
 
-  constructor(repository: SharedDiffRepository, metrics: Metrics) {
-    this.repository = repository;
-    this.metrics = metrics;
-  }
+  constructor(
+    private repository: SharedDiffRepository,
+    private config: any) { super() }
 
-  deleteSharedDiff(diff_id: string): Promise<number> {
-    return this.repository.deleteById(diff_id).then(
-        deletedRows => {
-          this.metrics.diffDeletedSuccessfully();
-          return deletedRows
-        },
-        error => {
-          this.metrics.diffFailedToDelete();
-          return error
-        })
+  public execute(input: DeleteDiffInput, context: Context): Promise<DeleteDiffOutput> {
+    const metrics =
+      new GAMetrics(this.config.GA_ANALITYCS_KEY, context.gaCookie || this.config.GA_API_DEFAULT_KEY);
+    return this.repository.deleteById(input.id).then(
+      deletedRows => {
+        metrics.diffDeletedSuccessfully();
+        return new DeleteDiffOutput(true);
+      },
+      error => {
+        console.log(error);
+        metrics.diffFailedToDelete();
+        return Promise.reject("There was an error when deleting the diff");
+      });
   }
 }
