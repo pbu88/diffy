@@ -58,7 +58,7 @@ export class DiffyService {
     const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
 
     return this.http.post(this.diffyUrl + 'extend/' + id, httpOptions)
-        .pipe(map(diffyObj => this.makeSharedDiffFromJson(diffyObj)))
+        .pipe(map((extendLifetimeOutput: any) => this.makeSharedDiffFromJson(extendLifetimeOutput._sharedDiff)))
         .pipe(catchError(this.handleError('extendLifetimeDiff', null)));
   }
 
@@ -68,7 +68,7 @@ export class DiffyService {
     };
 
     return this.http.post(this.diffyUrl + 'makePermanent/' + id, httpOptions)
-      .pipe(map(diffyObj => this.makeSharedDiffFromJson(diffyObj)))
+      .pipe(map((makePermanentOutput: any) => this.makeSharedDiffFromJson(makePermanentOutput._sharedDiff)))
       .pipe(catchError(this.handleError('extendLifetimeDiff', null)));
   }
 

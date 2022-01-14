@@ -1,15 +1,19 @@
 import { Metrics } from '../metrics/Metrics';
-import { makePermanent, extendLifetime} from '../SharedDiff';
-import { SharedDiff } from "diffy-models";
+import { makePermanent, extendLifetime } from '../SharedDiff';
+import { ActionPromise, Context, ExtendDiffLifetimeInput, ExtendDiffLifetimeOutput, SharedDiff } from "diffy-models";
 import { SharedDiffRepository } from '../sharedDiffRepository/SharedDiffRepository';
+import { GAMetrics } from '../metrics/GAMetrics';
 
-export class ExtendLifetimeSharedDiffAction {
+export class ExtendLifetimeSharedDiffAction extends ActionPromise<ExtendDiffLifetimeInput, Context, ExtendDiffLifetimeOutput> {
   static readonly MAX_LIFETIME_OF_DIFF_MS = 5 * 24 * 60 * 60 * 1000;  // 5 days
 
-  constructor(private repository: SharedDiffRepository, private metrics: Metrics) {}
+  constructor(private repository: SharedDiffRepository, private config: any) { super(); }
 
-  extendSharedDiffLifetime(diff_id: string, numberOfHours: number): Promise<SharedDiff> {
-    return this.repository.fetchById(diff_id)
+  execute(input: ExtendDiffLifetimeInput, context: Context): Promise<ExtendDiffLifetimeOutput> {
+    const numberOfHours = 24;
+    const metrics =
+      new GAMetrics(this.config.GA_ANALITYCS_KEY, context.gaCookie || this.config.GA_API_DEFAULT_KEY);
+    return this.repository.fetchById(input.id)
       .then(diff => {
         let newDate: Date = new Date(diff.expiresAt.getTime() + (numberOfHours * 60 * 60 * 1000));
         if (newDate.getTime() - diff.created.getTime() >
@@ -24,18 +28,8 @@ export class ExtendLifetimeSharedDiffAction {
       })
       .then(diff => this.repository.update(diff))
       .then(result => {
-        this.metrics.diffLifetimeExtendedSuccessfully();
-        return result;
+        metrics.diffLifetimeExtendedSuccessfully();
+        return new ExtendDiffLifetimeOutput(result);
       });
-  }
-
-  makePermanent(diff_id: string): Promise<SharedDiff> {
-    return this.repository.fetchById(diff_id)
-        .then(diff => makePermanent(diff))
-        .then(diff => this.repository.update(diff))
-        .then(result => {
-          this.metrics.diffMadePermanentSuccesfully();
-          return result;
-        });
   }
 }

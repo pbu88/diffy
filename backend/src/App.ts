@@ -20,10 +20,11 @@ import { GetSharedDiffAction } from './actions/GetSharedDiffAction';
 import { CreateSharedDiffAction } from './actions/CreateSharedDiffAction';
 import { DeleteSharedDiffAction } from './actions/DeleteSharedDiffAction';
 import { ExtendLifetimeSharedDiffAction } from './actions/ExtendLifetimeSharedDiffAction';
-import { ContextParser, CreateDiffInputFactory, DeleteDiffInputFactory, GetDiffInput, GetDiffInputFactory, SharedDiff } from "diffy-models";
+import { ContextParser, CreateDiffInputFactory, DeleteDiffInputFactory, ExtendDiffLifetimeInputFactory, GetDiffInput, GetDiffInputFactory, MakeDiffPermanentInputFactory, SharedDiff } from "diffy-models";
 import { getRepositorySupplierFor } from './sharedDiffRepository/SharedDiffRepository';
 import { GAMetrics } from './metrics/GAMetrics';
 import { toMPromise } from './actions/ActionUtils';
+import { MakePermanentSharedDiffAction } from './actions/MakePermanentSharedDiffAction';
 
 var app = express();
 const repo = getRepositorySupplierFor(config.DIFF_REPO)();
@@ -57,9 +58,17 @@ let createDiffActionProvider = () => new CreateSharedDiffAction(repo, config);
 let deleteDiffInputParserProvider = () => new DeleteDiffInputFactory();
 let deleteDiffActionProvider = () => new DeleteSharedDiffAction(repo, config);
 
+let extendDiffInputParserProvider = () => new ExtendDiffLifetimeInputFactory();
+let extendDiffActionProvider = () => new ExtendLifetimeSharedDiffAction(repo, config);
+
+let makePermanentDiffInputParserProvider = () => new MakeDiffPermanentInputFactory();
+let makePermanentDiffActionProvider = () => new MakePermanentSharedDiffAction(repo, config);
+
 app.get('/api/diff/:id', toMPromise(getDiffInputParserProvider, contextParserProvider, getSharedDiffActionProvider))
 app.put('/api/diff', toMPromise(createDiffInputParserProvider, contextParserProvider, createDiffActionProvider));
 app.delete('/api/diff/:id', toMPromise(deleteDiffInputParserProvider, contextParserProvider, deleteDiffActionProvider));
+app.post('/api/diff/makePermanent/:id', toMPromise(makePermanentDiffInputParserProvider, contextParserProvider, makePermanentDiffActionProvider));
+app.post('/api/diff/extend/:id', toMPromise(extendDiffInputParserProvider, contextParserProvider, extendDiffActionProvider));
 
 app.get('/diff_download/:id', function (req: any, res: any) {
   var id = req.params.id;
@@ -77,51 +86,7 @@ app.get('/diff_download/:id', function (req: any, res: any) {
       res.send(rawDiff);
     });
 });
-
-app.post('/api/diff/extend/:id', function (req: any, res: any) {
-  var id = req.params.id;
-  const metrics =
-    new GAMetrics(config.GA_ANALITYCS_KEY, req.cookies._ga || config.GA_API_DEFAULT_KEY);
-  const action = new ExtendLifetimeSharedDiffAction(repo, metrics);
-  return action
-    .extendSharedDiffLifetime(id, 24)  // extend 24 hours
-    .then(
-      (obj: SharedDiff) => {
-        if (!obj.id) {
-          console.warn('new: undefined obj id');
-        }
-        res.send(obj);
-      },
-      (err: any) => {
-        console.warn("Failed to extend diff lifetime:", err);
-        res.status(400);
-        res.send(JSON.stringify({ success: false, error: err.message }));
-      });
-});
-
-app.post('/api/diff/makePermanent/:id', function (req: any, res: any) {
-  var id = req.params.id;
-  const metrics =
-    new GAMetrics(config.GA_ANALITYCS_KEY, req.cookies._ga || config.GA_API_DEFAULT_KEY);
-  const action = new ExtendLifetimeSharedDiffAction(repo, metrics);
-  return action
-    .makePermanent(id)
-    .then(
-      (obj: SharedDiff) => {
-        if (!obj.id) {
-          console.warn('new: undefined obj id');
-        }
-        res.send(obj);
-      },
-      (err: any) => {
-        res.status(400);
-        res.send(JSON.stringify({ success: false, error: err.message }));
-      });
-});
-
-app.get('*', function (req: any, res: any) {
-  res.sendFile(INDEX_FILE);
-});
+app.get('*', function (req: any, res: any) { res.sendFile(INDEX_FILE); });
 
 var server = app.listen(config.port, config.host, function () {
   var host = server.address().address;

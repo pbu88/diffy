@@ -6,6 +6,7 @@ import { SharedDiff } from 'diffy-models';
 jest.mock('../../src/sharedDiffRepository/SharedDiffRepository');
 
 import { metrics } from '../MockedMetrics';
+import { MakePermanentSharedDiffAction } from '../..//src/actions/MakePermanentSharedDiffAction';
 
 const raw_diff = `
 diff --git a/file.json b/file.json
@@ -27,9 +28,9 @@ const repo: SharedDiffRepository = {
 
 test('should make a diff permanent', () => {
   const spy = jest.spyOn(repo, "update");
-  const action = new ExtendLifetimeSharedDiffAction(repo, metrics);
+  const action = new MakePermanentSharedDiffAction(repo, {});
   return action.execute({ id: "1" }, {} as any).then(output => {
     expect(spy).toHaveBeenCalled();
-    expect(output.sharedDiff.expiresAt.getTime()).toBeGreaterThan(DIFF.expiresAt.getTime());
+    expect(output.sharedDiff.expiresAt.getFullYear()).toBe(9999);
   });
 });
