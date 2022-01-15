@@ -1,6 +1,14 @@
+import { GetSharedDiffAction } from './actions/GetSharedDiffAction';
+import { CreateSharedDiffAction } from './actions/CreateSharedDiffAction';
+import { DeleteSharedDiffAction } from './actions/DeleteSharedDiffAction';
+import { ExtendLifetimeSharedDiffAction } from './actions/ExtendLifetimeSharedDiffAction';
+import { ContextParser, CreateDiffInputFactory, DeleteDiffInputFactory, ExtendDiffLifetimeInputFactory, GetDiffInput, GetDiffInputFactory, MakeDiffPermanentInputFactory, SharedDiff } from "diffy-models";
+import { getRepositorySupplierFor } from './sharedDiffRepository/SharedDiffRepository';
+import { GAMetrics } from './metrics/GAMetrics';
+import { toMPromise } from './actions/ActionUtils';
+import { MakePermanentSharedDiffAction } from './actions/MakePermanentSharedDiffAction';
 var express = require('express');
 var bodyParser = require('body-parser');
-var utils = require('./utils.js').Utils;
 var cookieParser = require('cookie-parser');
 var path = require('path');
 
@@ -15,16 +23,6 @@ if (process.env["NODE_ENV"] == "production") {
 const PROJECT_ROOT = path.join(__dirname + '/../../../');
 const STATICS_FOLDER = path.join(PROJECT_ROOT, 'frontend/dist/ngdiffy');
 const INDEX_FILE = path.join(PROJECT_ROOT + '/frontend/dist/ngdiffy/index.html');
-
-import { GetSharedDiffAction } from './actions/GetSharedDiffAction';
-import { CreateSharedDiffAction } from './actions/CreateSharedDiffAction';
-import { DeleteSharedDiffAction } from './actions/DeleteSharedDiffAction';
-import { ExtendLifetimeSharedDiffAction } from './actions/ExtendLifetimeSharedDiffAction';
-import { ContextParser, CreateDiffInputFactory, DeleteDiffInputFactory, ExtendDiffLifetimeInputFactory, GetDiffInput, GetDiffInputFactory, MakeDiffPermanentInputFactory, SharedDiff } from "diffy-models";
-import { getRepositorySupplierFor } from './sharedDiffRepository/SharedDiffRepository';
-import { GAMetrics } from './metrics/GAMetrics';
-import { toMPromise } from './actions/ActionUtils';
-import { MakePermanentSharedDiffAction } from './actions/MakePermanentSharedDiffAction';
 
 var app = express();
 const repo = getRepositorySupplierFor(config.DIFF_REPO)();
@@ -50,27 +48,28 @@ app.use(cookieParser(config.session_secret)); // neded to read from req.cookie
 
 const metricsProvider = (gaCookie: string) =>
   new GAMetrics(config.GA_ANALITYCS_KEY, gaCookie || config.GA_API_DEFAULT_KEY);
-let getDiffInputParserProvider = () => new GetDiffInputFactory();
 let contextParserProvider = () => new ContextParser();
-let getSharedDiffActionProvider = () => new GetSharedDiffAction(repo, config);
 
-let createDiffInputParserProvider = () => new CreateDiffInputFactory();
-let createDiffActionProvider = () => new CreateSharedDiffAction(repo, config);
-
-let deleteDiffInputParserProvider = () => new DeleteDiffInputFactory();
-let deleteDiffActionProvider = () => new DeleteSharedDiffAction(repo, config);
-
-let extendDiffInputParserProvider = () => new ExtendDiffLifetimeInputFactory();
-let extendDiffActionProvider = () => new ExtendLifetimeSharedDiffAction(repo, config);
-
-let makePermanentDiffInputParserProvider = () => new MakeDiffPermanentInputFactory();
-let makePermanentDiffActionProvider = () => new MakePermanentSharedDiffAction(repo, config);
-
-app.get('/api/diff/:id', toMPromise(getDiffInputParserProvider, contextParserProvider, getSharedDiffActionProvider))
-app.put('/api/diff', toMPromise(createDiffInputParserProvider, contextParserProvider, createDiffActionProvider));
-app.delete('/api/diff/:id', toMPromise(deleteDiffInputParserProvider, contextParserProvider, deleteDiffActionProvider));
-app.post('/api/diff/makePermanent/:id', toMPromise(makePermanentDiffInputParserProvider, contextParserProvider, makePermanentDiffActionProvider));
-app.post('/api/diff/extend/:id', toMPromise(extendDiffInputParserProvider, contextParserProvider, extendDiffActionProvider));
+app.get('/api/diff/:id', toMPromise(
+  () => new GetDiffInputFactory(),
+  contextParserProvider,
+  () => new GetSharedDiffAction(repo, metricsProvider)))
+app.put('/api/diff', toMPromise(
+  () => new CreateDiffInputFactory(),
+  contextParserProvider,
+  () => new CreateSharedDiffAction(repo, metricsProvider)));
+app.delete('/api/diff/:id', toMPromise(
+  () => new DeleteDiffInputFactory(),
+  contextParserProvider,
+  () => new DeleteSharedDiffAction(repo, metricsProvider)));
+app.post('/api/diff/makePermanent/:id', toMPromise(
+  () => new MakeDiffPermanentInputFactory(),
+  contextParserProvider,
+  () => new MakePermanentSharedDiffAction(repo, metricsProvider)));
+app.post('/api/diff/extend/:id', toMPromise(
+  () => new ExtendDiffLifetimeInputFactory(),
+  contextParserProvider,
+  () => new ExtendLifetimeSharedDiffAction(repo, metricsProvider)));
 
 app.get('/diff_download/:id', function (req: any, res: any) {
   var id = req.params.id;
