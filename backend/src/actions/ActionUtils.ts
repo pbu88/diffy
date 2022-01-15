@@ -2,11 +2,11 @@
 import { InputParser, Context, Input, Output, ActionPromise, ContextParser } from 'diffy-models';
 
 export function toMPromise(
-        inputProvider: () => InputParser,
-        contextProvider: () => ContextParser,
-        actionProvider: () => ActionPromise<Input, Context, Output>) {
+    inputProvider: () => InputParser,
+    contextProvider: () => ContextParser,
+    actionProvider: () => ActionPromise<Input, Context, Output>) {
 
-    return function(req:any , res: any) {
+    return function (req: any, res: any) {
         const i = inputProvider(); // TODO: no need to create a new instance every time
         const c = contextProvider(); // TODO: no need to create a new instance every time
         const a = actionProvider(); // TODO: no need to create a new instance every time

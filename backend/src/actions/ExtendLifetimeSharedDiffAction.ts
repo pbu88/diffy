@@ -1,18 +1,19 @@
 import { Metrics } from '../metrics/Metrics';
-import { makePermanent, extendLifetime } from '../SharedDiff';
+import { extendLifetime } from '../SharedDiff';
 import { ActionPromise, Context, ExtendDiffLifetimeInput, ExtendDiffLifetimeOutput, SharedDiff } from "diffy-models";
 import { SharedDiffRepository } from '../sharedDiffRepository/SharedDiffRepository';
-import { GAMetrics } from '../metrics/GAMetrics';
 
 export class ExtendLifetimeSharedDiffAction extends ActionPromise<ExtendDiffLifetimeInput, Context, ExtendDiffLifetimeOutput> {
   static readonly MAX_LIFETIME_OF_DIFF_MS = 5 * 24 * 60 * 60 * 1000;  // 5 days
 
-  constructor(private repository: SharedDiffRepository, private config: any) { super(); }
+  constructor(
+    private repository: SharedDiffRepository,
+    private metricsProvider: (gaCookie: string) => Metrics
+  ) { super(); }
 
   execute(input: ExtendDiffLifetimeInput, context: Context): Promise<ExtendDiffLifetimeOutput> {
     const numberOfHours = 24;
-    const metrics =
-      new GAMetrics(this.config.GA_ANALITYCS_KEY, context.gaCookie || this.config.GA_API_DEFAULT_KEY);
+    const metrics = this.metricsProvider(context.gaCookie);
     return this.repository.fetchById(input.id)
       .then(diff => {
         let newDate: Date = new Date(diff.expiresAt.getTime() + (numberOfHours * 60 * 60 * 1000));

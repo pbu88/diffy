@@ -1,9 +1,9 @@
-import {GetSharedDiffAction} from '../../src/actions/GetSharedDiffAction';
-import {makeSharedDiff } from '../../src/SharedDiff';
+import { GetSharedDiffAction } from '../../src/actions/GetSharedDiffAction';
+import { makeSharedDiff } from '../../src/SharedDiff';
 import { SharedDiff } from 'diffy-models';
-import {SharedDiffRepository} from '../../src/sharedDiffRepository/SharedDiffRepository';
+import { SharedDiffRepository } from '../../src/sharedDiffRepository/SharedDiffRepository';
 
-import {metrics} from '../MockedMetrics';
+import { metrics } from '../MockedMetrics';
 
 test('should create a GetSharedDiffAction and fetch the SharedDiff', () => {
   const raw_diff = `
@@ -17,16 +17,16 @@ index 1456e89..e1da2da 100644
 `
   const repo: SharedDiffRepository = {
     insert: jest.fn(),
-    fetchById: (id: string) => Promise.resolve({...makeSharedDiff(raw_diff), id}),
+    fetchById: (id: string) => Promise.resolve({ ...makeSharedDiff(raw_diff), id }),
     deleteById: (id: string) => Promise.resolve(0),
     update: (diff: SharedDiff) => Promise.reject('random err'),
     deleteExpired: jest.fn(),
   };
-  const action = new GetSharedDiffAction(repo, {});
+  const action = new GetSharedDiffAction(repo, () => metrics);
   expect(action).toBeDefined();
-  return action.execute({id: '<diff_id>'}, {gaCookie: ""}).then(shared_diff => {
+  return action.execute({ id: '<diff_id>' }, { gaCookie: "" }).then(shared_diff => {
     expect(shared_diff.sharedDiff.id).toEqual('<diff_id>');
     expect(shared_diff.sharedDiff.rawDiff).toBeDefined();
-    //expect(metrics.diffRetrievedSuccessfully).toHaveBeenCalled()
+    expect(metrics.diffRetrievedSuccessfully).toHaveBeenCalled()
   });
 });

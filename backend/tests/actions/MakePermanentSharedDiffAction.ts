@@ -1,4 +1,3 @@
-import { ExtendLifetimeSharedDiffAction } from '../../src/actions/ExtendLifetimeSharedDiffAction';
 import { makeSharedDiff } from '../../src/SharedDiff';
 import { SharedDiffRepository } from '../../src/sharedDiffRepository/SharedDiffRepository';
 import { SharedDiff } from 'diffy-models';
@@ -28,7 +27,7 @@ const repo: SharedDiffRepository = {
 
 test('should make a diff permanent', () => {
   const spy = jest.spyOn(repo, "update");
-  const action = new MakePermanentSharedDiffAction(repo, {});
+  const action = new MakePermanentSharedDiffAction(repo, () => metrics);
   return action.execute({ id: "1" }, {} as any).then(output => {
     expect(spy).toHaveBeenCalled();
     expect(output.sharedDiff.expiresAt.getFullYear()).toBe(9999);

@@ -27,7 +27,7 @@ const repo: SharedDiffRepository = {
 
 test('should make a diff permanent', () => {
   const spy = jest.spyOn(repo, "update");
-  const action = new ExtendLifetimeSharedDiffAction(repo, metrics);
+  const action = new ExtendLifetimeSharedDiffAction(repo, () => metrics);
   return action.execute({ id: "1" }, {} as any).then(output => {
     expect(spy).toHaveBeenCalled();
     expect(output.sharedDiff.expiresAt.getTime()).toBeGreaterThan(DIFF.expiresAt.getTime());

@@ -48,6 +48,8 @@ function diffTooBigErrorHandler(err: any, req: any, res: any, next: any) {
 
 app.use(cookieParser(config.session_secret)); // neded to read from req.cookie
 
+const metricsProvider = (gaCookie: string) =>
+  new GAMetrics(config.GA_ANALITYCS_KEY, gaCookie || config.GA_API_DEFAULT_KEY);
 let getDiffInputParserProvider = () => new GetDiffInputFactory();
 let contextParserProvider = () => new ContextParser();
 let getSharedDiffActionProvider = () => new GetSharedDiffAction(repo, config);

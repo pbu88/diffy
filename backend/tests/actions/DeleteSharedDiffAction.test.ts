@@ -12,11 +12,11 @@ test('should create a DeleteSharedDiffAction and delete a SharedDiff by id', () 
     update: (diff: SharedDiff) => Promise.reject('random err'),
     deleteExpired: jest.fn(),
   };
-  const action = new DeleteSharedDiffAction(repo, metrics);
+  const action = new DeleteSharedDiffAction(repo, () => metrics);
   expect(action).toBeDefined();
   return action.execute({ id: '<diff_id>' }, {} as Context)
     .then(output => {
       expect(output.success).toEqual(true)
-      //expect(metrics.diffDeletedSuccessfully).toHaveBeenCalled()
+      expect(metrics.diffDeletedSuccessfully).toHaveBeenCalled()
     });
 });

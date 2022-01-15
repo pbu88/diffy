@@ -6,18 +6,17 @@ import { ActionPromise } from 'diffy-models';
 import { Context } from 'diffy-models';
 import { CreateDiffInput } from 'diffy-models';
 import { GetDiffOutput } from 'diffy-models';
-import { GAMetrics } from '../metrics/GAMetrics';
 
 export class CreateSharedDiffAction extends ActionPromise<CreateDiffInput, Context, GetDiffOutput> {
   constructor(
     private repository: SharedDiffRepository,
-    private config: any) {
+    private metricsProvider: (gaCookie: string) => Metrics
+  ) {
     super();
   }
 
   public execute(input: CreateDiffInput, context: Context): Promise<GetDiffOutput> {
-    const metrics =
-      new GAMetrics(this.config.GA_ANALITYCS_KEY, context.gaCookie || this.config.GA_API_DEFAULT_KEY);
+    const metrics = this.metricsProvider(context.gaCookie);
     if (!isValidRawDiff(input.diff)) {
       return Promise.reject("Diff is not valid");
     }

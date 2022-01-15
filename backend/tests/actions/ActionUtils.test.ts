@@ -3,6 +3,7 @@ import { MemoryDiffRepository } from "../../src/sharedDiffRepository/MemoryDiffR
 import { makeSharedDiff } from "../../src/SharedDiff";
 import { ContextParser, GetDiffInputFactory, Output } from "diffy-models";
 import { GetSharedDiffAction } from "../../src/actions/GetSharedDiffAction";
+import { metrics } from '../MockedMetrics';
 
 test("toM promise", () => {
     const rawDiff = `
@@ -22,11 +23,11 @@ test("toM promise", () => {
             params: { id: storedDiff.id }
         };
         let res = {
-            status: jest.fn(statusCode => {}),
-            json: jest.fn(output => {}),
-            send: jest.fn(output => {}),
+            status: jest.fn(statusCode => { }),
+            json: jest.fn(output => { }),
+            send: jest.fn(output => { }),
         }
-        return toMPromise(() => new GetDiffInputFactory(), () => new ContextParser(), () => new GetSharedDiffAction(repo, {}))(req, res)
+        return toMPromise(() => new GetDiffInputFactory(), () => new ContextParser(), () => new GetSharedDiffAction(repo, () => metrics))(req, res)
             .then(() => {
                 expect(res.status.mock.calls.length).toBe(1);
                 expect(res.json.mock.calls.length).toBe(1);

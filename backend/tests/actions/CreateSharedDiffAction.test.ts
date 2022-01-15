@@ -21,12 +21,12 @@ index 1456e89..e1da2da 100644
     update: (diff: SharedDiff) => Promise.reject('random err'),
     deleteExpired: jest.fn(),
   };
-  const action = new CreateSharedDiffAction(repo, {});
+  const action = new CreateSharedDiffAction(repo, () => metrics);
   return action.execute({ diff: raw_diff }, {} as Context)
     .then(output => {
       expect(output.sharedDiff.diff).toBeDefined();
       expect(repo.insert).toHaveBeenCalled();
-      //expect(metrics.diffStoredSuccessfully).toHaveBeenCalled();
+      expect(metrics.diffStoredSuccessfully).toHaveBeenCalled();
     })
 });
 
@@ -49,12 +49,12 @@ index 1456e89..e1da2da 100644
     update: (diff: SharedDiff) => Promise.reject('random err'),
     deleteExpired: jest.fn(),
   };
-  const action = new CreateSharedDiffAction(repo, {});
+  const action = new CreateSharedDiffAction(repo, () => metrics);
   return action.execute({ diff: raw_diff }, {} as Context)
     .then(() => fail('should never reach'))
     .catch(() => {
       expect(repo.insert).toHaveBeenCalled();
-      //expect(metrics.diffFailedToStore).toHaveBeenCalled();
+      expect(metrics.diffFailedToStore).toHaveBeenCalled();
     });
 });
 
@@ -67,11 +67,11 @@ test('CreateSharedDiffAction.storeSharedDiff(), rejects when invalid diff', () =
     update: (diff: SharedDiff) => Promise.reject('random err'),
     deleteExpired: jest.fn(),
   };
-  const action = new CreateSharedDiffAction(repo, {});
+  const action = new CreateSharedDiffAction(repo, () => metrics);
   return action.execute({ diff: raw_diff }, {} as Context)
     .then(() => fail('should never reach'))
     .catch(() => {
       expect(repo.insert).not.toHaveBeenCalled();
-      //expect(metrics.diffFailedToStore).toHaveBeenCalled();
+      expect(metrics.diffFailedToStore).toHaveBeenCalled();
     });
 });
