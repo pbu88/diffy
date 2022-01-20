@@ -20,7 +20,7 @@ describe('AppComponent', () => {
   it(`should have as title 'ngdiffy'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('ngdiffy');
+    expect(app.title).toEqual(`Diffy - share diff output in your browser`);
   });
 
   it('should render title in a h1 tag', () => {

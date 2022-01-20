@@ -1,6 +1,7 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FileTree } from '../diff-detail/tree-functions';
 
-import {DiffFileTreeComponent} from './diff-file-tree.component';
+import { DiffFileTreeComponent } from './diff-file-tree.component';
 
 describe('DiffFileTreeComponent', () => {
   let component: DiffFileTreeComponent;
@@ -13,6 +14,7 @@ describe('DiffFileTreeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DiffFileTreeComponent);
     component = fixture.componentInstance;
+    component.fileTree = new FileTree();
     fixture.detectChanges();
   });
 
