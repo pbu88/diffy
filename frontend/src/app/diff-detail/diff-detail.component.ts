@@ -7,6 +7,7 @@ import { FileTree } from '../diff-detail/tree-functions';
 import { DiffyService } from '../diffy.service';
 import { SharedDiff } from 'diffy-models';
 import { Error } from '../types/Error';
+import { AnalyticsService } from '../analytics.service';
 
 const DIFF_MAX_DATE = new Date('9999-01-01');
 const MAKE_PERMANENT_THRESHOLD = 5 * 24 * 60 * 60 * 1000 - 1;
@@ -27,8 +28,13 @@ export class DiffDetailComponent implements OnInit {
   currentId: string;
 
   constructor(
-      private router: Router, private route: ActivatedRoute, private diffyService: DiffyService,
-      private alertService: AlertService, @Inject(DOCUMENT) dom: Document) {
+      private router: Router,
+      private route: ActivatedRoute,
+      private diffyService: DiffyService,
+      private alertService: AlertService,
+      private analyticsService: AnalyticsService,
+      @Inject(DOCUMENT) dom: Document) {
+
     this.dom = dom;
   }
 
@@ -101,6 +107,7 @@ export class DiffDetailComponent implements OnInit {
 
   getExtendLifetimeFn() {
     return () => {
+      this.analyticsService.clickExtendLifetimeButton();
       this.diffyService.extendLifetime(this.currentId)
           .subscribe(
               sharedDiff => {
@@ -114,6 +121,7 @@ export class DiffDetailComponent implements OnInit {
 
   getMakePermanentDiffFn(): (email: string) => void {
     return () => {
+      this.analyticsService.clickMakePermanentButton();
       this.diffyService.makePermanent(this.currentId)
           .subscribe(
               sharedDiff => {

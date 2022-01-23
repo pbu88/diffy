@@ -23,4 +23,12 @@ export class AnalyticsService {
   clickDiffMeButton() {
     (<any>window).ga('send', 'event', 'diffMeButton', 'click');
   }
+
+  clickExtendLifetimeButton() {
+    (<any>window).ga('send', 'event', 'extendLifetimeButton', 'click');
+  }
+
+  clickMakePermanentButton() {
+    (<any>window).ga('send', 'event', 'makePermanentButton', 'click');
+  }
 }
