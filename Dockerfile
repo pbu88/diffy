@@ -20,6 +20,12 @@ WORKDIR /diffy/backend
 RUN npm install
 RUN npm run-script build
 
+# Models
+COPY ./models/ /diffy/models/
+WORKDIR /diffy/models
+RUN npm install
+RUN npm run-script build
+
 # By default expose port 3000 and run `node /diffy/src/app.js` when executing the image
 EXPOSE 3000
 CMD ["npm", "start"]

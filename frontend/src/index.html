@@ -5,7 +5,7 @@
   <title>Diffy - share diff output in your browser</title>
   <base href="/">
 
-  <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--<link rel="icon" type="image/x-icon" href="favicon.ico">-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -40,13 +40,6 @@
             <p class="credit">Created by <a href="https://paulobu.com" target="_blank">Paulo Bu</a></p>
         </div>
     </div>
-  <!-- Bootstrap core JavaScript
-  ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
-  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-  <!--<script src="./Cover Template for Bootstrap_files/ie10-viewport-bug-workaround.js"></script>-->
   <script>
       var x='REPLACE_ME_GA_ANALITYCS_KEY';
       if (!x.startsWith('REPLACE_ME')) {
@@ -60,46 +53,6 @@
       } else {
           window.ga = function() { console.log("dummy ga") };
       }
-  </script>
-  <script>
-    $(function() {
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-
-//$(function() {
-//    $('#submit-file').change(function(evt) {
-//        var files = evt.target.files;
-//        var reader = new FileReader();
-//        reader.onload = function(e) {
-//            var text = e.target.result
-//            $('#diffTextArea').val(text);
-//            var element = document.getElementById('diffTextArea');
-//            var event = new Event('change', { bubbles: true });
-//            element.dispatchEvent(event);
-//        };
-//
-//        reader.readAsText(files[0]);
-//    });
-//});
-
-  </script>
-  <!--<script src="/static/clipboard.js"></script>-->
-  <!-- Javascripts -->
-  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>-->
-  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/scala.min.js"></script>-->
-  <!--<script type="text/javascript" src="/static/vendor/diff2html/diff2html-ui.js"></script>-->
-  <script>
-  $(document).ready(function() {
-      $('.d2h-file-wrapper').each(function(i, wrapper) {
-          var $wrapper = $(wrapper);
-          var lang = $wrapper.data('lang');
-          $wrapper.find('.d2h-code-line-ctn').each(function(i, line) {
-              var $line = $(line);
-              $line.addClass(lang);
-              //hljs.highlightBlock(line);
-      });
-    });
-  });
   </script>
 
 </body>
