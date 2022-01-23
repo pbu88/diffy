@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, SimpleChange} from '@angular/core';
 
 @Component({
   selector: 'app-diff-detail-countdown',
@@ -14,13 +14,21 @@ export class DiffDetailCountdownComponent implements OnInit {
   hours: number;
   minutes: number;
   seconds: number;
+  extendLifetimeLoading: boolean;
 
   constructor() {}
 
   ngOnInit() {
+    console.log("init")
     setInterval(() => {
       this.updateTtl();
     }, 1000);
+  }
+
+  ngOnChanges(changes: SimpleChange) {
+    if(changes["expiresAt"] != undefined) {
+      this.extendLifetimeLoading = false;
+    }
   }
 
   updateTtl() {
@@ -40,6 +48,7 @@ export class DiffDetailCountdownComponent implements OnInit {
 
   extendLifetime() {
     this._extendLifetime();
+    this.extendLifetimeLoading = true;
   }
 
   makePermanent() {

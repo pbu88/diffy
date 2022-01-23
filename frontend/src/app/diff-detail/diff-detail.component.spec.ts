@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { AnalyticsService } from '../analytics.service';
 import { DiffyService } from '../diffy.service';
 
 import { DiffDetailComponent } from './diff-detail.component';
@@ -24,6 +25,13 @@ describe('DiffDetailComponent', () => {
           useValue: {
             snapshot: { paramMap: { get: () => DIFF_ID } },
           },
+        },
+        {
+          provide: AnalyticsService,
+          useValue: {
+            clickMakePermanentButton: () => {},
+            clickExtendLifetimeButton: () => {},
+          }
         },
         {
           provide: DiffyService,

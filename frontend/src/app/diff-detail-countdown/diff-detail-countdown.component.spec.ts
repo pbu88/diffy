@@ -20,4 +20,11 @@ describe('DiffDetailCountdownComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should hide lifetime after clicked', () => {
+    component._extendLifetime = () => {};
+    expect(component.extendLifetimeLoading).toBeFalsy();
+    expect(component.extendLifetime())
+    expect(component.extendLifetimeLoading).toBeTruthy();
+  });
 });
