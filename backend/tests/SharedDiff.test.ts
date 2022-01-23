@@ -1,4 +1,4 @@
-import {isValidRawDiff, makeSharedDiff} from '../src/SharedDiff';
+import {extendLifetime, isValidRawDiff, lifetimeExtensionCount, makeSharedDiff} from '../src/SharedDiff';
 
 test('should create shared diff', () => {
   const raw_diff = `
@@ -54,4 +54,24 @@ test('isValidRawDiff(): should fail validation when (invalid) raw diff', () => {
 +b
 `
   expect(isValidRawDiff(raw_diff)).toBe(false);
+});
+
+test('lifetimeExtensionsCount()', () => {
+  const raw_diff = `
+diff --git a/file.json b/file.json
+index 1456e89..e1da2da 100644
+--- a/file.json
++++ b/file.json
+@@ -1,1 +1,1 @@
+-a
++b
+`
+  let sharedDiff = makeSharedDiff(raw_diff);
+  expect(lifetimeExtensionCount(sharedDiff)).toEqual(0);
+
+  // Extend it for a year a day at a time and test
+  for(let i = 1; i <= 366; i++) {
+    sharedDiff = extendLifetime(sharedDiff, 24)
+    expect(lifetimeExtensionCount(sharedDiff)).toEqual(i);
+  }
 });

@@ -3,6 +3,7 @@ import { DiffFile } from 'diff2html/lib/types';
 import { SharedDiff } from 'diffy-models';
 
 const MAX_DIFF_DATE = new Date('9999-01-01');
+const MILLIS_IN_A_DAY = 86400000.0;
 
 export function makeSharedDiff(raw_diff: string, createdDate: Date = new Date()): SharedDiff {
   const expireDate = calculateExpireDate(createdDate)
@@ -39,6 +40,15 @@ export function makeSharedDiffWithId(id: string, raw_diff: string, createdDate: 
   };
 }
 
+/**
+ * Returns the number of time this diff has been extended. It uses a day (24 hours) as the unit
+ * of extension and doesn't count the first 24 hours which are the default lifetime.
+ */
+export function lifetimeExtensionCount(diff: SharedDiff): number {
+  const millis = diff.expiresAt.getTime() - diff.created.getTime()
+  return Math.round((millis / (MILLIS_IN_A_DAY))) - 1;
+}
+
 function calculateExpireDate(date: Date) {
   let expire_date = new Date();
   expire_date.setDate(date.getDate() + 1);
@@ -60,3 +70,4 @@ function _isObjectEmpty(obj: DiffFile[]): boolean {
   }
   return true;
 };
+

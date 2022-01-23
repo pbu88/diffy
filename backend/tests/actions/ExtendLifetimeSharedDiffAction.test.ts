@@ -30,6 +30,8 @@ test('should make a diff permanent', () => {
   const action = new ExtendLifetimeSharedDiffAction(repo, () => metrics);
   return action.execute({ id: "1" }, {} as any).then(output => {
     expect(spy).toHaveBeenCalled();
+    expect((metrics.diffLifetimeExtendedSuccessfully as any).mock.calls.length).toBe(1);
+    expect((metrics.diffLifetimeExtendedSuccessfully as any).mock.calls[0][0]).toBe(1);
     expect(output.sharedDiff.expiresAt.getTime()).toBeGreaterThan(DIFF.expiresAt.getTime());
   });
 });

@@ -1,5 +1,5 @@
 import { Metrics } from '../metrics/Metrics';
-import { extendLifetime } from '../SharedDiff';
+import { extendLifetime, lifetimeExtensionCount } from '../SharedDiff';
 import { ActionPromise, Context, ExtendDiffLifetimeInput, ExtendDiffLifetimeOutput, SharedDiff } from "diffy-models";
 import { SharedDiffRepository } from '../sharedDiffRepository/SharedDiffRepository';
 
@@ -28,9 +28,10 @@ export class ExtendLifetimeSharedDiffAction extends ActionPromise<ExtendDiffLife
         return extendLifetime(diff, numberOfHours);
       })
       .then(diff => this.repository.update(diff))
-      .then(result => {
-        metrics.diffLifetimeExtendedSuccessfully();
-        return new ExtendDiffLifetimeOutput(result);
+      .then(diff => {
+        const extensionsCount = lifetimeExtensionCount(diff);
+        metrics.diffLifetimeExtendedSuccessfully(extensionsCount);
+        return new ExtendDiffLifetimeOutput(diff);
       });
   }
 }

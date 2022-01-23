@@ -6,6 +6,9 @@ export interface Metrics {
   diffDeletedSuccessfully: () => void;
   diffFailedToDelete: () => void;
   diffRetrievedSuccessfully: () => void;
-  diffLifetimeExtendedSuccessfully: () => void;
+  /**
+   * @param n: number of times the diff has been extended
+   */
+  diffLifetimeExtendedSuccessfully: (n: number) => void;
   diffMadePermanentSuccesfully: () => void;
 }

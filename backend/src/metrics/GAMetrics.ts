@@ -2,6 +2,10 @@ import * as http from 'http';
 
 import {Metrics} from './Metrics';
 
+/**
+ * This class implements the protocol for communicating with GA described here:
+ * https://developers.google.com/analytics/devguides/collection/protocol/v1/
+ */
 export class GAMetrics implements Metrics {
   key: string;
   options: any;
@@ -61,9 +65,9 @@ export class GAMetrics implements Metrics {
     const data = 'v=1&cid=' + this.clientId + '&t=event&ec=diff&ea=diff_retrieved&tid=' + this.key;
     this.sendRequest(data);
   }
-  diffLifetimeExtendedSuccessfully() {
+  diffLifetimeExtendedSuccessfully(n: number) {
     const data =
-        'v=1&cid=' + this.clientId + '&t=event&ec=diff&ea=diff_ttl_extended&tid=' + this.key;
+        'v=1&cid=' + this.clientId + '&t=event&ec=diff&ea=diff_ttl_extended&tid=' + this.key + '&el=' + n;
     this.sendRequest(data);
   }
 
