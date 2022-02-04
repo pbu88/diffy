@@ -1,4 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
+import { Observable } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 
 import {Alert} from '../Alert';
 import {AlertService} from '../alert.service';
@@ -9,13 +11,9 @@ import {AlertService} from '../alert.service';
   styleUrls: ['./highlight.component.css']
 })
 export class HighlightComponent implements OnInit {
-  alert: Alert;
+  alert$: Observable<Alert> = this.alertService.getMessage().pipe(shareReplay());
 
   constructor(private alertService: AlertService) {}
 
-  ngOnInit() {
-    this.alertService.getMessage().subscribe(alert => {
-      this.alert = alert;
-    });
-  }
+  ngOnInit() {}
 }
