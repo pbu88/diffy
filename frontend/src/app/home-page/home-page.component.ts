@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
 
 import { AlertService } from '../alert.service';
 import { AnalyticsService } from '../analytics.service';
@@ -13,9 +13,10 @@ import { Error } from '../types/Error';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
-export class HomePageComponent implements OnInit {
+export class HomePageComponent implements OnInit, OnDestroy {
   @Input() diffText: string;
   private uploading: boolean;
+  private _unsubscribe$ = new Subject<void>();
 
   constructor(
     private router: Router, private diffyService: DiffyService,
@@ -25,6 +26,11 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit() { }
+
+  ngOnDestroy() {
+    this._unsubscribe$.next();
+    this._unsubscribe$.complete();
+  }
 
   isUploading(): boolean {
     return this.uploading;
@@ -38,14 +44,16 @@ export class HomePageComponent implements OnInit {
   submitDiff() {
     this.uploading = true;
     this.diffyService.storeDiff(this.diffText)
+      .pipe(
+        takeUntil(this._unsubscribe$),
+        finalize(() => this.uploading = false)
+      )
       .subscribe(
         sharedDiff => {
           this.router.navigate([`/diff/${sharedDiff.id}`])
-          this.uploading = false;
         },
         (error: Error) => {
           this.alertService.error('Error: ' + error.text);
-          this.uploading = false;
         });
   }
 
