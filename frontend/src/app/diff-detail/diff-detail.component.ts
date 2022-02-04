@@ -1,6 +1,8 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
 
 import { AlertService } from '../alert.service';
 import { FileTree } from '../diff-detail/tree-functions';
@@ -16,7 +18,7 @@ const MAKE_PERMANENT_THRESHOLD = 5 * 24 * 60 * 60 * 1000 - 1;
   templateUrl: './diff-detail.component.html',
   styleUrls: ['./diff-detail.component.css']
 })
-export class DiffDetailComponent implements OnInit {
+export class DiffDetailComponent implements OnInit, OnDestroy {
 
   loading: boolean;
   sharedDiff: SharedDiff;
@@ -25,6 +27,8 @@ export class DiffDetailComponent implements OnInit {
   selectedFileId: string;
   dom: Document;
   currentId: string;
+
+  private _unsubscribe$ = new Subject<void>();
 
   constructor(
       private router: Router, private route: ActivatedRoute, private diffyService: DiffyService,
@@ -36,14 +40,19 @@ export class DiffDetailComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.currentId = id;
     this.loading = true;
-    this.diffyService.getDiff(id).subscribe(
+    this.diffyService.getDiff(id)
+    .pipe(
+      takeUntil(this._unsubscribe$),
+      finalize(() => this.loading = false)
+    ).subscribe(
         sharedDiff => {
           this.sharedDiff = sharedDiff
-          this.loading = false;
-        },
-        error => {
-          this.loading = false;
         });
+  }
+
+  ngOnDestroy() {
+    this._unsubscribe$.next();
+    this._unsubscribe$.complete();
   }
 
   private getFileName(file) {
@@ -82,6 +91,9 @@ export class DiffDetailComponent implements OnInit {
   getDeleteDiff() {
     return () => {
       this.diffyService.deleteDiff(this.currentId)
+          .pipe(
+            takeUntil(this._unsubscribe$),
+          )
           .subscribe(
               success => {
                 this.alertService.success('Deleted successfully', true);
@@ -102,6 +114,9 @@ export class DiffDetailComponent implements OnInit {
   getExtendLifetimeFn() {
     return () => {
       this.diffyService.extendLifetime(this.currentId)
+          .pipe(
+            takeUntil(this._unsubscribe$),
+          )
           .subscribe(
               sharedDiff => {
                 this.sharedDiff = sharedDiff;
@@ -109,12 +124,15 @@ export class DiffDetailComponent implements OnInit {
               (error: Error) => {
                 this.alertService.error(':-( Error while extending diff: ' + error.text, true);
               });
-    };
+  };
   }
 
   getMakePermanentDiffFn(): (email: string) => void {
     return () => {
       this.diffyService.makePermanent(this.currentId)
+          .pipe(
+            takeUntil(this._unsubscribe$),
+          )
           .subscribe(
               sharedDiff => {
                 this.sharedDiff = sharedDiff;
