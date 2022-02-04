@@ -1,4 +1,12 @@
- <div *ngIf="alert" [ngClass]="{ 'alert': alert, 'alert-success': alert.type === 'success', 'alert-danger': alert.type === 'danger' }" role="alert">
+<div 
+    *ngIf="alert$ | async as alert" 
+    [ngClass]="{ 
+        'alert': alert, 
+        'alert-success': alert.type === 'success', 
+        'alert-danger': alert.type === 'danger' 
+    }" 
+    role="alert"
+>
     <span *ngIf="alert.type === 'danger'">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         <span class="sr-only">Error:</span>
