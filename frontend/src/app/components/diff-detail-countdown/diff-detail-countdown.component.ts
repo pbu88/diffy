@@ -2,8 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-diff-detail-countdown',
-  templateUrl: './diff-detail-countdown.component.html',
-  styleUrls: ['./diff-detail-countdown.component.css']
+  templateUrl: './diff-detail-countdown.component.html'
 })
 export class DiffDetailCountdownComponent implements OnInit {
   @Input() expiresAt: string;

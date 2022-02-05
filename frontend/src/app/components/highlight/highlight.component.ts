@@ -1,14 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 
-import {Alert} from '../Alert';
-import {AlertService} from '../alert.service';
+import { AlertService, Alert } from '../../services/alert.service';
 
 @Component({
   selector: 'app-highlight',
-  templateUrl: './highlight.component.html',
-  styleUrls: ['./highlight.component.css']
+  templateUrl: './highlight.component.html'
 })
 export class HighlightComponent implements OnInit {
   alert$: Observable<Alert> = this.alertService.getMessage().pipe(shareReplay());

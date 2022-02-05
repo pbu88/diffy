@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FileTree } from '../diff-detail/tree-functions';
+import { FileTree } from '../../utils/tree-functions';
 
 import { DiffFileTreeComponent } from './diff-file-tree.component';
 

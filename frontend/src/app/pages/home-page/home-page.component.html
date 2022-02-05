@@ -1,7 +1,7 @@
 <div id="wrap">
     <div class="container">
         <div style="text-align:center;">
-            <h1><img src="/assets/img/diffy-logo.gif" height="25"> Diffy - A tool for sharing diffs</h1>
+            <h1><img src="/assets/img/diffy-logo.gif" height="25" alt="diffy-logo"> Diffy - A tool for sharing diffs</h1>
             <h2 style="font-weight:300;">Share your diffs and explain your ideas without committing</h2>
             <form id="diff-form">
                 <div style="text-align: left;margin-top:30px;">
@@ -37,7 +37,7 @@
                 <div class="form-group">
                     <a (click)="diffMeClick()" [ngClass]="{'btn': true, 'btn-success': true, 'btn-lg': true, 'no-pointer-events': isUploading()}" style="padding: 15px 60px;font-size:20px;margin:20px 5px;">Diff me</a>
                     <span [ngClass]="{'btn': true, 'btn-success': true, 'btn-lg': true, 'btn-default': true, 'btn-file': true, 'no-pointer-events': isUploading()}" style="padding: 15px 60px;font-size:20px;margin:20px 0;">
-                        Upload Diff<input (change)="uploadChange($event)" id="submit-file" name="diffFile" type="file">
+                        Upload Diff<input title="Upload Diff" (change)="uploadChange($event)" id="submit-file" name="diffFile" type="file">
                     </span>
                 </div>
             </form>

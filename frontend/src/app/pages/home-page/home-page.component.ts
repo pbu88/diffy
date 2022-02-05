@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 
-import { AlertService } from '../alert.service';
-import { AnalyticsService } from '../analytics.service';
-import { DiffyService } from '../diffy.service';
-import { Error } from '../types/Error';
+import { AlertService } from '../../services/alert.service';
+import { AnalyticsService } from 'src/app/services/analytics.service';
+import { DiffyService } from 'src/app/services/diffy.service';
+import { Error } from '../../types/Error';
 
 @Component({
   selector: 'app-home-page',

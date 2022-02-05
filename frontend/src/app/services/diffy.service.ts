@@ -1,16 +1,17 @@
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import { SharedDiff } from 'diffy-models';
-import {Error} from './types/Error';
 import * as Diff2Html from 'diff2html';
 
-// var diff2html = require('diff2html');
+import { Error } from '../types/Error';
+import { environment } from 'src/environments/environment';
+
 
 @Injectable({providedIn: 'root'})
 export class DiffyService {
-  private diffyUrl = '/api/diff/';  // URL to web api
+  private diffyUrl = `${environment.server_domain}/api/diff/`;  // URL to web api
 
   constructor(private http: HttpClient) {}
 

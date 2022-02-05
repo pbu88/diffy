@@ -6,13 +6,13 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {DiffDetailContentComponent} from './diff-detail-content/diff-detail-content.component';
-import {DiffDetailCountdownComponent} from './diff-detail-countdown/diff-detail-countdown.component';
-import {DiffDetailNavComponent} from './diff-detail-nav/diff-detail-nav.component';
-import {DiffDetailComponent} from './diff-detail/diff-detail.component';
-import {DiffFileTreeComponent} from './diff-file-tree/diff-file-tree.component';
-import {HighlightComponent} from './highlight/highlight.component';
-import {HomePageComponent} from './home-page/home-page.component';
+import {DiffDetailContentComponent} from './components/diff-detail-content/diff-detail-content.component';
+import {DiffDetailCountdownComponent} from './components/diff-detail-countdown/diff-detail-countdown.component';
+import {DiffDetailNavComponent} from './components/diff-detail-nav/diff-detail-nav.component';
+import {DiffDetailComponent} from './pages/diff-detail/diff-detail.component';
+import {DiffFileTreeComponent} from './components/diff-file-tree/diff-file-tree.component';
+import {HighlightComponent} from './components/highlight/highlight.component';
+import {HomePageComponent} from './pages/home-page/home-page.component';
 import {EscapeHtmlPipe} from './pipes/keep-html.pipe';
 
 

@@ -1,12 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-import {printerUtils} from '../diff-detail/printer-utils';
-import {FileTree} from '../diff-detail/tree-functions';
+import {printerUtils} from '../../utils/printer-utils';
+import {FileTree} from '../../utils/tree-functions';
 
 @Component({
   selector: 'app-diff-file-tree',
-  templateUrl: './diff-file-tree.component.html',
-  styleUrls: ['./diff-file-tree.component.css']
+  templateUrl: './diff-file-tree.component.html'
 })
 export class DiffFileTreeComponent implements OnInit {
   @Input() fileTree: FileTree;

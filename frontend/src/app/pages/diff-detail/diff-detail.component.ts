@@ -4,11 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 
-import { AlertService } from '../alert.service';
-import { FileTree } from '../diff-detail/tree-functions';
-import { DiffyService } from '../diffy.service';
+import { AlertService } from '../../services/alert.service';
+import { FileTree } from '../../utils/tree-functions';
 import { SharedDiff } from 'diffy-models';
-import { Error } from '../types/Error';
+import { Error } from '../../types/Error';
+import { DiffyService } from 'src/app/services/diffy.service';
 
 const DIFF_MAX_DATE = new Date('9999-01-01');
 const MAKE_PERMANENT_THRESHOLD = 5 * 24 * 60 * 60 * 1000 - 1;

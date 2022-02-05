@@ -2,7 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import * as Diff2Html from 'diff2html';
 
-import { printerUtils } from '../diff-detail/printer-utils';
+import { printerUtils } from '../../utils/printer-utils';
 import { SharedDiff } from 'diffy-models';
 
 const DIFF2HTML_RENDER_CONFIG: Diff2Html.Diff2HtmlConfig = {
@@ -12,8 +12,7 @@ const DIFF2HTML_RENDER_CONFIG: Diff2Html.Diff2HtmlConfig = {
 
 @Component({
   selector: 'app-diff-detail-content',
-  templateUrl: './diff-detail-content.component.html',
-  styleUrls: ['./diff-detail-content.component.css']
+  templateUrl: './diff-detail-content.component.html'
 })
 export class DiffDetailContentComponent implements OnChanges {
   @Input() sharedDiff: SharedDiff;
