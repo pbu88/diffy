@@ -14,6 +14,7 @@ import {DiffFileTreeComponent} from './components/diff-file-tree/diff-file-tree.
 import {HighlightComponent} from './components/highlight/highlight.component';
 import {HomePageComponent} from './pages/home-page/home-page.component';
 import {EscapeHtmlPipe} from './pipes/keep-html.pipe';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import {EscapeHtmlPipe} from './pipes/keep-html.pipe';
     DiffDetailNavComponent,
     DiffDetailCountdownComponent,
     HighlightComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
