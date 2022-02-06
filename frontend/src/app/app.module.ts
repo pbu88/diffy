@@ -16,6 +16,7 @@ import {HomePageComponent} from './pages/home-page/home-page.component';
 import {EscapeHtmlPipe} from './pipes/keep-html.pipe';
 import { FooterComponent } from './components/footer/footer.component';
 
+import { DiffyLayoutComponent } from './components/layout/diffy-layout/diffy-layout.component';
 import { SiteLayoutComponent } from './components/layout/site-layout/site-layout.component';
 
 @NgModule({
@@ -30,6 +31,7 @@ import { SiteLayoutComponent } from './components/layout/site-layout/site-layout
     DiffDetailCountdownComponent,
     HighlightComponent,
     FooterComponent,
+    DiffyLayoutComponent,
     SiteLayoutComponent,
   ],
   imports: [
