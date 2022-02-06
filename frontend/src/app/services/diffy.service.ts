@@ -6,12 +6,10 @@ import { SharedDiff } from 'diffy-models';
 import * as Diff2Html from 'diff2html';
 
 import { Error } from '../types/Error';
-import { environment } from 'src/environments/environment';
-
 
 @Injectable({providedIn: 'root'})
 export class DiffyService {
-  private diffyUrl = `${environment.server_domain}/api/diff/`;  // URL to web api
+  private diffyUrl = '/api/diff/';  // URL to web api
 
   constructor(private http: HttpClient) {}
 
