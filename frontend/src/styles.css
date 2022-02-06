@@ -3,15 +3,15 @@
 @tailwind components;
 @tailwind utilities;
 
-html{
+/* html{
     font-size: 62.5%; 
-}
+} */
 
 html,
 body {
     font-size: 1rem;
 
-    @apply text-gray-800 m-0 h-full
+    @apply text-gray-800 dark:text-slate-300 bg-slate-50 dark:bg-gray-700 m-0 h-full;
 }
 
 @layer components {
@@ -22,4 +22,21 @@ body {
     .btn {
         @apply flex items-center justify-center cursor-pointer rounded-full px-6 py-4 shadow-md font-semibold hover:shadow-xl active:scale-90 duration-150;
     }
+}
+
+
+/* Overwrite styles for dark theme in diff2html */
+.d2h-ins,
+.d2h-change,
+.d2h-del {
+    @apply dark:text-gray-900;
+}
+
+.d2h-info {
+    @apply dark:text-gray-700;
+}
+
+.d2h-code-linenumber:not(.d2h-ins):not(.d2h-del):not(.d2h-info),
+.d2h-file-header {
+    @apply dark:bg-gray-700 dark:text-slate-300;
 }

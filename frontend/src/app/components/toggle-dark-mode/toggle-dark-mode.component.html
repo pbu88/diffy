@@ -1,0 +1,16 @@
+<div>
+  <button
+    *ngIf="isDarkMode; else ligth"
+    (click)="toggleDarkMode()" class="h-6 w-6 ml-3 hover:scale-110 duration-150"
+    type="button"
+    title="Ligth mode"
+  >
+    <i class="fa fa-sun-o text-xl" aria-hidden="true"></i>
+  </button>
+
+  <ng-template #ligth>
+    <button (click)="toggleDarkMode()" class="h-6 w-6 ml-3 hover:scale-110 duration-150" type="button" title="Dark mode">
+      <i class="fa fa-moon-o text-xl" aria-hidden="true"></i>
+    </button>
+  </ng-template>
+</div>

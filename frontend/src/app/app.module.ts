@@ -19,6 +19,7 @@ import { FooterComponent } from "./components/layout/footer/footer.component";
 import { HeaderComponent } from "./components/layout/header/header.component";
 import { DiffyLayoutComponent } from './components/layout/diffy-layout/diffy-layout.component';
 import { SiteLayoutComponent } from './components/layout/site-layout/site-layout.component';
+import { ToggleDarkModeComponent } from './components/toggle-dark-mode/toggle-dark-mode.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { SiteLayoutComponent } from './components/layout/site-layout/site-layout
     HeaderComponent,
     DiffyLayoutComponent,
     SiteLayoutComponent,
+    ToggleDarkModeComponent,
   ],
   imports: [
     BrowserModule,
