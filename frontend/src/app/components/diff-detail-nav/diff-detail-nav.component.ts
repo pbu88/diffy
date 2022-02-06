@@ -4,8 +4,7 @@ import { AnalyticsService } from 'src/app/services/analytics.service';
 
 @Component({
   selector: 'app-diff-detail-nav',
-  templateUrl: './diff-detail-nav.component.html',
-  styleUrls: ['./diff-detail-nav.component.css']
+  templateUrl: './diff-detail-nav.component.html'
 })
 export class DiffDetailNavComponent implements OnInit {
   @Input() showActions: boolean;

@@ -14,4 +14,5 @@ export class HighlightComponent implements OnInit {
   constructor(private alertService: AlertService) {}
 
   ngOnInit() {}
+
 }

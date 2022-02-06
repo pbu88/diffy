@@ -1,69 +1,77 @@
-<div id="wrap">
-    <div class="container">
-        <div style="text-align:center;">
-            <h1><img src="/assets/img/diffy-logo.gif" height="25" alt="diffy-logo"> Diffy - A tool for sharing diffs</h1>
-            <h2 style="font-weight:300;">Share your diffs and explain your ideas without committing</h2>
-            <form id="diff-form">
-                <div style="text-align: left;margin-top:30px;">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <h4>Mac:</h4>
-                            <ol>
-                                <li><code>git diff | pbcopy</code> and paste it on the textarea.<br></li>
-                                <li>Click "Diff me"</li>
-                            </ol>
-                        </div>
-                        <div class="col-sm-4">
-                            <h4>Linux:</h4>
-                            <ol>
-                                <li><code>git diff &gt; output.diff</code></li>
-                                <li>upload the <code>output.diff</code> file.</li>
-                            </ol>
-                        </div>
-                        <div class="col-sm-4">
-                            <h4>Windows:</h4>
-                            <ol>
-                                <li><code>git diff | clip</code> and paste it on the textarea.<br></li>
-                                <li>Click "Diff me"</li>
-                            </ol>
-                        </div>
-                    </div>
-                    <p><strong>Note:</strong>&nbsp;It's not only restricted to <code>git diff</code>. Anything with a "diffy" output can be shown, like <code>git show &lt;commit number&gt;</code></p>
-                </div>
-                <div class="form-group">
-                    <textarea id="diffTextArea" [(ngModel)]="diffText" name="udiff" class="form-control" rows="5"
-                        placeholder="Paste here any git diff output or upload a file with the diff contents"></textarea>
-                </div>
-                <div class="form-group">
-                    <a (click)="diffMeClick()" [ngClass]="{'btn': true, 'btn-success': true, 'btn-lg': true, 'no-pointer-events': isUploading()}" style="padding: 15px 60px;font-size:20px;margin:20px 5px;">Diff me</a>
-                    <span [ngClass]="{'btn': true, 'btn-success': true, 'btn-lg': true, 'btn-default': true, 'btn-file': true, 'no-pointer-events': isUploading()}" style="padding: 15px 60px;font-size:20px;margin:20px 0;">
-                        Upload Diff<input title="Upload Diff" (change)="uploadChange($event)" id="submit-file" name="diffFile" type="file">
-                    </span>
-                </div>
-            </form>
+<section class="text-center">
+  <h1 class="font-medium text-4xl mb-4">Diffy - A tool for sharing diffs</h1>
+  <h2 class="text-3xl mb-4">Share your diffs and explain your ideas without committing</h2>
+  <form id="diff-form">
+    <div class="text-left mt-8 mb-2">
+      <div class="grid grid-cols-1 gap-4 place-content-center md:grid-cols-3">
+        <div>
+          <h4 class="text-lg mb-2">Mac:</h4>
+          <ol class="list-decimal pl-10 mb-4">
+            <li><code>git diff | pbcopy</code> and paste it on the textarea.<br></li>
+            <li>Click "Diff me"</li>
+          </ol>
         </div>
-
-        <!-- Example row of columns -->
-        <div class="row" style="text-align:center;">
-            <div class="col-lg-4">
-                <h1 style="font-size: 4em;"><i class="fa fa-share-alt fa-6"></i></h1>
-                <h3>Share your ideas more clearly</h3>
-                <p>
-                Show your awesome improvement idea to your colleagues before committing
-                </p>
-            </div>
-            <div class="col-lg-4">
-                <h1 style="font-size: 4em;"><i class="fa fa-thumbs-up fa-6"></i></h1>
-                <h3>Get feedback from your peers</h3>
-                <p>Hear the feedback and react on it before having to fix buggy commits</p>
-            </div>
-            <div class="col-lg-4">
-                <h1 style="font-size: 4em;"><i class="fa fa-bug fa-6"></i></h1>
-                <h3>Discover bugs sooner</h3>
-                <p>Show to your friends how would you fix the bug they have in production</p>
-            </div>
+        <div>
+          <h4 class="text-lg mb-2">Linux:</h4>
+          <ol class="list-decimal pl-10 mb-4">
+            <li><code>git diff &gt; output.diff</code></li>
+            <li>upload the <code>output.diff</code> file.</li>
+          </ol>
         </div>
+        <div>
+          <h4 class="text-lg mb-2">Windows:</h4>
+          <ol class="list-decimal pl-10 mb-4">
+            <li><code>git diff | clip</code> and paste it on the textarea.<br></li>
+            <li>Click "Diff me"</li>
+          </ol>
+        </div>
+      </div>
+      <p class="mb-4"><strong>Note:</strong>&nbsp;It's not only restricted to <code>git diff</code>. Anything with
+        a "diffy" output can be shown, like <code>git show &lt;commit number&gt;</code></p>
+    </div>
+    <div class="mb-4">
+      <textarea id="diffTextArea" [(ngModel)]="diffText" name="udiff"
+        class="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-blue-400" rows="5"
+        placeholder="Paste here any git diff output or upload a file with the diff contents"></textarea>
+    </div>
+    <div class="mb-4 flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4 md:items-center md:justify-center">
+      <button 
+        type="button"
+        class="btn text-white bg-green-500 my-4 w-full md:w-36 text-center"
+        [ngClass]="{'pointer-events-none': isUploading()}"
+        (click)="diffMeClick()"
+      >
+        Diff me
+      </button>
+      
+      <span
+        (click)="fileUpload.click()"
+        class="btn text-white bg-green-500 my-4 w-full md:w-36 text-center relative overflow-hidden"
+        [ngClass]="{'pointer-events-none': isUploading()}">
+        Upload Diff
+        <input class="hidden" title="Upload Diff" (change)="uploadChange($event)" id="submit-file" name="diffFile"
+          type="file" #fileUpload>
+      </span>
+    </div>
+  </form>
+</section>
 
-    </div> <!-- /container -->
-    <div id="push"></div>
-</div>
+<section class="grid grid-cols-1 gap-4 place-content-center md:grid-cols-3 text-center mt-6">
+  <div class="space-y-2">
+    <h2 class="text-6xl"><i class="fa fa-share-alt fa-6"></i></h2>
+    <h3>Share your ideas more clearly</h3>
+    <p>
+      Show your awesome improvement idea to your colleagues before committing
+    </p>
+  </div>
+  <div class="space-y-2">
+    <h2 class="text-6xl"><i class="fa fa-thumbs-up fa-6"></i></h2>
+    <h3>Get feedback from your peers</h3>
+    <p>Hear the feedback and react on it before having to fix buggy commits</p>
+  </div>
+  <div class="space-y-2">
+    <h2 class="text-6xl"><i class="fa fa-bug fa-6"></i></h2>
+    <h3>Discover bugs sooner</h3>
+    <p>Show to your friends how would you fix the bug they have in production</p>
+  </div>
+</section>

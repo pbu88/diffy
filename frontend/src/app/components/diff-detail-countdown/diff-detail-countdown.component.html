@@ -1,4 +1,4 @@
-<div style="text-align:center;">
+<div class="text-center text-sm mb-6">
     <div>
         <div id="ttl">
             <p>
@@ -6,7 +6,7 @@
                 This diff will self destruct in: <code class="hours">{{hours}}</code> hour(s), <code
                     class="minutes">{{minutes}}</code> minute(s) and <code class="seconds">{{seconds}}</code> second(s)
                 <span *ngIf="!displayMakePermanent else makePermanentTmpl" class="extend_ttl">
-                    | <a href="javascript:void(0);" (click)="extendLifetime()">extend 24 hours</a>
+                    | <a class="text-blue-700 hover:text-blue-900 hover:underline" href="javascript:void(0);" (click)="extendLifetime()">extend 24 hours</a>
                 </span>
             </p>
         </div>

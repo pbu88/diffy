@@ -2,26 +2,30 @@ td, th {
     padding: 1px;
 }
 
-#diff-wrapper {
-    min-width: 70%;
-    position: relative;
-    overflow: hidden;
-}
-
 .diff-content {
     padding: 5px;
 }
+/* #diff-wrapper {
+    min-width: 70%;
+    position: relative;
+    overflow: hidden;
+} */
 
-.clipboard-group{
+.directory, 
+.file, 
+.dir-name, 
+.file-name {
+    white-space: nowrap;
+}
+
+/* .clipboard-group{
     width: 300px;
     display: inline-block;
     vertical-align: middle;
-}
+} */
 
-#clip-txt{
+/* #clip-txt{
     width: 261px;
-}
+} */
 
-.directory, .file, .dir-name, .file-name {
-    white-space: nowrap;
-}
+
