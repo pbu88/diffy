@@ -5,21 +5,21 @@
     <div class="text-left mt-8 mb-2">
       <div class="grid grid-cols-1 gap-4 place-content-center md:grid-cols-3">
         <div>
-          <h4 class="text-lg mb-2">Mac:</h4>
+          <h3 class="text-lg mb-2">Mac:</h3>
           <ol class="list-decimal pl-10 mb-4">
             <li><code>git diff | pbcopy</code> and paste it on the textarea.<br></li>
             <li>Click "Diff me"</li>
           </ol>
         </div>
         <div>
-          <h4 class="text-lg mb-2">Linux:</h4>
+          <h3 class="text-lg mb-2">Linux:</h3>
           <ol class="list-decimal pl-10 mb-4">
             <li><code>git diff &gt; output.diff</code></li>
             <li>upload the <code>output.diff</code> file.</li>
           </ol>
         </div>
         <div>
-          <h4 class="text-lg mb-2">Windows:</h4>
+          <h3 class="text-lg mb-2">Windows:</h3>
           <ol class="list-decimal pl-10 mb-4">
             <li><code>git diff | clip</code> and paste it on the textarea.<br></li>
             <li>Click "Diff me"</li>
@@ -37,7 +37,7 @@
     <div class="mb-4 flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4 md:items-center md:justify-center">
       <button 
         type="button"
-        class="btn text-white bg-green-500 my-4 w-full md:w-36 text-center"
+        class="btn text-black bg-green-500 my-4 w-full md:w-36 text-center"
         [ngClass]="{'pointer-events-none': isUploading()}"
         (click)="diffMeClick()"
       >
@@ -46,7 +46,7 @@
       
       <span
         (click)="fileUpload.click()"
-        class="btn text-white bg-green-500 my-4 w-full md:w-36 text-center relative overflow-hidden"
+        class="btn text-black bg-green-500 my-4 w-full md:w-36 text-center relative overflow-hidden"
         [ngClass]="{'pointer-events-none': isUploading()}">
         Upload Diff
         <input class="hidden" title="Upload Diff" (change)="uploadChange($event)" id="submit-file" name="diffFile"
