@@ -1,0 +1,12 @@
+<div *ngIf="alert$ | async as alert" 
+    class="p-4" 
+    [ngClass]="{ 
+        'bg-green-100 text-green-700': alert.type === 'success', 
+        'bg-red-100 text-red-700': alert.type === 'danger' 
+    }" role="alert">
+    <span *ngIf="alert.type === 'danger'">
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        <span class="sr-only">Error:</span>
+    </span>
+    {{alert.text}}
+</div>

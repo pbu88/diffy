@@ -1,11 +1,11 @@
-.files-wrapper {
+/* .files-wrapper {
     max-width:29%;
     float:left;
     border: 1px solid #ddd;
     border-radius: 3px;
     margin-bottom: 1em;
     margin-right:5px;
-}
+} */
 
 .navigation-tree {
     font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;

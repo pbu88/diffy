@@ -1,55 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
-.btn-file {
-    position: relative;
-    overflow: hidden;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-.btn-file input[type=file] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    font-size: 100px;
-    text-align: right;
-    filter: alpha(opacity=0);
-    opacity: 0;
-    outline: none;
-    background: white;
-    cursor: inherit;
-    display: block;
-}
+/* html{
+    font-size: 62.5%; 
+} */
 
 html,
 body {
-    height: 100%;
-    /* The html and body elements cannot have any padding or margin. */
+    font-size: 1rem;
+
+    @apply text-gray-800 dark:text-slate-300 bg-slate-50 dark:bg-gray-700 m-0 h-full;
 }
 
-/* Wrapper for page content to push down footer */
-#wrap {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-}
-#push,
-#footer {
-    height: 60px;
-}
-#footer {
-    background-color: #f5f5f5;
-}
+@layer components {
+    code {
+        @apply py-0.5 px-1 text-red-700 bg-red-50 rounded-sm text-sm;
+    }
 
-/* Lastly, apply responsive CSS fixes as necessary */
-@media (max-width: 767px) {
-    #footer {
-        margin-left: -20px;
-        margin-right: -20px;
-        padding-left: 20px;
-        padding-right: 20px;
+    .btn {
+        @apply flex items-center justify-center cursor-pointer rounded-full px-6 py-4 shadow-md font-semibold hover:shadow-xl active:scale-90 duration-150;
     }
 }
 
-.container .credit {
-    margin: 20px 0;
+
+/* Overwrite styles for dark theme in diff2html */
+.d2h-ins,
+.d2h-change,
+.d2h-del {
+    @apply dark:text-gray-900;
+}
+
+.d2h-info {
+    @apply dark:text-gray-700;
+}
+
+.d2h-code-linenumber:not(.d2h-ins):not(.d2h-del):not(.d2h-info),
+.d2h-file-header {
+    @apply dark:bg-gray-700 dark:text-slate-300;
 }

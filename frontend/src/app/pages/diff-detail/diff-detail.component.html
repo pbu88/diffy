@@ -1,0 +1,48 @@
+<div *ngIf="sharedDiff else noDiff">
+    <app-diff-detail-nav [showActions]="true"
+        [_deleteAction]="getDeleteDiff()"
+        [_downloadAction]="getDownloadDiff()"
+        [_copyToClipboard]="getCopyUrlToClipboard()"
+        [currentUrl]="getCurrentUrl()"
+        >
+    </app-diff-detail-nav>
+
+    <div class="px-4 py-8">
+        <app-diff-detail-countdown *ngIf="!isDiffPermanent()"
+            [expiresAt]="sharedDiff.expiresAt"
+            [displayMakePermanent]="shouldDisplayMakePermanent()"
+            [_extendLifetime]="getExtendLifetimeFn()"
+            [_makePermanent]="getMakePermanentDiffFn()">
+        </app-diff-detail-countdown>
+
+        <div class="flex flex-col md:flex-row md:space-x-2">
+            <div id="files-wrapper" class="mb-4 w-full md:w-3/12 border rounded-sm">
+                <div class="navigation-tree">
+                    <div class="number-of-files d2h-file-header">
+                        <div class="d2h-file-name">
+                            Number of files included: <span class="file-count">{{getFileCount()}}</span>
+                        </div>
+                    </div>
+                    <div class="tree-root">
+                        <app-diff-file-tree [fileTree]="getFileTree()" [isOpen]="true" [fileSelectorFn]="getFileSelectorFn()">
+                        </app-diff-file-tree>
+                    </div>
+                </div>
+            </div>
+            <app-diff-detail-content class="w-full md:w-9/12" [sharedDiff]="sharedDiff" [fileToRender]="selectedFileId">
+            </app-diff-detail-content>
+        </div>
+    </div>
+</div>
+
+<ng-template #noDiff>
+    <app-diff-detail-nav [showActions]="false">
+    </app-diff-detail-nav>
+    <div class="missing-diff px-4 py-8">
+        <div *ngIf="loading else notFound"> Loading ... </div>
+        <ng-template #notFound><div> ¯\_(ツ)_/¯ 404 Not found ... </div></ng-template>
+        <div>
+            <a routerLink="/">Create a new one here.</a>
+        </div>
+    </div>
+</ng-template>

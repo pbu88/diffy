@@ -1,45 +1,33 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
   <title>Diffy - share diff output in your browser</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+  <meta name="description" content="Share diff output in your browser" />
+  <meta property="og:title" content="Diffy - share diff output in your browser" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://diffy.org" />
+  <meta property="og:image" content="https://diffy.org/img/share.png" />
+  <meta property="og:description" content="Share diff output in your browser" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Diffy" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <base href="/">
 
   <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!--<link rel="icon" type="image/x-icon" href="favicon.ico">-->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
-
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css">
   <link rel="stylesheet" href="/assets/diff.css">
   <link rel="stylesheet" href="/assets/fileTree.css">
 
-<!-- Stylesheet -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css">
-
 </head>
 <body>
-    <div id="wrap">
-        <app-root></app-root>
-    </div>
-    <div class="clearfix"></div>
-    <div id="footer">
-        <div class="container">
-            <div class="pull-right">
-                <p class="credit pull-right">
-                <iframe src="https://ghbtns.com/github-btn.html?user=pbu88&repo=diffy&type=star&count=true&&v=2"
-                        frameborder="0" scrolling="0" width="80px" height="30px">
-                </iframe>
-                <iframe src="https://ghbtns.com/github-btn.html?user=pbu88&repo=diffy&type=fork&count=true&&v=2"
-                        frameborder="0" scrolling="0" width="80px" height="30px">
-                </iframe>
-                </p>
-            </div>
-            <p class="credit">Created by <a href="https://paulobu.com" target="_blank">Paulo Bu</a></p>
-        </div>
-    </div>
+
+  <app-root></app-root>
+
   <script>
       var x='REPLACE_ME_GA_ANALITYCS_KEY';
       if (!x.startsWith('REPLACE_ME')) {

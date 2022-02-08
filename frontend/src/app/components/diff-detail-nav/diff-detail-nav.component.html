@@ -1,0 +1,55 @@
+<app-highlight></app-highlight>
+<header class="px-4 py-3 shadow-md flex md:items-center dark:bg-gray-900">
+  <a class="inline-block mr-3" routerLink="/">
+    <img
+      src="/assets/img/diffy-logo.gif"
+      alt="diffy-logo"
+      class="h-8 max-w-none"
+    />
+  </a>
+
+  <div *ngIf="showActions" class="flex flex-col space-y-3 md:flex-row md:space-x-3 md:space-y-0 ml-auto">
+    <div class="md:w-80 max-w-full flex">
+      <input
+        type="text"
+        id="clip-txt"
+        class="flex-auto truncate py-1 px-3 border focus:outline-none focus:ring-1 focus:ring-blue-400 text-sm bg-gray-100 dark:bg-slate-200 text-gray-900"
+        readonly="readonly"
+        aria-label="Diff URL"
+        value="{{ currentUrl }}"
+      />
+        <button
+          aria-label="Copy to clipboard"
+          (click)="copyToClipboard()"
+          data-toggle="tooltip"
+          data-placement="bottom"
+          title="Copy to clipboard"
+          class="rounded-none border border-l-0 px-3 py-1 hover:opacity-90"
+          type="button"
+        >
+          <i class="fa fa-clipboard"></i>
+        </button>
+
+    </div>
+
+    <a
+      href="javascript:void(0);"
+      (click)="downloadAction()"
+      data-toggle="tooltip"
+      data-placement="bottom"
+      class="btn text-white bg-green-500 rounded-none !py-1 text-sm"
+      title="You can apply it to your sources by doing: git apply <patch>"
+      >Download Patch</a
+    >
+    <a
+      href="javascript:void(0);"
+      (click)="deleteAction()"
+      data-toggle="tooltip"
+      data-placement="bottom"
+      class="btn text-white bg-red-500 rounded-none !py-1 text-sm"
+      title="Make it disappear for good :)"
+      >Delete Forever!</a
+    >
+  </div>
+  <app-toggle-dark-mode></app-toggle-dark-mode>
+</header>
