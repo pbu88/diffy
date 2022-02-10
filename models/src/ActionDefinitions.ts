@@ -7,7 +7,19 @@ export abstract class Input {}
 export class ContextParser {
     public parse (req: any): Context {
         return {
-            gaCookie: this.readOrUndefined(() => req.cookies._ga),
+            gaCookie: this.readOrUndefined(() => {
+                if(req.cookies._ga == undefined) {
+                    console.info("Undefined cookies._ga");
+                    return undefined;
+                }
+                const rawGa: string = req.cookies._ga;
+                const parts = rawGa.split('.')
+                if(parts.length == 4) {
+                    return parts[2] + "." + parts[3];
+                }
+                console.info("Strange cookies._ga format", rawGa);
+                return rawGa;
+            }),
         }
     }
 
