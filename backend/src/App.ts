@@ -12,13 +12,18 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var path = require('path');
 
-if (process.env["NODE_ENV"] == "production") {
-  console.info("using config.js");
-  var config = require('./config');
+var config_file = process.argv[2];
+if (config_file) {
+  console.info(`Using config file provided: ${config_file}`)
 } else {
-  console.info("using config_dev.js");
-  var config = require('./config_dev');
+  if (process.env["NODE_ENV"] == "production") {
+    config_file = './config';
+  } else {
+    config_file = './config_dev';
+  }
 }
+console.info(`Using config file: ${config_file}`)
+var config = require(config_file);
 
 const PROJECT_ROOT = path.join(__dirname + '/../../../');
 const STATICS_FOLDER = path.join(PROJECT_ROOT, 'frontend/dist/ngdiffy');

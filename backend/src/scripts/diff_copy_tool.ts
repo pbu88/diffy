@@ -1,3 +1,4 @@
+import mongodb = require('mongodb');
 import { buildDbUrl, MongoSharedDiffRepository } from "../sharedDiffRepository/MongoSharedDiffRepository";
 import { GoogleDatastoreDiffRepository } from "../sharedDiffRepository/GoogleDatastoreDiffRepository";
 import { Datastore } from "@google-cloud/datastore";
@@ -6,13 +7,15 @@ import * as readline from 'readline';
 const db_host = '127.0.0.1';
 const db_port = '27017';
 const db_url = buildDbUrl(db_host, db_port);
+const collection = mongodb.MongoClient.connect(db_url)
+  .then(client => client.db(db_name))
+  .then(db => db.collection(MongoSharedDiffRepository.COLLECTION_NAME));
+
 const db_name = "diffy";
 const ds = new Datastore();
 
-const srcRepo = new MongoSharedDiffRepository(db_url, db_name)
+const srcRepo = new MongoSharedDiffRepository(collection);
 const dstRepo = new GoogleDatastoreDiffRepository(ds);
-
-srcRepo.connect();
 
 const rl = readline.createInterface({
   input: process.stdin,

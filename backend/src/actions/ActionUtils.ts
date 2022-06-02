@@ -16,7 +16,7 @@ export function toMPromise(
             request = i.parse(req)
             context = c.parse(req);
         } catch (error) {
-            console.log(error);
+            console.log("Error while parsing arguments: " + error);
             res.status(400)
             res.send("error while parsing the request");
             return;
@@ -26,7 +26,7 @@ export function toMPromise(
             res.status(200)
             res.json(output);
         }).catch(error => {
-            console.log(error);
+            console.log("Error while executing an action: " + error);
             res.status(500)
             res.send("oops, something went wrong ... ");
         });

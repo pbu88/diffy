@@ -8,7 +8,7 @@
     "test": "sh run-tests.sh",
     "build": "rm -r dist;tsc",
     "v2_test": "jest",
-    "start": "node dist/src/App.js"
+    "start": "sh ./run.sh"
   },
   "author": "",
   "license": "ISC",

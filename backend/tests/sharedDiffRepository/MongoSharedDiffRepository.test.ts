@@ -1,3 +1,4 @@
+import mongodb = require('mongodb');
 import { makeSharedDiff } from '../../src/SharedDiff';
 import { buildDbUrl, MongoSharedDiffRepository } from '../../src/sharedDiffRepository/MongoSharedDiffRepository';
 
@@ -8,18 +9,21 @@ const config = {
   db_name: 'diffy',
 };
 const db_url = buildDbUrl(config["db_host"], config["db_port"]);
+const client = mongodb.MongoClient.connect(db_url);
+const collection = client
+  .then(client => client.db(config.db_name))
+  .then(db => db.collection(MongoSharedDiffRepository.COLLECTION_NAME));
 
 describe.skip('MongoSharedDiff tests', () => {
   let repo: MongoSharedDiffRepository = null;
   beforeEach(() => {
     const url = db_url;
     const db_name = 'test';
-    repo = new MongoSharedDiffRepository(url, db_name);
-    repo.connect();
+    repo = new MongoSharedDiffRepository(collection);
   });
 
   afterEach(() => {
-    repo.disconnect();
+    client.then(c => c.close());
   });
 
   test('Mongo test: store a SharedDiff', () => {

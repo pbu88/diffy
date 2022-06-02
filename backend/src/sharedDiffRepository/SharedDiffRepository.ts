@@ -1,3 +1,4 @@
+import mongodb = require('mongodb');
 import { Datastore } from '@google-cloud/datastore';
 import { SharedDiff } from "diffy-models";
 import { DoubleWriteDiffRepository } from './DoubleWriteDiffRepository';
@@ -22,9 +23,12 @@ export function getRepositorySupplierFor(config: any): () => SharedDiffRepositor
   if (config["type"] == "mongo") {
     return () => {
       const db_url = buildDbUrl(config["db_host"], config["db_port"]);
-      const repo = new MongoSharedDiffRepository(db_url, config["db_name"]);
-      repo.connect();
-      return repo;
+      const db_name = config["db_name"];
+      const collection = mongodb.MongoClient.connect(db_url)
+        .then(client => client.db(db_name))
+        .then(db => db.collection(MongoSharedDiffRepository.COLLECTION_NAME))
+
+      return new MongoSharedDiffRepository(collection);
     }
 
   } else if (config["type"] == "google") {
