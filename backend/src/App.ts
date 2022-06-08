@@ -7,29 +7,22 @@ import { getRepositorySupplierFor } from './sharedDiffRepository/SharedDiffRepos
 import { GAMetrics } from './metrics/GAMetrics';
 import { toMPromise } from './actions/ActionUtils';
 import { MakePermanentSharedDiffAction } from './actions/MakePermanentSharedDiffAction';
+import { ConfigFileResolver } from './utils/ConfigFileResolver';
 var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var path = require('path');
-
-var config_file = process.argv[2];
-if (config_file) {
-  console.info(`Using config file provided: ${config_file}`)
-} else {
-  if (process.env["NODE_ENV"] == "production") {
-    config_file = './config';
-  } else {
-    config_file = './config_dev';
-  }
-}
-console.info(`Using config file: ${config_file}`)
-var config = require(config_file);
 
 const PROJECT_ROOT = path.join(__dirname + '/../../../');
 const STATICS_FOLDER = path.join(PROJECT_ROOT, 'frontend/dist/ngdiffy');
 const INDEX_FILE = path.join(PROJECT_ROOT + '/frontend/dist/ngdiffy/index.html');
 
 var app = express();
+
+var config_file = ConfigFileResolver.resolve(process.argv, process.env);
+console.info(`Using config file: ${config_file}`)
+var config = require(config_file);
+
 const repo = getRepositorySupplierFor(config.DIFF_REPO)();
 
 if (!config.GA_ANALITYCS_KEY) {
