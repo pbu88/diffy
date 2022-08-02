@@ -8,6 +8,7 @@ import { DiffyService } from '../diffy.service';
 import { SharedDiff } from 'diffy-models';
 import { Error } from '../types/Error';
 import { AnalyticsService } from '../analytics.service';
+import { printerUtils } from './printer-utils';
 
 const DIFF_MAX_DATE = new Date('9999-01-01');
 const MAKE_PERMANENT_THRESHOLD = 5 * 24 * 60 * 60 * 1000 - 1;
@@ -26,6 +27,7 @@ export class DiffDetailComponent implements OnInit {
   selectedFileId: string;
   dom: Document;
   currentId: string;
+  fileIds: string[];
 
   constructor(
       private router: Router,
@@ -39,12 +41,24 @@ export class DiffDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    // TODO: Must refactor this into its own KeyBindingService, this way is too hacky
+    window.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (event.key === "j") {
+        this.selectNextFile();
+      } else if(event.key === "k") {
+        this.selectPrevFile();
+      }
+    });
+
     const id = this.route.snapshot.paramMap.get('id');
     this.currentId = id;
     this.loading = true;
     this.diffyService.getDiff(id).subscribe(
         sharedDiff => {
           this.sharedDiff = sharedDiff
+          this.fileIds = printerUtils.getListOfFileIds(sharedDiff.diff)
+          this.selectedFileId = this.fileIds[0]
           this.loading = false;
         },
         error => {
@@ -54,7 +68,15 @@ export class DiffDetailComponent implements OnInit {
 
   private getFileName(file) {
     return file.newName == '/dev/null' ? file.oldName : file.newName;
-  };
+  }
+
+  selectNextFile() : void {
+    this.selectedFileId = this.fileIds[(this.fileIds.findIndex((element) => element == this.selectedFileId) + 1) % this.fileIds.length];
+  }
+
+  selectPrevFile() : void {
+    this.selectedFileId = this.fileIds[(this.fileIds.findIndex((element) => element == this.selectedFileId) - 1 + this.fileIds.length) % this.fileIds.length];
+  }
 
   shouldDisplayMakePermanent(): boolean {
     const dateDiff = this.sharedDiff.expiresAt.getTime() - this.sharedDiff.created.getTime();
@@ -145,6 +167,7 @@ export class DiffDetailComponent implements OnInit {
   getCurrentUrl() {
     return window.location.href;
   }
+
   isDiffPermanent() {
     return this.sharedDiff.expiresAt >= DIFF_MAX_DATE;
   }

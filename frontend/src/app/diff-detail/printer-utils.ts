@@ -25,6 +25,17 @@ PrinterUtils.prototype.separatePrefix = function(isCombined, line) {
   return {'prefix': prefix, 'line': lineWithoutPrefix};
 };
 
+/**
+ * diff: DiffFile[]
+ */
+PrinterUtils.prototype.getListOfFileIds = function(diff) {
+  var fileIds = [];
+  for(var i=0; i < diff.length; i++) {
+    fileIds.push(this.getHtmlId(diff[i]));
+  }
+  return fileIds;
+}
+
 PrinterUtils.prototype.getHtmlId = function(file) {
   var hashCode = function(text) {
     var i, chr, len;

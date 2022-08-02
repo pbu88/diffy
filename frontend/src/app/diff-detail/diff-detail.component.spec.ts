@@ -41,7 +41,34 @@ describe('DiffDetailComponent', () => {
               rawDiff: "--",
               created: DIFF_CREATED_DATE,
               expiresAt: DIFF_EXPIRES_AT,
-              diff: [],
+              diff: [
+                {
+                  blocks: [ /* explicitly excluded until needed */],
+                  deletedLines: 1,
+                  addedLines: 1,
+                  isGitDiff: true,
+                  checksumBefore: '1456e89',
+                  checksumAfter: 'e1da2da',
+                  mode: '100644',
+                  oldName: 'file.json',
+                  language: 'json',
+                  newName: 'file.json',
+                  isCombined: false
+                },
+                {
+                  blocks: [ /* explicitly excluded until needed */],
+                  deletedLines: 1,
+                  addedLines: 1,
+                  isGitDiff: true,
+                  checksumBefore: '1456e8f',
+                  checksumAfter: 'e1da2dc',
+                  mode: '100644',
+                  oldName: 'file1.json',
+                  language: 'json',
+                  newName: 'file1.json',
+                  isCombined: false
+                }
+              ],
             }),
             extendLifetime: () => of({
               id: DIFF_ID,
@@ -87,5 +114,12 @@ describe('DiffDetailComponent', () => {
   it('getMakePermanentDiffFn', () => {
     component.getMakePermanentDiffFn()("foo@example.com");
     expect(component.sharedDiff.expiresAt).toEqual(new Date("9999-01-01"));
+  });
+
+  it('selectNextFile', () => {
+    component.selectNextFile()
+    expect(component.selectedFileId).toEqual("d2h-397377");
+    component.selectNextFile()
+    expect(component.selectedFileId).toEqual("d2h-822182");
   });
 });
