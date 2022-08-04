@@ -23,12 +23,20 @@
                     </div>
                 </div>
                 <div class="tree-root">
-                    <app-diff-file-tree [fileTree]="getFileTree()" [isOpen]="true" [fileSelectorFn]="getFileSelectorFn()">
+                    <app-diff-file-tree
+                        [fileTree]="getFileTree()"
+                        [isOpen]="true"
+                        [fileSelectorFn]="getFileSelectorFn()"
+                        [selectedFile]="selectedFileId"
+                    >
                     </app-diff-file-tree>
                 </div>
             </div>
         </div>
-        <app-diff-detail-content [sharedDiff]="sharedDiff" [fileToRender]="selectedFileId">
+        <app-diff-detail-content
+            [sharedDiff]="sharedDiff"
+            [fileToRender]="selectedFileId"
+        >
         </app-diff-detail-content>
     </div>
 </div>

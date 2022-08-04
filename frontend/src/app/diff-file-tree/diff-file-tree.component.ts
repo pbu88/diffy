@@ -9,9 +9,11 @@ import {FileTree} from '../diff-detail/tree-functions';
   styleUrls: ['./diff-file-tree.component.css']
 })
 export class DiffFileTreeComponent implements OnInit {
+
   @Input() fileTree: FileTree;
   @Input() isOpen: boolean;
   @Input() fileSelectorFn: (fileId: string) => void;
+  @Input() selectedFile: string;
 
   constructor() {}
 
@@ -27,5 +29,9 @@ export class DiffFileTreeComponent implements OnInit {
 
   toggleFolder() {
     this.isOpen = !this.isOpen;
+  }
+
+  isFileSelected(file) {
+    return this.getFileHash(file) == this.selectedFile;
   }
 }
