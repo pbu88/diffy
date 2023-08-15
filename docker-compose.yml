@@ -1,12 +1,14 @@
 version: "2"
 services:
   web:
-    build: ./
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: diffy
     ports:
       - 3000:3000
     volumes:
-      - .:/diffy
+      - ./:/diffy
     environment:
       - DIFFY_WEB_HOST=0.0.0.0
       - DIFFY_GA_ANALYTICS_KEY=none
